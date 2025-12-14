@@ -11,7 +11,7 @@ function StudentDashboard() {
             </nav>
             <body class="flex-col bg-blue-300 w-100px h-100px"></body>
             <img class="w-10 h-20"src="../src/img/125.png"></img>
-            <footer class="bg-purple-300">Bye</footer>
+            <footer class="bg-purple-300">Bye Rikesh</footer>
             <Button variant = "danger">Hello</Button>
             
             <Button>Bye</Button>
