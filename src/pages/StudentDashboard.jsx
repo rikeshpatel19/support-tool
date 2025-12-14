@@ -5,7 +5,7 @@ import Button from '../components/Button'
 function StudentDashboard() {
     return (
         <div id="StudentDashboard">
-            <header class="bg-purple-500">Hello</header>
+            <header class="bg-purple-500">Hello Rikesh</header>
             <nav class="flex flex-row bg-green-200">
                 <ul></ul>
             </nav>
