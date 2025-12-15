@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUser } from '../services/api';
 import Button from '../components/Button'
+import Card from '../components/Card';
 
 function StudentDashboard() {
     return (
@@ -13,7 +14,7 @@ function StudentDashboard() {
             <img class="w-10 h-20"src="../src/img/125.png"></img>
             <footer class="bg-purple-300">Bye Rikesh</footer>
             <Button variant = "danger">Hello</Button>
-            
+            <Card variant = "secondary"></Card>
             <Button>Bye</Button>
         </div>
     )

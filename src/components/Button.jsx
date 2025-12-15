@@ -14,12 +14,7 @@ const Button = ({ children, onClick, variant = 'primary', className = '' }) => {
   };
 
   return (
-    <button 
-      onClick={onClick}
-      className={`${baseStyle} ${variants[variant]} ${className}`}
-    >
-      {children}
-    </button>
+    <button onClick={onClick} className={`${baseStyle} ${variants[variant]} ${className}`}>{children}</button>
   );
 };
 
