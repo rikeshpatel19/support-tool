@@ -1,34 +1,26 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getUser } from '../services/api';
 import Button from '../components/Button'
 import Card from '../components/Card';
 import Span from '../components/Span';
 
-function StudentDashboard() {
-    const[isPressed, setIsPressed] = useState(false);
+const StudentDashboard = () => {
+    const navigate = useNavigate();
 
     return (
         <div id="StudentDashboard">
-            <header class="bg-purple-500">Hello Rikesh</header>
-            <nav class="flex flex-row bg-green-200">
-                <ul></ul>
-            </nav>
-            {/* <img class="w-10 h-20"src="../src/img/125.png"></img> */}
-            <footer class="bg-purple-300">Bye Rikesh</footer>
-            <Button variant = "danger">Hello</Button>
-            <ul className='grid grid-flow-col grid-cols-4'>
-                <Card variant = "primary"></Card>
-                <Card variant = "secondary"></Card>
-                <Card variant = "primary"></Card>
-                <Card variant = "secondary"></Card>
-            </ul>
-            <Button>Bye</Button>
-            <Button variant='option_txt'><Span varaint='option_txt'>A</Span><span className="font-bold text-black text-lg">4</span></Button>
-            <Button onClick={() => {
-                console.log("Button clicked!"); 
-                console.log("Current state is:", isPressed);
-                setIsPressed(!isPressed);
-            }} isSelected = {isPressed} variant = "q_select">21</Button>
+            <h1>Student Dashboard</h1>
+            <button onClick={() => navigate('/subject/maths')}>Go to Maths Page</button> <br></br>
+            <button onClick={() => navigate('/subject/english')}>Go to English Page</button> <br></br>
+            <button onClick={() => navigate('/subject/verbal_reasoning')}>Go to VR Page</button> <br></br>
+            <button onClick={() => navigate('/subject/non_verbal_reasoning')}>Go to NVR Page</button> <br></br>
+
+            <button onClick={() => navigate('/')}>Go to Home Page</button> <br></br>
+            <button onClick={() => console.log("Test")}>Go to Test Page</button> <br></br>
+            <button onClick={() => console.log("Shop")}>Go to Shop Page</button> <br></br>
+            <button onClick={() => navigate('/shelf')}>Go to Shelf Page</button> <br></br>
+            <button onClick={() => console.log("Parent Zone")}>Go to Parent Zone Page</button>
         </div>
     )
 }
