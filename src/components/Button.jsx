@@ -3,11 +3,11 @@ import React from 'react';
 const Button = ({ children, onClick, variant = 'primary', isSelected, className = '' }) => {
   
   // Define base styles that apply to ALL buttons
-  const baseStyle = "border-neutral-950 border-solid border rounded-md flex items-center justify-center gap-2 shadow-sm active:scale-95";
+  const baseStyle = "border-neutral-950 border-solid border-2 rounded-md flex items-center justify-center gap-2 shadow-sm active:scale-95";
   
   // Define specific styles for each variant
   const variants = {
-    primary: "bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 hover:shadow-md",
+    primary: "bg-gray-400 text-white px-4 py-2 font-bold border-black rounded-lg w-full shadow-medium hover:bg-gray-500 hover:-translate-y-px transition-all",
     secondary: "bg-white px-4 py-2 text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-gray-300",
     danger: "bg-red-500 px-4 py-2 text-white hover:bg-red-600",
     ghost: "bg-transparent px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700",
