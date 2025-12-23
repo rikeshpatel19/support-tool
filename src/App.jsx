@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import StudentDashboard from './pages/StudentDashboard';
 import SubjectPage from './pages/SubjectPage';
+import TestPage from './pages/TestPage';
 import QuizPage from './pages/QuizPage';
 import ShopPage from './pages/ShopPage';
 import ShelfPage from './pages/ShelfPage';
@@ -14,15 +15,17 @@ function App() {
       <Route path="/" element={<StudentDashboard />} />
       {/* Channel 2: The Subject Page */}
       <Route path="/subject/:subjectId" element={<SubjectPage />} />
-      {/* Channel 3: The Quiz Page */}
+      {/* Channel 3: The Test Page */}
+      <Route path="/test" element={<TestPage />} />
+      {/* Channel 4: The Quiz Page */}
       <Route path="/quiz/:topicId" element={<QuizPage />} />
-      {/* Channel 4: The Shop Page */}
+      {/* Channel 5: The Shop Page */}
       <Route path="/shop" element={<ShopPage />} />
-      {/* Channel 5: The Shelf Page */}
+      {/* Channel 6: The Shelf Page */}
       <Route path="/shelf" element={<ShelfPage />} />
-      {/* Channel 6: The Login Page */}
+      {/* Channel 7: The Login Page */}
       <Route path="/login" element={<LoginPage />} />
-      {/* Channel 7: The Register Page */}
+      {/* Channel 8: The Register Page */}
       <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );

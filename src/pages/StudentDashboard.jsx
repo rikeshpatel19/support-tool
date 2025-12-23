@@ -6,7 +6,6 @@ import Button from '../components/Button'
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
 import BottomNav from '../components/BottomNav'; 
-import BottomNavItem from '../components/BottomNavItem';
 import Span from '../components/Span';
 
 const StudentDashboard = () => {

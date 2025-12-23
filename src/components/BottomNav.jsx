@@ -20,7 +20,7 @@ const BottomNav = ({ activePage }) => {
             label="Test" 
             icon={<ClipboardList size={24} />} 
             active={activePage === 'test'}
-            onClick={() => console.log("Test")} 
+            onClick={() => navigate("/test")} 
             />
 
             <BottomNavItem 
