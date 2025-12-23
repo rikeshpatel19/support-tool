@@ -5,6 +5,7 @@ import { getUser } from '../services/api';
 import Button from '../components/Button'
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
+import BottomNav from '../components/BottomNav'; 
 import BottomNavItem from '../components/BottomNavItem';
 import Span from '../components/Span';
 
@@ -89,6 +90,7 @@ const StudentDashboard = () => {
                         setIsPressed(!isPressed);
                     }} isSelected = {isPressed} variant = "q_select">21</Button>
                 </div>        */}
+                <button onClick={() => navigate('/login')} >Login</button>
 
                 {/* Explore / Subjects Section */}
                 <div>
@@ -124,40 +126,7 @@ const StudentDashboard = () => {
             </main>
 
             {/* --- BOTTOM NAVIGATION --- */}
-            <nav className="fixed bottom-0 w-full bg-white border-t border-gray-200 py-2 px-6 pb-6 z-50">
-                <div className="max-w-4xl mx-auto flex justify-between items-center">
-                    <BottomNavItem 
-                        label="Home" 
-                        icon={<Home size={24} />} 
-                        active={true} 
-                        onClick={() => navigate('/')}
-                    />
-
-                    <BottomNavItem 
-                        label="Test" 
-                        icon={<ClipboardList size={24} />} 
-                        onClick={() => console.log("Test")}
-                    />
-
-                    <BottomNavItem 
-                        label="Shop" 
-                        icon={<ShoppingCart size={24} />} 
-                        onClick={() => console.log("Shop")}
-                    />
-
-                    <BottomNavItem 
-                        label="My Shelf" 
-                        icon={<Library size={24} />} 
-                        onClick={() => navigate('/shelf')}
-                    />
-
-                    <BottomNavItem 
-                        label="Parent Zone" 
-                        icon={<UserCog size={24} />} 
-                        onClick={() => console.log("Parent Zone")}
-                    />
-                </div>
-            </nav>
+            <BottomNav activePage="home"/>
         </div>
     )
 }
