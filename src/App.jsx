@@ -18,7 +18,7 @@ function App() {
       {/* Channel 3: The Test Page */}
       <Route path="/test" element={<TestPage />} />
       {/* Channel 4: The Quiz Page */}
-      <Route path="/quiz/:topicId" element={<QuizPage />} />
+      <Route path="/quiz/:subjectId/:topicId" element={<QuizPage />} />
       {/* Channel 5: The Shop Page */}
       <Route path="/shop" element={<ShopPage />} />
       {/* Channel 6: The Shelf Page */}

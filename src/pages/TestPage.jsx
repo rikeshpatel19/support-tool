@@ -42,7 +42,7 @@ const TestPage = () => {
               <section key={key}>
                 <h2 className="text-xl font-bold mb-4">GL Assessment {subject.title}</h2>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {subject.exams.map((exam) => (
                     <Button  className='p-10!'
                       key={exam.id}

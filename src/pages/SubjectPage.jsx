@@ -60,7 +60,7 @@ const SubjectPage = () => {
                   key={topic.id}
                   name={topic.name}
                   status={topic.status}
-                  onClick={() => navigate(`/quiz/${topic.name}`)} 
+                  onClick={() => navigate(`/quiz/${subjectId}/${topic.name}`)} 
                 />
               ))}
             </div>
@@ -69,7 +69,7 @@ const SubjectPage = () => {
           {/* Section 2: Challenges */}
           <section>
             <h2 className="text-xl font-bold mb-4">Challenges</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {currentSubject.challenges.map((challenge) => (
                 <TopicCard
                   key={challenge.id} 

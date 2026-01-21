@@ -5,18 +5,18 @@ import { getUser } from '../services/api';
 import Button from '../components/Button'
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
-import BottomNav from '../components/BottomNav'; 
+import BottomNav from '../components/BottomNav';
 import Span from '../components/Span';
 
 const StudentDashboard = () => {
-    const[isPressed, setIsPressed] = useState(false);
+    const [isPressed, setIsPressed] = useState(false);
 
     // Default values for user to start with
-    const [user, setUser] = useState({ 
-        username: "Loading...", 
-        points: 0 
+    const [user, setUser] = useState({
+        username: "Loading...",
+        points: 0
     });
-    
+
     useEffect(() => {
         const loadData = async () => {
             const data = await getUser(); // Call the service
@@ -58,7 +58,7 @@ const StudentDashboard = () => {
                     {/* 1. The Greeting Card (Span 2 columns) */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <div className="bg-amber-100 w-24 h-24 rounded-full border-2 border-black flex items-center justify-center">
-                            <Cat size={48} /> 
+                            <Cat size={48} />
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.username}!</h1>
@@ -80,44 +80,42 @@ const StudentDashboard = () => {
                 </div>
 
                 {/* Test Section */}
-                 {/* <div>
+                {/* <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4">Testing</h3>
-                    <Button variant='option_txt'><Span varaint='option_txt'>A</Span><span className="font-bold text-black text-lg">4</span></Button>
                     <Button onClick={() => {
-                        console.log("Button clicked!"); 
+                        console.log("Button clicked!");
                         console.log("Current state is:", isPressed);
                         setIsPressed(!isPressed);
-                    }} isSelected = {isPressed} variant = "q_select">21</Button>
-                </div>        */}
+                    }} isSelected={isPressed} variant="q_select">21</Button>
+                </div> */}
                 <button onClick={() => navigate('/login')} >Login</button>
-
                 {/* Explore / Subjects Section */}
                 <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4">Explore</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        
-                        <SubjectCard 
-                        name="Maths" 
-                        icon={<Calculator size={32} />} 
-                        onClick={() => navigate('/subject/maths')} 
+
+                        <SubjectCard
+                            name="Maths"
+                            icon={<Calculator size={32} />}
+                            onClick={() => navigate('/subject/maths')}
                         />
-                        
-                        <SubjectCard 
-                        name="English" 
-                        icon={<BookOpen size={32} />} 
-                        onClick={() => navigate('/subject/english')} 
+
+                        <SubjectCard
+                            name="English"
+                            icon={<BookOpen size={32} />}
+                            onClick={() => navigate('/subject/english')}
                         />
-                        
-                        <SubjectCard 
-                        name="Verbal Reasoning" 
-                        icon={<Lightbulb size={32} />} 
-                        onClick={() => navigate('/subject/verbal_reasoning')} 
+
+                        <SubjectCard
+                            name="Verbal Reasoning"
+                            icon={<Lightbulb size={32} />}
+                            onClick={() => navigate('/subject/verbal_reasoning')}
                         />
-                        
-                        <SubjectCard 
-                        name="Non-Verbal" 
-                        icon={<Shapes size={32} />} 
-                        onClick={() => navigate('/subject/non_verbal_reasoning')} 
+
+                        <SubjectCard
+                            name="Non-Verbal"
+                            icon={<Shapes size={32} />}
+                            onClick={() => navigate('/subject/non_verbal_reasoning')}
                         />
 
                     </div>
@@ -125,7 +123,7 @@ const StudentDashboard = () => {
             </main>
 
             {/* --- BOTTOM NAVIGATION --- */}
-            <BottomNav activePage="home"/>
+            <BottomNav activePage="home" />
         </div>
     )
 }

@@ -130,29 +130,30 @@ export const MATHS_CHALLENGE_1 = [
   {
     difficulty: 1,
     _id: "q_101",
-    question_text: "What is 5 + 3?",
-    options: ["7", "8", "9", "10"],
-    correct_option: "8"
+    question_text: "What is the area of the square below?",
+    question_image: "/images/square.png",
+    options: ["7", "8", "9", "10", "16"],
+    correct_option: "16"
   },
   {
     _id: "q_102",
     difficulty: 1,
     question_text: "Which number is even?",
-    options: ["3", "7", "10", "15"],
+    options: ["3", "7", "10", "15", "17"],
     correct_option: "10"
   },
   {
     _id: "q_103",
     difficulty: 2,
     question_text: "What is 100 - 25?",
-    options: ["50", "65", "75", "85"],
+    options: ["50", "65", "75", "85", "95"],
     correct_option: "75"
   },
   {
     _id: "q_104",
     difficulty: 2,
     question_text: "What is 6 x 6?",
-    options: ["30", "36", "42", "48"],
+    options: ["30", "36", "42", "48", "54"],
     correct_option: "36"
   }
 ];
