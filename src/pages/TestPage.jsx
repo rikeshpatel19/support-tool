@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
+import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import { getSubjects } from '../services/api';
 
 const TestPage = () => {
-  const navigate = useNavigate();
-
   const [subjects, setSubjects] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,11 +25,8 @@ const TestPage = () => {
     return (
       <div className="min-h-screen bg-white font-sans pb-24">
         
-        {/* Header (Simplified) */}
-        <div className="p-4 border-b-2 border-black flex items-center justify-center sticky top-0 bg-white z-10">
-          <h1 className="text-3xl font-black capitalize">Mock Exams</h1>
-          <div className="w-10" /> {/* Spacer to center the title */}
-        </div>
+        {/* Header */}
+        <Header label="Mock Exams"/>
   
         <div className="max-w-4xl mx-auto p-6 space-y-8">
           {Object.keys(subjects).map((key) => {
