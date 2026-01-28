@@ -4,7 +4,7 @@ export const MOCK_USER = {
   username: "Rikesh",
   points: 1250,
   avatar: "cat_mascot",
-  srs_level: 2, 
+  srs_level: 2,
   inventory: ["robot_figure", "wizard_figure"]
 };
 
@@ -116,7 +116,7 @@ export const SUBJECT_DATA = {
       { id: 'nvrc1', name: "NVR Challenge 1", status: 'bronze' },
       { id: 'nvrc2', name: "NVR Challenge 2", status: 'none' },
       { id: 'nvrc3', name: "NVR Challenge 3", status: 'none' }
-    ], 
+    ],
     exams: [
       { id: 'nvre1', name: "NVR Exam 1" },
       { id: 'nvre2', name: "NVR Exam 2" },
@@ -155,6 +155,122 @@ export const MATHS_CHALLENGE_1 = [
     question_text: "What is 6 x 6?",
     options: ["30", "36", "42", "48", "54"],
     correct_option: "36"
+  },
+  {
+    difficulty: 1,
+    _id: "q_105",
+    question_text: "What is the area of the square below?",
+    question_image: "/images/square.png",
+    options: ["7", "8", "9", "10", "16"],
+    correct_option: "16"
+  },
+  {
+    _id: "q_106",
+    difficulty: 1,
+    question_text: "Which number is even?",
+    options: ["3", "7", "10", "15", "17"],
+    correct_option: "10"
+  },
+  {
+    _id: "q_107",
+    difficulty: 2,
+    question_text: "What is 100 - 25?",
+    options: ["50", "65", "75", "85", "95"],
+    correct_option: "75"
+  },
+  {
+    _id: "q_108",
+    difficulty: 2,
+    question_text: "What is 6 x 6?",
+    options: ["30", "36", "42", "48", "54"],
+    correct_option: "36"
+  },
+  {
+    difficulty: 1,
+    _id: "q_109",
+    question_text: "What is the area of the square below?",
+    question_image: "/images/square.png",
+    options: ["7", "8", "9", "10", "16"],
+    correct_option: "16"
+  },
+  {
+    _id: "q_110",
+    difficulty: 1,
+    question_text: "Which number is even?",
+    options: ["3", "7", "10", "15", "17"],
+    correct_option: "10"
+  },
+  {
+    _id: "q_111",
+    difficulty: 2,
+    question_text: "What is 100 - 25?",
+    options: ["50", "65", "75", "85", "95"],
+    correct_option: "75"
+  },
+  {
+    _id: "q_112",
+    difficulty: 2,
+    question_text: "What is 6 x 6?",
+    options: ["30", "36", "42", "48", "54"],
+    correct_option: "36"
+  },
+  {
+    difficulty: 1,
+    _id: "q_113",
+    question_text: "What is the area of the square below?",
+    question_image: "/images/square.png",
+    options: ["7", "8", "9", "10", "16"],
+    correct_option: "16"
+  },
+  {
+    _id: "q_114",
+    difficulty: 1,
+    question_text: "Which number is even?",
+    options: ["3", "7", "10", "15", "17"],
+    correct_option: "10"
+  },
+  {
+    _id: "q_115",
+    difficulty: 2,
+    question_text: "What is 100 - 25?",
+    options: ["50", "65", "75", "85", "95"],
+    correct_option: "75"
+  },
+  {
+    _id: "q_116",
+    difficulty: 2,
+    question_text: "What is 6 x 6?",
+    options: ["30", "36", "42", "48", "54"],
+    correct_option: "36"
+  },
+  {
+    difficulty: 1,
+    _id: "q_117",
+    question_text: "What is the area of the square below?",
+    question_image: "/images/square.png",
+    options: ["7", "8", "9", "10", "16"],
+    correct_option: "16"
+  },
+  {
+    _id: "q_118",
+    difficulty: 1,
+    question_text: "Which number is even?",
+    options: ["3", "7", "10", "15", "17"],
+    correct_option: "10"
+  },
+  {
+    _id: "q_119",
+    difficulty: 2,
+    question_text: "What is 100 - 25?",
+    options: ["50", "65", "75", "85", "95"],
+    correct_option: "75"
+  },
+  {
+    _id: "q_120",
+    difficulty: 2,
+    question_text: "What is 6 x 6?",
+    options: ["30", "36", "42", "48", "54"],
+    correct_option: "36"
   }
 ];
 
@@ -169,8 +285,8 @@ export const getUser = async () => {
 export const getQuestions = async (quizId) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-        // Hardcoded to return Maths Challenge 1.
-        resolve(MATHS_CHALLENGE_1); 
+      // Hardcoded to return Maths Challenge 1.
+      resolve(MATHS_CHALLENGE_1);
     }, 500);
   });
 };
@@ -181,7 +297,7 @@ export const getSubjectById = async (subjectId) => {
     setTimeout(() => {
       const data = SUBJECT_DATA[subjectId];
       resolve(data || null); // Return data or null if not found
-    }, 500); 
+    }, 500);
   });
 };
 
@@ -189,7 +305,7 @@ export const getSubjects = async () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       // Returns the whole object
-      resolve(SUBJECT_DATA); 
+      resolve(SUBJECT_DATA);
     }, 500);
   });
 };

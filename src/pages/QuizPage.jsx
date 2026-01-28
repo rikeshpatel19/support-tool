@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PauseCircle, Cat, Save, Play } from 'lucide-react';
+import { PauseCircle, Cat, Save, Play, ChevronLeft, ChevronRight, CirclePoundSterling } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Span from '../components/Span';
@@ -25,6 +25,19 @@ const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
   // State to track if the Pause Menu is open
   const [isPaused, setIsPaused] = useState(false);
+
+  // State to track which "page" of question numbers is currently visible in the navigation bar
+  const [questionPage, setQuestionPage] = useState(0);
+  // Fixed limit of 10 question numbers to display at one time
+  const questionsPerPage = 10;
+
+  // Calculate start and end indices for the number strip
+  // Determines the starting index of the current "page" of question numbers
+  const startIndex = questionPage * questionsPerPage;
+  // Creates a sub-array of questions to render as buttons based on the current page and limit
+  const visibleQuestions = questions.slice(startIndex, startIndex + questionsPerPage);
+  // Calculates the total number of pages needed by dividing total questions by the limit and rounding up
+  const totalPages = Math.ceil(questions.length / questionsPerPage);
 
   // --- DERIVED STATE ---
   // Get the current question object based on the index
@@ -114,7 +127,7 @@ const QuizPage = () => {
         return "!bg-red-500";
       }
     }
-    return ""; //Default style
+    return ""; // Default style
   };
 
   // Determine the text colour of the answer button
@@ -224,14 +237,21 @@ const QuizPage = () => {
             <span>{subjectId.replace('_', ' ')}:</span> {topicId}
           </span>
         </div>
-        {/* Center: Progress Bar */}
+        {/* Centre: Progress Bar */}
         <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-1/3 h-4 bg-gray-200 rounded-full border-2 border-black overflow-hidden">
           {/* The inner filling bar that changes width based on progressPercent */}
           <div className="h-full bg-gray-800 transition-all duration-300" style={{ width: `${progressPercent}%` }} />
         </div>
-        {/* Right: Coins */}
-        <div className="flex items-center gap-2 font-bold text-xl">
-          <span>Coins: {currentPoints}</span>
+        {/* Coin Counter */}
+        <div className="flex items-center group animate-in fade-in zoom-in duration-300">
+          {/* Pound Icon */}
+          <div className="mr-1">
+            <CirclePoundSterling size={32} className="text-yellow-500" />
+          </div>
+          {/* User Points */}
+          <div className="flex flex-col leading-none text-center text-yellow-500 font-bold">
+            <span className="text-[20px] mb-1">{currentPoints}</span>
+          </div>
         </div>
       </header>
 
@@ -251,10 +271,10 @@ const QuizPage = () => {
               {/* I want to change this for an expression later if possible */}
               {selectedOption ? (
                 selectedOption === question.correct_option ?
-                  <Cat size={48} color='green' /> :
-                  <Cat size={48} color='red' />
+                  <Cat size={48} color='green' strokeWidth={1.5} /> :
+                  <Cat size={48} color='red' strokeWidth={1.5} />
               ) : (
-                <Cat size={48} />
+                <Cat size={48} strokeWidth={1.5} />
               )}
               {selectedOption ? (
                 selectedOption === question.correct_option ?
@@ -324,7 +344,7 @@ const QuizPage = () => {
         {/* CENTER: Wrapper for Numbers AND Text */}
         <div className="flex flex-col items-center gap-2">
           {/* INTERACTIVE NUMBER STRIP */}
-          <div className="hidden md:flex gap-2">
+          {/* <div className="hidden md:flex gap-2">
             {questions.map((_, idx) => (
               <Button
                 key={idx}
@@ -336,6 +356,51 @@ const QuizPage = () => {
                 {idx + 1}
               </Button>
             ))}
+          </div> */}
+          {/* INTERACTIVE NUMBER STRIP WITH PAGINATION */}
+          <div className="hidden md:flex items-center gap-3">
+
+            {/* Left Arrow: Moves to the previous set of 10 questions */}
+            <button
+              // Decrease "page" by 1 using Math.max to ensure it never goes below 0
+              onClick={() => setQuestionPage(Math.max(0, questionPage - 1))}
+              // Disable the button if the user is already on the first page
+              disabled={questionPage === 0}
+              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage === 0 ? 'opacity-30' : 'hover:bg-purple-100'}`}
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <div className="flex gap-2">
+              {/* Loop through only the 10 questions currently visible in the strip */}
+              {visibleQuestions.map((_, idx) => {
+                // Calculate the actual index (First Button on Page 2 is Question 11, this would have the Index 10)
+                console.log(idx)
+                const actualIndex = startIndex + idx;
+                return (
+                  <Button
+                    key={actualIndex}
+                    variant='q_select'
+                    // Jump directly to this specific question when the number is clicked
+                    onClick={() => handleJumpToQuestion(actualIndex)}
+                    className={`${actualIndex === currentQuestionIndex ? 'bg-purple-300 text-white!' : 'bg-white hover:bg-gray-100'}`}
+                  >
+                    {actualIndex + 1}
+                  </Button>
+                );
+              })}
+            </div>
+
+            {/* Right Arrow: Moves to the next set of 10 questions */}
+            <button
+              // Increase page by 1 using Math.min to ensure it doesn't exceed the total pages
+              onClick={() => setQuestionPage(Math.min(totalPages - 1, questionPage + 1))}
+              // Disable the button if the user has reached the last available page
+              disabled={questionPage >= totalPages - 1}
+              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage >= totalPages - 1 ? 'opacity-30' : 'hover:bg-purple-100'}`}
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
           {/* Question X out of Y */}
           <span className="font-bold text-black text-sm">
