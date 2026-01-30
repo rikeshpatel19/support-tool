@@ -67,7 +67,7 @@ const SubjectPage = () => {
                   key={challenge.id} 
                   name={challenge.name}
                   status={challenge.status}
-                  onClick={() => navigate(`/quiz/${challenge.name}`)} 
+                  onClick={() => navigate(`/quiz/${subjectId}/${challenge.name}`)} 
                 />
               ))}
             </div>

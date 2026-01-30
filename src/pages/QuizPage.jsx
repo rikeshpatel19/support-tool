@@ -343,20 +343,6 @@ const QuizPage = () => {
         </Button>
         {/* CENTER: Wrapper for Numbers AND Text */}
         <div className="flex flex-col items-center gap-2">
-          {/* INTERACTIVE NUMBER STRIP */}
-          {/* <div className="hidden md:flex gap-2">
-            {questions.map((_, idx) => (
-              <Button
-                key={idx}
-                variant='q_select'
-                // Add the click handler here
-                onClick={() => handleJumpToQuestion(idx)}
-                className={`${idx === currentQuestionIndex ? 'bg-purple-300 text-white!' : 'bg-white hover:bg-gray-100'}`}
-              >
-                {idx + 1}
-              </Button>
-            ))}
-          </div> */}
           {/* INTERACTIVE NUMBER STRIP WITH PAGINATION */}
           <div className="hidden md:flex items-center gap-3">
 
