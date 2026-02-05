@@ -10,10 +10,22 @@ const ShopPage = () => {
   // State to hold user data
   const [user, setUser] = useState({ points: 0, inventory: [] });
   // Call API to get user data
+  // useEffect(() => {
+  //   const loadUser = async () => {
+  //     const userData = await getUser();
+  //     setUser(userData);
+  //   };
+  //   loadUser();
+  // }, []); // The empty array ensures this only runs once
+
+  // Requires Commenting
   useEffect(() => {
     const loadUser = async () => {
-      const userData = await getUser();
-      setUser(userData);
+      const storedId = localStorage.getItem("userID");
+      if (storedId) {
+        const userData = await getUser(storedId); // 2. Fetch real data (points/inventory)
+        setUser(userData);
+      }
     };
     loadUser();
   }, []); // The empty array ensures this only runs once

@@ -8,7 +8,8 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    surname: '',
     username: '',
     password: '',
     confirmPassword: ''
@@ -26,7 +27,7 @@ const RegisterPage = () => {
     }
     // TODO: Add real registration logic here
     console.log("Registering with:", formData);
-    navigate('/');
+    navigate('/sd');
   };
 
   return (
@@ -46,17 +47,33 @@ const RegisterPage = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             
-            {/* Full Name */}
+            {/* First Name */}
             <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Full Name</label>
+              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">First Name</label>
               <div className="relative">
                 <Smile className="absolute left-3 top-3.5 text-gray-500" size={20} />
                 <input
                   type="text"
-                  name="fullName"
+                  name="firstName"
                   onChange={handleChange}
                   className="input-field"
-                  placeholder="e.g. Alex Smith"
+                  placeholder="e.g. John"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Surname */}
+            <div>
+              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Surname</label>
+              <div className="relative">
+                <Smile className="absolute left-3 top-3.5 text-gray-500" size={20} />
+                <input
+                  type="text"
+                  name="surname"
+                  onChange={handleChange}
+                  className="input-field"
+                  placeholder="e.g. Doe"
                   required
                 />
               </div>

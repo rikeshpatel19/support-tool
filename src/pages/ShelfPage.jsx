@@ -8,13 +8,26 @@ const ShelfPage = () => {
   // State to hold user data
   const [user, setUser] = useState(null);
   // Call API to get user data
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     const userData = await getUser();
+  //     setUser(userData);
+  //   };
+  //   loadData();
+  // }, []); // The empty array ensures this only runs once
+
+  // Requires Commenting
   useEffect(() => {
-    const loadData = async () => {
-      const userData = await getUser();
-      setUser(userData);
-    };
-    loadData();
-  }, []); // The empty array ensures this only runs once
+  const loadData = async () => {
+    const storedId = localStorage.getItem("userID");
+    
+    if (storedId) {
+      const userData = await getUser(storedId);
+      setUser(userData); // This will now contain the real inventory from Atlas
+    }
+  };
+  loadData();
+}, []); // The empty array ensures this only runs once
 
   // If user data hasn't loaded yet, display a simple loading message
   if (!user) return <div className="p-10 text-center font-bold">Loading Shelf...</div>;

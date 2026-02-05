@@ -10,20 +10,32 @@ import Span from '../components/Span';
 
 const StudentDashboard = () => {
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
 
-    // Default values for user to start with
-    const [user, setUser] = useState({
-        username: "Loading...",
-        points: 0
-    });
-
+    // Requires Commenting
     useEffect(() => {
         const loadData = async () => {
-            const data = await getUser(); // Call the service
-            setUser(data); // Update the state
+            const storedId = localStorage.getItem("userID");
+
+            if (!storedId || storedId === "undefined") {
+                console.warn("No user ID found, redirecting to login...");
+                navigate('/login');
+                return;
+            }
+
+            try {
+                const userData = await getUser(storedId);
+                setUser(userData); 
+            } catch (err) {
+                console.error("Error fetching user:", err);
+            }
         };
         loadData();
-    }, []);
+    }, [navigate]);
+
+    if (!user) {
+        return <div>Loading your profile... (Make sure you are logged in)</div>;
+    }
 
     return (
         <div id="StudentDashboard" className="min-h-screen bg-gray-50 font-sans pb-24">
@@ -46,7 +58,7 @@ const StudentDashboard = () => {
                     {/* User Profile */}
                     <div className="flex items-center gap-3">
                         <span className="text-lg font-medium text-gray-700">{user.username}</span>
-                        <UserCircle size={32} className="text-gray-800" />
+                        <UserCircle size={32} className="text-gray-800" onClick={() => navigate('/login')}  />
                     </div>
                 </div>
             </header>
@@ -57,10 +69,10 @@ const StudentDashboard = () => {
                     {/* 1. The Greeting Card (Span 2 columns) */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <div className="w-24 h-24 flex items-center justify-center">
-                            <Cat size={128} strokeWidth={1.5}/>
+                            <Cat size={128} strokeWidth={1.5} />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.username}!</h1>
+                            <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.firstName}!</h1>
                             <p className="text-gray-500 mt-1">Ready to learn something new?</p>
                         </div>
                     </Card>
@@ -78,9 +90,6 @@ const StudentDashboard = () => {
                     </Card>
                 </div>
 
-                {/* Test Section */}
-                <button onClick={() => navigate('/login')} >Login</button>
-                
                 {/* Explore / Subjects Section */}
                 <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4">Explore</h3>

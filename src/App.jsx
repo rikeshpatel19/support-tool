@@ -1,4 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import StartPage from './pages/StartPage';
 import StudentDashboard from './pages/StudentDashboard';
 import SubjectPage from './pages/SubjectPage';
 import TestPage from './pages/TestPage';
@@ -7,25 +10,44 @@ import ShopPage from './pages/ShopPage';
 import ShelfPage from './pages/ShelfPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import { getUser } from './services/api';
 
 function App() {
+  const navigate = useNavigate();
+  // State to track which user is logged in 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const initUser = async () => {
+      // Attempts to find a userID in local storage, fallback ID prevents the app from crashing
+      const userID = localStorage.getItem("userID") || "6982319c0085bc676ec4c938";
+      // Get the user profile for this specfic userID
+      const data = await getUser(userID);
+      // If the data exists, update the global state so all pages can see it
+      if (data) setUser(data);
+    };
+    initUser();
+  }, []); // The empty array ensures this only runs once
+
   return (
     <Routes>
-      {/* Channel 1: The Home Page (Dashboard) */}
-      <Route path="/" element={<StudentDashboard />} />
-      {/* Channel 2: The Subject Page */}
+      {/* Channel 1: The Start Page */}
+      <Route path="/" element={<StartPage />} />
+      {/* Channel 2: The Home Page (Dashboard) */}
+      <Route path="/sd" element={<StudentDashboard user={user} />} />
+      {/* Channel 3: The Subject Page */}
       <Route path="/subject/:subjectId" element={<SubjectPage />} />
-      {/* Channel 3: The Test Page */}
+      {/* Channel 4: The Test Page */}
       <Route path="/test" element={<TestPage />} />
-      {/* Channel 4: The Quiz Page */}
+      {/* Channel 5: The Quiz Page */}
       <Route path="/quiz/:subjectId/:topicId" element={<QuizPage />} />
-      {/* Channel 5: The Shop Page */}
+      {/* Channel 6: The Shop Page */}
       <Route path="/shop" element={<ShopPage />} />
-      {/* Channel 6: The Shelf Page */}
+      {/* Channel 7: The Shelf Page */}
       <Route path="/shelf" element={<ShelfPage />} />
-      {/* Channel 7: The Login Page */}
-      <Route path="/login" element={<LoginPage />} />
-      {/* Channel 8: The Register Page */}
+      {/* Channel 8: The Login Page */}
+      <Route path="/login" element={<LoginPage setUser={setUser} />} />
+      {/* Channel 9: The Register Page */}
       <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );

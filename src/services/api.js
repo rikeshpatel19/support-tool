@@ -1,37 +1,4 @@
-// 1. MOCK USER (Matches 'Users' Schema)
-export const MOCK_USER = {
-  _id: "user_001",
-  username: "Rikesh",
-  points: 1250,
-  avatar: "cat_mascot",
-  srs_level: 2,
-  inventory: ["robot_figure", "wizard_figure"]
-};
-
-// 2. MOCK QUESTIONS (Matches 'Questions' Schema)
-export const MOCK_QUESTIONS = [
-  {
-    _id: "q_101",
-    type: "GENERAL",
-    subject: "NVR",
-    topic: "Nets",
-    difficulty: 2,
-    question_text: "Which of these nets folds into a cube?",
-    question_image: "Image",
-    options: ["A", "B", "C", "D"],
-    correct_option: "B",
-  },
-  {
-    _id: "q_102",
-    type: "GENERAL",
-    subject: "English",
-    topic: "Synonyms",
-    difficulty: 1,
-    question_text: "Select the synonym for: ABANDON",
-    options: ["Keep", "Leave", "Join", "Build"],
-    correct_option: "Leave",
-  }
-];
+const API_URL = 'http://localhost:5000/api';
 
 // 3. MOCK COLLECTIBLES (The 12 items on the shelf)
 export const ALL_COLLECTIBLES = [
@@ -125,170 +92,46 @@ export const SUBJECT_DATA = {
   }
 };
 
-// 5. SPECIFIC QUIZ DATA: Maths Challenge 1
-export const MATHS_CHALLENGE_1 = [
-  {
-    difficulty: 1,
-    _id: "q_101",
-    question_text: "What is the area of the square below?",
-    question_image: "/images/square.png",
-    options: ["7", "8", "9", "10", "16"],
-    correct_option: "16"
-  },
-  {
-    _id: "q_102",
-    difficulty: 1,
-    question_text: "Which number is even?",
-    options: ["3", "7", "10", "15", "17"],
-    correct_option: "10"
-  },
-  {
-    _id: "q_103",
-    difficulty: 2,
-    question_text: "What is 100 - 25?",
-    options: ["50", "65", "75", "85", "95"],
-    correct_option: "75"
-  },
-  {
-    _id: "q_104",
-    difficulty: 2,
-    question_text: "What is 6 x 6?",
-    options: ["30", "36", "42", "48", "54"],
-    correct_option: "36"
-  },
-  {
-    difficulty: 1,
-    _id: "q_105",
-    question_text: "What is the area of the square below?",
-    question_image: "/images/square.png",
-    options: ["7", "8", "9", "10", "16"],
-    correct_option: "16"
-  },
-  {
-    _id: "q_106",
-    difficulty: 1,
-    question_text: "Which number is even?",
-    options: ["3", "7", "10", "15", "17"],
-    correct_option: "10"
-  },
-  {
-    _id: "q_107",
-    difficulty: 2,
-    question_text: "What is 100 - 25?",
-    options: ["50", "65", "75", "85", "95"],
-    correct_option: "75"
-  },
-  {
-    _id: "q_108",
-    difficulty: 2,
-    question_text: "What is 6 x 6?",
-    options: ["30", "36", "42", "48", "54"],
-    correct_option: "36"
-  },
-  {
-    difficulty: 1,
-    _id: "q_109",
-    question_text: "What is the area of the square below?",
-    question_image: "/images/square.png",
-    options: ["7", "8", "9", "10", "16"],
-    correct_option: "16"
-  },
-  {
-    _id: "q_110",
-    difficulty: 1,
-    question_text: "Which number is even?",
-    options: ["3", "7", "10", "15", "17"],
-    correct_option: "10"
-  },
-  {
-    _id: "q_111",
-    difficulty: 2,
-    question_text: "What is 100 - 25?",
-    options: ["50", "65", "75", "85", "95"],
-    correct_option: "75"
-  },
-  {
-    _id: "q_112",
-    difficulty: 2,
-    question_text: "What is 6 x 6?",
-    options: ["30", "36", "42", "48", "54"],
-    correct_option: "36"
-  },
-  {
-    difficulty: 1,
-    _id: "q_113",
-    question_text: "What is the area of the square below?",
-    question_image: "/images/square.png",
-    options: ["7", "8", "9", "10", "16"],
-    correct_option: "16"
-  },
-  {
-    _id: "q_114",
-    difficulty: 1,
-    question_text: "Which number is even?",
-    options: ["3", "7", "10", "15", "17"],
-    correct_option: "10"
-  },
-  {
-    _id: "q_115",
-    difficulty: 2,
-    question_text: "What is 100 - 25?",
-    options: ["50", "65", "75", "85", "95"],
-    correct_option: "75"
-  },
-  {
-    _id: "q_116",
-    difficulty: 2,
-    question_text: "What is 6 x 6?",
-    options: ["30", "36", "42", "48", "54"],
-    correct_option: "36"
-  },
-  {
-    difficulty: 1,
-    _id: "q_117",
-    question_text: "What is the area of the square below?",
-    question_image: "/images/square.png",
-    options: ["7", "8", "9", "10", "16"],
-    correct_option: "16"
-  },
-  {
-    _id: "q_118",
-    difficulty: 1,
-    question_text: "Which number is even?",
-    options: ["3", "7", "10", "15", "17"],
-    correct_option: "10"
-  },
-  {
-    _id: "q_119",
-    difficulty: 2,
-    question_text: "What is 100 - 25?",
-    options: ["50", "65", "75", "85", "95"],
-    correct_option: "75"
-  },
-  {
-    _id: "q_120",
-    difficulty: 2,
-    question_text: "What is 6 x 6?",
-    options: ["30", "36", "42", "48", "54"],
-    correct_option: "36"
-  }
-];
-
-// 6. FAKE API FUNCTIONS (Called from the UI)
-export const getUser = async () => {
-  // Simulate a 0.5 second server delay
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(MOCK_USER), 500);
+// Requires Commenting
+export const loginUser = async (credentials) => {
+  const response = await fetch(`${API_URL}/users/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials)
   });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  
+  return await response.json();
 };
 
-export const getQuestions = async (quizId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Hardcoded to return Maths Challenge 1.
-      resolve(MATHS_CHALLENGE_1);
-    }, 500);
-  });
+export const getUser = async (userId) => {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+    
+    if (!response.ok) {
+       throw new Error(`Server error: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
+};
+
+export const getQuestions = async (topicId) => {
+  try {
+    const response = await fetch(`${API_URL}/quizzes/${topicId}`);
+    const data = await response.json();
+    // We return the whole quiz object so QuizPage.jsx can check for passage_text
+    return data;
+  } catch (error) {
+    console.error("Error fetching quiz:", error);
+    return null;
+  }
 };
 
 export const getSubjectById = async (subjectId) => {

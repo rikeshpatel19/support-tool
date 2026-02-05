@@ -10,7 +10,7 @@ const Header = ({ label, points }) => {
         <header className="bg-white border-b-2 border-gray-200 p-6 sticky top-0 z-20">
             <div className="max-w-4xl mx-auto flex justify-between items-center">
                 {/* Back Button */}
-                <button onClick={() => navigate("/")} className="p-2 hover:bg-gray-100 rounded-full">
+                <button onClick={() => navigate("/sd")} className="p-2 hover:bg-gray-100 rounded-full">
                     <ArrowLeft size={28} />
                 </button>
                 {/* Dynamic Title */}

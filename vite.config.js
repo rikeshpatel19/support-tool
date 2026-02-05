@@ -8,4 +8,14 @@ export default defineConfig({
     react(),
     tailwindcss(),  
   ],
+  server: {
+    proxy: {
+      // Directs any request starting with /api to your backend
+      '/api': {
+        target: 'http://localhost:5000', // Change this to your backend port
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })

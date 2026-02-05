@@ -13,7 +13,7 @@ const BottomNav = ({ activePage }) => {
             label="Home" 
             icon={<Home size={24} />} 
             active={activePage === 'home'} 
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/sd')}
             />
 
             <BottomNavItem 

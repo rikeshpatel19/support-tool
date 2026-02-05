@@ -30,7 +30,7 @@ const SubjectPage = () => {
     return (
         <div className="p-10 text-center">
             <h2 className="text-2xl font-bold">Subject Not Found</h2>
-            <button onClick={() => navigate('/')} className="text-blue-500 underline mt-4">Go Home</button>
+            <button onClick={() => navigate('/sd')} className="text-blue-500 underline mt-4">Go Home</button>
         </div>
     );
   }
@@ -52,7 +52,7 @@ const SubjectPage = () => {
                   key={topic.id}
                   name={topic.name}
                   status={topic.status}
-                  onClick={() => navigate(`/quiz/${subjectId}/${topic.name}`)} 
+                  onClick={() => navigate(`/quiz/${subjectId}/${topic.id}`)} 
                 />
               ))}
             </div>
@@ -67,7 +67,7 @@ const SubjectPage = () => {
                   key={challenge.id} 
                   name={challenge.name}
                   status={challenge.status}
-                  onClick={() => navigate(`/quiz/${subjectId}/${challenge.name}`)} 
+                  onClick={() => navigate(`/quiz/${subjectId}/${challenge.id}`)} 
                 />
               ))}
             </div>

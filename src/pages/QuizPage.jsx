@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import Span from '../components/Span';
 import Badge from '../components/Badge';
 // Import API service functions to fetch data
-import { getQuestions, getUser } from '../services/api';
+import { getQuestions } from '../services/api';
 
 const QuizPage = () => {
   const navigate = useNavigate();
@@ -16,6 +16,8 @@ const QuizPage = () => {
   // --- STATE MANAGEMENT ---
   // State to store the array of questions fetched from the API
   const [questions, setQuestions] = useState([]);
+  // State to check status of loading
+  const [loading, setLoading] = useState(true);
   // State to track which question is currently being displayed (Default 0)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -30,6 +32,38 @@ const QuizPage = () => {
   const [questionPage, setQuestionPage] = useState(0);
   // Fixed limit of 10 question numbers to display at one time
   const questionsPerPage = 10;
+
+  // --- LOAD DATA ---
+  // Call API to get questions for the specfic topic
+  // useEffect(() => {
+  //   const load = async () => {
+  //     const qData = await getQuestions(topicId);
+  //     setQuestions(qData);
+  //   };
+  //   load();
+  // }, [topicId]);
+
+  // Requires Commenting
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      const data = await getQuestions(topicId);
+      if (data) {
+        setQuestions(data.questions);
+      }
+      setLoading(false);
+    };
+    load();
+  }, [topicId]);
+
+  if (!questions || questions.length === 0) {
+    return (
+      <div className="p-10 text-center">
+        <h2 className="text-xl">Waiting for quiz data...</h2>
+        <p className="text-gray-500">If this persists, check if the Topic ID matches your database.</p>
+      </div>
+    );
+  }
 
   // Calculate start and end indices for the number strip
   // Determines the starting index of the current "page" of question numbers
@@ -55,16 +89,6 @@ const QuizPage = () => {
   const currentPoints = currentScore * questionPoints;
   // Calculate the percentage for the progress bar width
   const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
-
-  // --- LOAD DATA ---
-  // Call API to get questions for the specfic topic
-  useEffect(() => {
-    const load = async () => {
-      const qData = await getQuestions(topicId);
-      setQuestions(qData);
-    };
-    load();
-  }, [topicId]);
 
   // --- EVENT HANDLERS ---
   // Handle when a user clicks an answer option (A, B, C, D, E)
@@ -165,9 +189,6 @@ const QuizPage = () => {
     if (percentage >= 40) return 'bronze';
     return 'none';
   };
-
-  // --- RENDER LOGIC ---
-  if (questions.length === 0) return <div className="p-10 font-bold text-center">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-white font-sans flex flex-col">

@@ -3,24 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import { User, Lock } from 'lucide-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
+import { loginUser } from '../services/api';
 
-const LoginPage = () => {
+const LoginPage = ({ setUser }) => {
    const navigate = useNavigate();
 
-   // simple state to handle inputs
+   // Requires Commenting
    const [formData, setFormData] = useState({ username: '', password: '' });
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
-      // TODO: Add real authentication logic here
-      console.log("Logging in with:", formData);
-
-      // Navigate to Dashboard on success
-      navigate('/');
+      try {
+         const { username, password } = formData;
+         const userData = await loginUser({ username, password });
+         localStorage.setItem("userID", userData._id);
+         setUser(userData);
+         navigate('/sd');
+         console.log("Logged in as:", userData.username);
+      } catch (err) {
+         console.error(err);
+         alert("Login failed: " + err.message);
+      }
    };
 
    return (
