@@ -108,9 +108,25 @@ export const loginUser = async (credentials) => {
   return await response.json();
 };
 
-export const getUser = async (userId) => {
+export const registerUser = async (userData) => {
+    const response = await fetch(`${API_URL}/users/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+    });
+
+    if (!response.ok) {
+        // If the username is taken, the backend sends a 400 error
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registration failed');
+    }
+
+    return await response.json();
+};
+
+export const getUser = async (userID) => {
   try {
-    const response = await fetch(`/api/users/${userId}`);
+    const response = await fetch(`${API_URL}/users/${userID}`);
     
     if (!response.ok) {
        throw new Error(`Server error: ${response.status}`);
