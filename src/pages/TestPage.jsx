@@ -5,7 +5,7 @@ import BottomNav from '../components/BottomNav';
 import { getSubjects } from '../services/api';
 
 const TestPage = () => {
-  const [subjects, setSubjects] = useState(null);
+  const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,10 +17,8 @@ const TestPage = () => {
     };
     loadData();
   }, []);
-  
-  if (loading) {
-    return <div className="p-10 text-center font-bold">Loading exams...</div>;
-  }
+
+  if (loading) return <div className="p-10 text-center font-bold">Loading exams...</div>;
 
     return (
       <div className="min-h-screen bg-white font-sans pb-24">
@@ -29,12 +27,11 @@ const TestPage = () => {
         <Header label="Mock Exams"/>
   
         <div className="max-w-4xl mx-auto p-6 space-y-8">
-          {Object.keys(subjects).map((key) => {
-            const subject = subjects[key];
+          {subjects.map((subject) => {
             if (!subject.exams || subject.exams.length === 0) return null;
 
             return (
-              <section key={key}>
+              <section key={subject._id}>
                 <h2 className="text-xl font-bold mb-4">GL Assessment {subject.title}</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Lock } from 'lucide-react';
-import { getUser, ALL_COLLECTIBLES } from '../services/api';
+import { getUser, getAllCollectibles } from '../services/api';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 
 const ShelfPage = () => {
   // State to hold user data
   const [user, setUser] = useState(null);
+  // State to hold all collectibles
+  const [allCollectibles, setAllCollectibles] = useState([]);
   // Call API to get user data
   // useEffect(() => {
   //   const loadData = async () => {
@@ -17,26 +19,41 @@ const ShelfPage = () => {
   // }, []); // The empty array ensures this only runs once
 
   // Requires Commenting
-  useEffect(() => {
-  const loadData = async () => {
-    const storedId = localStorage.getItem("userID");
+//   useEffect(() => {
+//   const loadData = async () => {
+//     const storedId = localStorage.getItem("userID");
     
-    if (storedId) {
-      const userData = await getUser(storedId);
-      setUser(userData); // This will now contain the real inventory from Atlas
-    }
-  };
-  loadData();
-}, []); // The empty array ensures this only runs once
+//     if (storedId) {
+//       const userData = await getUser(storedId);
+//       setUser(userData); // This will now contain the real inventory from Atlas
+//     }
+//   };
+//   loadData();
+// }, []); // The empty array ensures this only runs once
 
-  // If user data hasn't loaded yet, display a simple loading message
-  if (!user) return <div className="p-10 text-center font-bold">Loading Shelf...</div>;
+  useEffect(() => {
+    const loadData = async () => {
+      const storedId = localStorage.getItem("userID");
+      if (storedId) {
+        const [userData, collectiblesData] = await Promise.all([
+          getUser(storedId),
+          getAllCollectibles()
+        ]);
+        setUser(userData);
+        setAllCollectibles(collectiblesData);
+      }
+    };
+    loadData();
+  }, []);
+
+  // If user data or collectibles have not loaded yet, display a simple loading message
+  if (!user || allCollectibles.length === 0) return <div className="p-10 text-center font-bold">Loading Shelf...</div>;
 
   // Split the 12 items into chunks of 3 (for 4 shelves)
   const shelves = [];
-  for (let i = 0; i < ALL_COLLECTIBLES.length; i += 3) {
+  for (let i = 0; i < allCollectibles.length; i += 3) {
     // Create a "shelf" by slicing out 3 items and pushing them to the shelves array
-    shelves.push(ALL_COLLECTIBLES.slice(i, i + 3));
+    shelves.push(allCollectibles.slice(i, i + 3));
   }
   return (
     <div className="min-h-screen bg-white font-sans pb-24">

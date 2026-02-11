@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Coins, ShoppingBag, CheckCircle } from 'lucide-react';
-import { getUser, ALL_COLLECTIBLES } from '../services/api';
+import { getUser, getAllCollectibles } from '../services/api';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import Card from '../components/Card';
@@ -9,6 +9,8 @@ import Button from '../components/Button';
 const ShopPage = () => {
   // State to hold user data
   const [user, setUser] = useState({ points: 0, inventory: [] });
+  // State to hold shop items
+  const [shopItems, setShopItems] = useState([]);
   // Call API to get user data
   // useEffect(() => {
   //   const loadUser = async () => {
@@ -19,17 +21,32 @@ const ShopPage = () => {
   // }, []); // The empty array ensures this only runs once
 
   // Requires Commenting
+  // useEffect(() => {
+  //   const loadUser = async () => {
+  //     const storedId = localStorage.getItem("userID");
+  //     if (storedId) {
+  //       const userData = await getUser(storedId); // 2. Fetch real data (points/inventory)
+  //       setUser(userData);
+  //     }
+  //   };
+  //   loadUser();
+  // }, []); // The empty array ensures this only runs once
+
   useEffect(() => {
-    const loadUser = async () => {
+    const loadData = async () => {
       const storedId = localStorage.getItem("userID");
       if (storedId) {
-        const userData = await getUser(storedId); // 2. Fetch real data (points/inventory)
+        // 2. Fetch both user data AND collectible data
+        const [userData, collectiblesData] = await Promise.all([
+          getUser(storedId),
+          getAllCollectibles()
+        ]);
         setUser(userData);
+        setShopItems(collectiblesData); // 3. Store the items from MongoDB
       }
     };
-    loadUser();
-  }, []); // The empty array ensures this only runs once
-
+    loadData();
+  }, []);
   return (
     <div className="min-h-screen bg-sky-50 pb-32">
       {/* Header */}
@@ -47,7 +64,7 @@ const ShopPage = () => {
         {/* Responsive Grid Layout: 2 columns on mobile, 3 on medium screens and up */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {/* Map through the collection of all items to generate item cards */}
-          {ALL_COLLECTIBLES.map((item) => {
+          {shopItems.map((item) => {
             // Check if item is already owned
             const isPurchased = user.inventory?.includes(item.id);
 

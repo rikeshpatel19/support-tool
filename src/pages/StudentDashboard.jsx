@@ -110,13 +110,13 @@ const StudentDashboard = () => {
                         <SubjectCard
                             name="Verbal Reasoning"
                             icon={<Lightbulb size={32} />}
-                            onClick={() => navigate('/subject/verbal_reasoning')}
+                            onClick={() => navigate('/subject/vr')}
                         />
 
                         <SubjectCard
                             name="Non-Verbal Reasoning"
                             icon={<Shapes size={32} />}
-                            onClick={() => navigate('/subject/non_verbal_reasoning')}
+                            onClick={() => navigate('/subject/nvr')}
                         />
 
                     </div>
