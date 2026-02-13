@@ -36,11 +36,11 @@ function App() {
       {/* Channel 2: The Home Page (Dashboard) */}
       <Route path="/sd" element={<StudentDashboard user={user} />} />
       {/* Channel 3: The Subject Page */}
-      <Route path="/subject/:subjectId" element={<SubjectPage />} />
+      <Route path="/subject/:subjectID" element={<SubjectPage />} />
       {/* Channel 4: The Test Page */}
       <Route path="/test" element={<TestPage />} />
       {/* Channel 5: The Quiz Page */}
-      <Route path="/quiz/:subjectId/:topicId" element={<QuizPage />} />
+      <Route path="/quiz/:subjectID/:topicID" element={<QuizPage />} />
       {/* Channel 6: The Shop Page */}
       <Route path="/shop" element={<ShopPage />} />
       {/* Channel 7: The Shelf Page */}

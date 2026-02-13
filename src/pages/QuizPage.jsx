@@ -6,14 +6,18 @@ import Button from '../components/Button';
 import Span from '../components/Span';
 import Badge from '../components/Badge';
 // Import API service functions to fetch data
-import { getQuestions } from '../services/api';
+import { getQuestions, completeQuiz, getSubjectById } from '../services/api';
 
 const QuizPage = () => {
   const navigate = useNavigate();
-  // Extract 'subjectId' and 'topicId' from the URL
-  const { subjectId, topicId } = useParams();
+  // Extract 'subjectID' and 'topicID' from the URL
+  const { subjectID, topicID } = useParams();
 
   // --- STATE MANAGEMENT ---
+  // State to store current subject
+  const [currentSubject, setCurrentSubject] = useState(null);
+  // State to show current topic
+  const [displayTopic, setDisplayTopic] = useState("");
   // State to store the array of questions fetched from the API
   const [questions, setQuestions] = useState([]);
   // State to check status of loading
@@ -34,33 +38,40 @@ const QuizPage = () => {
   const questionsPerPage = 10;
 
   // --- LOAD DATA ---
-  // Call API to get questions for the specfic topic
-  // useEffect(() => {
-  //   const load = async () => {
-  //     const qData = await getQuestions(topicId);
-  //     setQuestions(qData);
-  //   };
-  //   load();
-  // }, [topicId]);
-
   // Requires Commenting
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const data = await getQuestions(topicId);
+      const [subjectData, data] = await Promise.all([
+        getSubjectById(subjectID),
+        getQuestions(topicID)
+      ]);
+      if (subjectData) {
+        setCurrentSubject(subjectData);
+        // Combine both arrays to search the whole subject data
+        const allContent = [...(subjectData.topics || []), ...(subjectData.challenges || [])];
+        // Searches the combined list for the matching ID
+        const currentItem = allContent.find(item => item.id === topicID);
+
+        if (currentItem) {
+          setDisplayTopic(currentItem.name); // This sets the name
+        } else {
+          console.warn("No matching quiz found!");
+        }
+      }
       if (data) {
         setQuestions(data.questions);
       }
       setLoading(false);
     };
     load();
-  }, [topicId]);
+  }, [subjectID, topicID]);
 
   if (!questions || questions.length === 0) {
     return (
       <div className="p-10 text-center">
         <h2 className="text-xl">Waiting for quiz data...</h2>
-        <p className="text-gray-500">If this persists, check if the Topic ID matches your database.</p>
+        <p className="text-gray-500">Please be patient while the quiz loads.</p>
       </div>
     );
   }
@@ -103,11 +114,28 @@ const QuizPage = () => {
     }));
   };
 
-  // Handle clicking the "Next" button
-  const handleNext = () => {
-    if (currentQuestionIndex + 1 < questions.length) {
-      setCurrentQuestionIndex(prev => prev + 1);
+  // Handle clicking the "Next" button + saving points earned
+  const handleNext = async () => {
+    const nextIndex = currentQuestionIndex + 1;
+    const percentage = (currentScore / questions.length) * 100;
+    if (nextIndex < questions.length) {
+      setCurrentQuestionIndex(nextIndex);
+      // Calculate which page the next index belongs to (items 0-9 = page 0, 10-19 = page 1, etc.)
+      const nextPage = Math.floor(nextIndex / 10);
+      // If the next question is on a new page, slide the nav bar forward
+      if (nextPage !== questionPage) {
+        setQuestionPage(nextPage);
+      }
     } else {
+      const storedID = localStorage.getItem("userID");
+      if (storedID) {
+        try {
+          await completeQuiz(storedID, topicID, currentPoints, currentScore, percentage);
+          console.log("Points saved successfully!");
+        } catch (err) {
+          console.error("Failed to save points:", err);
+        }
+      }
       setIsFinished(true);
     }
   };
@@ -115,7 +143,14 @@ const QuizPage = () => {
   // Handle clicking the "Previous" button
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      const prevIndex = currentQuestionIndex - 1;
+      setCurrentQuestionIndex(prevIndex);
+      // Calculate which page the previous index belongs to
+      const prevPage = Math.floor(prevIndex / 10);
+      // If we have moved back to the previous set of 10, update the nav bar
+      if (prevPage !== questionPage) {
+        setQuestionPage(prevPage);
+      }
     }
   };
 
@@ -255,7 +290,7 @@ const QuizPage = () => {
             <PauseCircle size={32} strokeWidth={2} />
           </button>
           <span className="font-bold text-xl capitalize">
-            <span>{subjectId.replace('_', ' ')}:</span> {topicId}
+            <span>{currentSubject.title}:</span> {displayTopic}
           </span>
         </div>
         {/* Centre: Progress Bar */}
@@ -382,7 +417,6 @@ const QuizPage = () => {
               {/* Loop through only the 10 questions currently visible in the strip */}
               {visibleQuestions.map((_, idx) => {
                 // Calculate the actual index (First Button on Page 2 is Question 11, this would have the Index 10)
-                console.log(idx)
                 const actualIndex = startIndex + idx;
                 return (
                   <Button

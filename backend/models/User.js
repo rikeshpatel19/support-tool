@@ -15,8 +15,9 @@ const UserSchema = new mongoose.Schema({
   points: { type: Number, default: 0 },
   // Quizzes that the user has completed
   completedQuizzes: [{
-    topicId: String,
+    topicID: String,
     score: Number,
+    percentage: Number,
     date: { type: Date, default: Date.now }
   }],
   // Avatar that the user can customise

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Coins, ShoppingBag, CheckCircle } from 'lucide-react';
-import { getUser, getAllCollectibles } from '../services/api';
+import { getUser, getAllCollectibles, purchaseItem } from '../services/api';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import Card from '../components/Card';
@@ -11,42 +11,44 @@ const ShopPage = () => {
   const [user, setUser] = useState({ points: 0, inventory: [] });
   // State to hold shop items
   const [shopItems, setShopItems] = useState([]);
-  // Call API to get user data
-  // useEffect(() => {
-  //   const loadUser = async () => {
-  //     const userData = await getUser();
-  //     setUser(userData);
-  //   };
-  //   loadUser();
-  // }, []); // The empty array ensures this only runs once
 
   // Requires Commenting
-  // useEffect(() => {
-  //   const loadUser = async () => {
-  //     const storedId = localStorage.getItem("userID");
-  //     if (storedId) {
-  //       const userData = await getUser(storedId); // 2. Fetch real data (points/inventory)
-  //       setUser(userData);
-  //     }
-  //   };
-  //   loadUser();
-  // }, []); // The empty array ensures this only runs once
-
   useEffect(() => {
     const loadData = async () => {
       const storedId = localStorage.getItem("userID");
       if (storedId) {
-        // 2. Fetch both user data AND collectible data
+        // Fetch both user data and collectible data
         const [userData, collectiblesData] = await Promise.all([
           getUser(storedId),
           getAllCollectibles()
         ]);
+        // Store the items from MongoDB
         setUser(userData);
-        setShopItems(collectiblesData); // 3. Store the items from MongoDB
+        setShopItems(collectiblesData); 
       }
     };
     loadData();
   }, []);
+  
+  // Requires Commenting
+  const handlePurchase = async (item) => {
+    const storedID = localStorage.getItem("userID");
+    const price = item.price; 
+    if (user.points < price) {
+      alert("You need more points! Try doing more quizzes.");
+      return;
+    }
+    const data = await purchaseItem(storedID, item.id, price);
+    if (data.message === "Purchase successful!") {
+      // Update local state so the UI changes instantly
+      setUser({
+        ...user,
+        points: data.updatedPoints,
+        inventory: data.inventory
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-sky-50 pb-32">
       {/* Header */}
@@ -95,8 +97,8 @@ const ShopPage = () => {
                   className={`w-full ${!isPurchased ? 'bg-green-500 hover:bg-green-600' : 'cursor-not-allowed'}`}
                   // Disable the button entirely if the item is already purchased
                   disabled={isPurchased}
-                  // Temporary click handler to simulate a purchase via alert
-                  onClick={() => !isPurchased && alert(`Buying ${item.name}!`)}
+                  // Handles Purchase
+                  onClick={() => !isPurchased && handlePurchase(item)}
                 >
                   {/* Purchased (Checkmark) vs Purchase (Price) */}
                   {isPurchased ? (

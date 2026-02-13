@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const quizData = [
   {
-    topicId: "enc3",
+    topicID: "enc3",
     subject: "English",
     passage_text: "In the heart of the Silicon Forest lived a pixelated cat named Gizmo...",
     questions: [
@@ -23,7 +23,7 @@ const quizData = [
     ]
   },
   {
-    topicId: "mc1",
+    topicID: "mc1",
     subject: "Maths",
     passage_text: "", // No passage for Maths
     questions: [
