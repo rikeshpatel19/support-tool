@@ -87,7 +87,7 @@ const seedSubjects = async () => {
         await mongoose.connect(process.env.MONGO_URI);
         // Log a success message to the console once the connection is established
         console.log("Connected to database for seeding");
-        // Clear existing collectibles to avoid duplicates every time the script runs
+        // Clear existing subjects to avoid duplicates every time the script runs
         await Subject.deleteMany({});
         // Insert the data
         await Subject.insertMany(subjectData);

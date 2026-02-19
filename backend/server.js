@@ -5,6 +5,8 @@ require('dotenv').config();
 
 // Import Routes
 const quizRoutes = require('./routes/QuizRoutes');
+const progressRoutes = require('./routes/ProgressRoutes');
+const examRoutes = require('./routes/ExamRoutes');
 const userRoutes = require('./routes/UserRoutes');
 const subjectRoutes = require('./routes/SubjectRoutes');
 const collectibleRoutes = require('./routes/CollectibleRoutes');
@@ -15,6 +17,8 @@ app.use(cors());
 app.use(express.json());
 // Mapping specfic URL paths to route files
 app.use('/api/quizzes', quizRoutes);
+app.use('/api', progressRoutes);
+app.use('/api/exams', examRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/collectibles', collectibleRoutes);

@@ -58,6 +58,18 @@ export const getQuestions = async (topicID) => {
   }
 };
 
+export const getExamQuestions = async (examID) => {
+  try {
+    const response = await fetch(`${API_URL}/exams/${examID}`);
+    const data = await response.json();
+    // We return the whole exam object so ExamPage.jsx can check for passage_text
+    return data;
+  } catch (error) {
+    console.error("Error fetching exam:", error);
+    return null;
+  }
+};
+
 export const getAllCollectibles = async () => {
   const response = await fetch(`${API_URL}/collectibles`);
   return await response.json();
@@ -72,7 +84,7 @@ export const getSubjects = async () => {
   try {
     const response = await fetch(`${API_URL}/subjects`);
     if (!response.ok) throw new Error("Failed to fetch subjects");
-    return await response.json(); // Returns an array: [{subjectId: 'maths', ...}, ...]
+    return await response.json(); // Returns an array of subjectIDs
   } catch (error) {
     console.error("Error:", error);
     return []; // Return empty array on error
@@ -94,5 +106,48 @@ export const purchaseItem = async (userID, itemID, price) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ itemID, price })
   });
+  return await response.json();
+};
+
+// Function to save partial progress
+export const saveQuizProgress = async (userID, topicID, data) => {
+    const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            userAnswers: data.userAnswers,
+            currentQuestionIndex: data.currentQuestionIndex,
+            isCompleted: false
+        }),
+    });
+    return response.json();
+};
+
+// Function to fetch saved progress when the page loads
+export const getQuizProgress = async (userID, topicID) => {
+    try {
+        const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`);
+        if (!response.ok) return null; // Return null if no progress exists yet
+        return await response.json();
+    } catch (err) {
+        console.error("Fetch progress error:", err);
+        return null;
+    }
+};
+
+// Function to save a fully completed quiz
+export const finaliseQuizResults = async (userID, topicID, data) => {
+    const response = await fetch(`${API_URL}/users/${userID}/results/${topicID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+    return response.json();
+};
+
+// Get all the results for a single user
+export const getResultsByUser = async (userID) => {
+  const response = await fetch(`${API_URL}/users/${userID}/results`);
+  if (!response.ok) return [];
   return await response.json();
 };

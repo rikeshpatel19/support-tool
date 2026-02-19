@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserCircle, Cat, Brain, Calculator, BookOpen, Lightbulb, Shapes, CirclePoundSterling } from 'lucide-react';
+import { UserCircle, Cat, Brain, CirclePoundSterling } from 'lucide-react';
 import { getUser } from '../services/api';
 import Button from '../components/Button'
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
 import BottomNav from '../components/BottomNav';
-import Span from '../components/Span';
+import { subjectThemes } from '../constants/subjectThemes';
 
 const StudentDashboard = () => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const StudentDashboard = () => {
 
             try {
                 const userData = await getUser(storedId);
-                setUser(userData); 
+                setUser(userData);
             } catch (err) {
                 console.error("Error fetching user:", err);
             }
@@ -47,18 +47,18 @@ const StudentDashboard = () => {
                     <div className="flex items-center group animate-in fade-in zoom-in duration-300">
                         {/* Pound Icon */}
                         <div className="mr-1">
-                            <CirclePoundSterling size={32} className="text-yellow-500" />
+                            <CirclePoundSterling size={40} className="text-yellow-500" />
                         </div>
                         {/* User Points */}
                         <div className="flex flex-col leading-none text-center text-yellow-500 font-bold">
-                            <span className="text-[20px] mb-1">{user.points.toLocaleString()}</span>
+                            <span className="text-lg mb-px">{user.points.toLocaleString()}</span>
                         </div>
                     </div>
 
                     {/* User Profile */}
                     <div className="flex items-center gap-3">
                         <span className="text-lg font-medium text-gray-700">{user.username}</span>
-                        <UserCircle size={32} className="text-gray-800" onClick={() => navigate('/login')}  />
+                        <UserCircle size={40} className="text-gray-800" onClick={() => navigate('/login')} />
                     </div>
                 </div>
             </header>
@@ -69,7 +69,7 @@ const StudentDashboard = () => {
                     {/* 1. The Greeting Card (Span 2 columns) */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <div className="w-24 h-24 flex items-center justify-center">
-                            <Cat size={128} strokeWidth={1.5} />
+                            <Cat className='fill-amber-400' size={128} strokeWidth={1.5} />
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.firstName}!</h1>
@@ -94,31 +94,13 @@ const StudentDashboard = () => {
                 <div>
                     <h3 className="text-xl font-bold text-gray-800 mb-4">Explore</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-                        <SubjectCard
-                            name="Maths"
-                            icon={<Calculator size={32} />}
-                            onClick={() => navigate('/subject/maths')}
-                        />
-
-                        <SubjectCard
-                            name="English"
-                            icon={<BookOpen size={32} />}
-                            onClick={() => navigate('/subject/english')}
-                        />
-
-                        <SubjectCard
-                            name="Verbal Reasoning"
-                            icon={<Lightbulb size={32} />}
-                            onClick={() => navigate('/subject/vr')}
-                        />
-
-                        <SubjectCard
-                            name="Non-Verbal Reasoning"
-                            icon={<Shapes size={32} />}
-                            onClick={() => navigate('/subject/nvr')}
-                        />
-
+                        {Object.values(subjectThemes).map((theme) => (
+                            <SubjectCard
+                                key={theme.id}
+                                theme={theme}
+                                onClick={() => navigate(`/subject/${theme.id}`)}
+                            />
+                        ))}
                     </div>
                 </div>
             </main>

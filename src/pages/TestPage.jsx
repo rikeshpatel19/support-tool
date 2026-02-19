@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import { getSubjects } from '../services/api';
 
 const TestPage = () => {
+  // Extract subjectID from the URL
+  const { subjectID } = useParams();
+  const navigate = useNavigate();
+  // State to store subjects
   const [subjects, setSubjects] = useState([]);
+  // State to check status of loading
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,7 +44,7 @@ const TestPage = () => {
                   {subject.exams.map((exam) => (
                     <Button  className='p-10!'
                       key={exam.id}
-                      onClick={() => console.log(`Starting ${exam.name}`)} 
+                      onClick={() => navigate(`/test/${subjectID}/${exam.id}`)}
                     >{exam.name}</Button>
                   ))}
                 </div>

@@ -10,6 +10,7 @@ import ShopPage from './pages/ShopPage';
 import ShelfPage from './pages/ShelfPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ExamPage from './pages/ExamPage';
 import { getUser } from './services/api';
 
 function App() {
@@ -49,6 +50,8 @@ function App() {
       <Route path="/login" element={<LoginPage setUser={setUser} />} />
       {/* Channel 9: The Register Page */}
       <Route path="/register" element={<RegisterPage />} />
+      {/* Channel 10: The Exam Page */}
+      <Route path="/test/:subjectID/:examID" element={<ExamPage />} />
     </Routes>
   );
 }

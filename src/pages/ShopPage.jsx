@@ -15,11 +15,11 @@ const ShopPage = () => {
   // Requires Commenting
   useEffect(() => {
     const loadData = async () => {
-      const storedId = localStorage.getItem("userID");
-      if (storedId) {
+      const storedID = localStorage.getItem("userID");
+      if (storedID) {
         // Fetch both user data and collectible data
         const [userData, collectiblesData] = await Promise.all([
-          getUser(storedId),
+          getUser(storedID),
           getAllCollectibles()
         ]);
         // Store the items from MongoDB

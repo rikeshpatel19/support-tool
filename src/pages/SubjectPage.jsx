@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TopicCard from '../components/TopicCard';
-import { getUser, getSubjectById } from '../services/api';
+import { getUser, getSubjectById, getResultsByUser } from '../services/api';
 import Header from '../components/Header';
 
 const SubjectPage = () => {
@@ -9,31 +9,32 @@ const SubjectPage = () => {
   const navigate = useNavigate();
 
   const [currentSubject, setCurrentSubject] = useState(null);
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // State to store all user results
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
       const storedID = localStorage.getItem("userID");
-      const [subjectData, userData] = await Promise.all([
+      const [subjectData, resultsData] = await Promise.all([
         getSubjectById(subjectID),
-        getUser(storedID)
+        getResultsByUser(storedID)
       ]);
       setCurrentSubject(subjectData);
-      setUser(userData);
+      setResults(resultsData);
       setLoading(false); // Stop loading
     };
 
     loadData();
   }, [subjectID]);
 
-  const getBadgeStatus = (user, topicID) => {
-    if (!user || !user.completedQuizzes) return 'none';
-    // Find all attempts for this specific topic/challenge
-    const attempts = user.completedQuizzes.filter(quiz => quiz.topicID === topicID);
-    if (attempts.length === 0) return 'none';
+  const getBadgeStatus = (topicID) => {
+    if (!results || results.length === 0) return 'none';
+    // Find all results for this specific topic/challenge
+    const topicResults = results.filter(result => result.topicID === topicID);
+    if (topicResults.length === 0) return 'none';
     // Get the percentage of their best attempt
-    const percentage = Math.max(...attempts.map(attempt => attempt.percentage));
+    const percentage = Math.max(...topicResults.map(result => result.percentage));
     // Boundaries that determine what tier Badge is earnt
     if (percentage >= 70) return 'gold';
     if (percentage >= 50) return 'silver';
@@ -71,7 +72,7 @@ const SubjectPage = () => {
               <TopicCard
                 key={topic.id}
                 name={topic.name}
-                status={getBadgeStatus(user, topic.id)}
+                status={getBadgeStatus(topic.id)}
                 onClick={() => navigate(`/quiz/${subjectID}/${topic.id}`)}
               />
             ))}
@@ -86,7 +87,7 @@ const SubjectPage = () => {
               <TopicCard
                 key={challenge.id}
                 name={challenge.name}
-                status={getBadgeStatus(user, challenge.id)}
+                status={getBadgeStatus(challenge.id)}
                 onClick={() => navigate(`/quiz/${subjectID}/${challenge.id}`)}
               />
             ))}

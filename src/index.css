@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Easier to rescale like this instead of having to change every individual component */
+html {
+  /* Default is 16px. 16 * 1.25 = 20px or 16 * 1.5 = 24px */
+  font-size: 20px; 
+}
+
 @layer utilities {
   .input-field {
     @apply w-full pl-10 pr-4 py-3 border-2 border-black rounded-xl 

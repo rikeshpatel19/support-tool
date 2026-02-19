@@ -20,11 +20,11 @@ const Header = ({ label, points }) => {
                     <div className="flex items-center group animate-in fade-in zoom-in duration-300">
                         {/* Pound Icon */}
                         <div className="mr-1">
-                            <CirclePoundSterling size={32} className="text-yellow-500" />
+                            <CirclePoundSterling size={40} className="text-yellow-500" />
                         </div>
                         {/* User Points */}
                         <div className="flex flex-col leading-none text-center text-yellow-500 font-bold">
-                            <span className="text-[24px] mb-1">{points}</span>
+                            <span className="text-lg mb-px">{points}</span>
                         </div>
                     </div>
                 ) : (
