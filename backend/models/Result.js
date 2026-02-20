@@ -11,8 +11,6 @@ const ResultSchema = new mongoose.Schema({
   totalQuestions: { type: Number, required: true },
   // Stores percentage achieved in the specfic quiz or exam
   percentage: { type: Number, required: true },
-  // Points earned within this attempt 
-  pointsEarned: { type: Number, required: true },
   // Date and time of completion 
   completedAt: { type: Date, default: Date.now }
 });

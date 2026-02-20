@@ -160,7 +160,6 @@ const QuizPage = () => {
             score: currentScore,
             totalQuestions: questions.length,
             percentage: percentage,
-            pointsEarned: currentPoints
           });
           console.log("Result saved and progress cleared!");
           console.log("Points saved successfully!");

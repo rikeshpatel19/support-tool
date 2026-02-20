@@ -40,7 +40,6 @@ const SubjectPage = () => {
     if (!record) return 'none';
     // Best percentage that was stored in the object 
     const percentage = record.bestPercentage;
-    console.log(percentage)
     // Boundaries that determine what tier Badge is earnt
     if (percentage >= 70) return 'gold';
     if (percentage >= 50) return 'silver';

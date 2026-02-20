@@ -7,14 +7,14 @@ const Result = require('../models/Result');
 // POST Final Results and Clear Progress
 router.post('/users/:userID/results/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
-  const { score, totalQuestions, percentage, pointsEarned } = request.body;
+  const { score, totalQuestions, percentage } = request.body;
 
   try {
     // Check how many results already exist for this topic
     const existingResults = await Result.find({ userID, topicID }).sort({ completedAt: 1 });
 
-    // If there are 5 or more, delete the oldest one
-    if (existingResults.length >= 5) {
+    // If there are 20 or more, delete the oldest one
+    if (existingResults.length >= 20) {
       const oldestID = existingResults[0]._id;
       await Result.findByIdAndDelete(oldestID);
     }
@@ -26,7 +26,6 @@ router.post('/users/:userID/results/:topicID', async (request, response) => {
       score,
       totalQuestions,
       percentage,
-      pointsEarned,
       completedAt: Date.now()
     });
     await newResult.save();
