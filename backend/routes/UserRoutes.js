@@ -80,24 +80,42 @@ router.post('/register', async (request, response) => {
 // Add points and record completed quiz
 router.post('/:id/complete-quiz', async (request, response) => {
   // Destructures the results sent from the Quiz page
-  const { topicID, pointsEarned, score, percentage } = request.body;
+  const { topicID, pointsEarned, percentage } = request.body;
+  // Get the users unique ID from the URL parameters
+  const userID = request.params.id;
   try {
-    // Looks for student in MongoDB using the ID from the URL
-    const user = await User.findById(request.params.id);
-    if (!user) return response.status(404).json({ message: "User not found" });
-    // Update the student's total points
-    user.points += pointsEarned;
-    // Add a new record to the student's "history" array
-    user.completedQuizzes.push({
-      topicID, // Specfic topic/challenge they completed
-      score: score, // Raw score 
-      percentage: percentage, // Used to determine Badge 
-      date: new Date() // Date of completion
-    });
-    // Saves all changes to the database
-    await user.save();
-    // Sends a success message + the new total back to the frontend
-    response.json({ message: "Progress saved!", updatedPoints: user.points });
+    // Increments the total points by the pointsEarned
+    await User.findByIdAndUpdate(userID, { $inc: { points: pointsEarned } });
+
+    // Update the score if the topic exists and the new score is higher
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        _id: userID,
+        "completedQuizzes.topicID": topicID, // Match the specific topic inside the array
+        "completedQuizzes.bestPercentage": { $lt: percentage } // Only update if existing score < new score
+      },
+      {
+        // $ used to update the specific array element that was matched above
+        $set: { "completedQuizzes.$.bestPercentage": percentage }
+      },
+      { new: true } // Return the document after the update is applied
+    );
+
+    // If nothing was updated (new topic), add it to the array
+    if (!updatedUser) {
+      await User.updateOne(
+        {
+          _id: userID,
+          "completedQuizzes.topicID": { $ne: topicID } // Only if topicID doesn't exist yet
+        },
+        {
+          // Adds a new object to the array, $addToSet ensures the same topic is not added twice
+          $addToSet: { completedQuizzes: { topicID, bestPercentage: percentage } }
+        }
+      );
+    }
+    // Return a success message to the frontend
+    response.json({ message: "High score (Percentage) and points updated!" });
   } catch (error) {
     // If database fails, return a 500 server error
     response.status(500).json({ message: "Error saving progress" });

@@ -13,12 +13,10 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   // Total points that a user has earnt
   points: { type: Number, default: 0 },
-  // Quizzes that the user has completed
+  // Stores IDs of quizzes that the user has completed alongside their best score
   completedQuizzes: [{
-    topicID: String,
-    score: Number,
-    percentage: Number,
-    date: { type: Date, default: Date.now }
+    topicID: { type: String },
+    bestPercentage: { type: Number, default: 0 }
   }],
   // Avatar that the user can customise
   avatar: { type: String, default: 'cat_mascot' },

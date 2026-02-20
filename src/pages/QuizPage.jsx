@@ -154,7 +154,8 @@ const QuizPage = () => {
       const storedID = localStorage.getItem("userID");
       if (storedID) {
         try {
-          await completeQuiz(storedID, topicID, currentPoints, currentScore, percentage);
+          // Updates the users completedQuizzes array and their total points
+          await completeQuiz(storedID, topicID, currentPoints, percentage);
           await finaliseQuizResults(storedID, topicID, {
             score: currentScore,
             totalQuestions: questions.length,

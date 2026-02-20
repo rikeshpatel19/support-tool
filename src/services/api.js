@@ -91,11 +91,11 @@ export const getSubjects = async () => {
   }
 };
 
-export const completeQuiz = async (userID, topicID, points, score, percentage) => {
+export const completeQuiz = async (userID, topicID, points, percentage) => {
   const response = await fetch(`${API_URL}/users/${userID}/complete-quiz`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ topicID, pointsEarned: points, score: score, percentage: percentage })
+    body: JSON.stringify({ topicID, pointsEarned: points, percentage: percentage })
   });
   return await response.json();
 };

@@ -27,7 +27,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken }) => {
         <Card className="p-8 mb-8 text-center border-4 border-black shadow-medium">
           <Trophy size={112} className="mx-auto mb-4 text-amber-500" />
           <h1 className="text-4xl font-black uppercase mb-2">Exam Completed!</h1>
-          <p className={`text-6xl font-black mb-4 ${grade.color}`}>{percentage}%</p>
+          <p className={`text-6xl font-black mb-4 text-black`}>{percentage}%</p>
           <p className="text-2xl font-bold text-gray-500 mb-6">Grade: {grade.label}</p>
           
           <div className="grid grid-cols-3 gap-4 border-t-2 border-gray-200 pt-6">

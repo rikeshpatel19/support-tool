@@ -9,6 +9,7 @@ const SubjectPage = () => {
   const navigate = useNavigate();
 
   const [currentSubject, setCurrentSubject] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   // State to store all user results
   const [results, setResults] = useState([]);
@@ -16,11 +17,13 @@ const SubjectPage = () => {
   useEffect(() => {
     const loadData = async () => {
       const storedID = localStorage.getItem("userID");
-      const [subjectData, resultsData] = await Promise.all([
+      const [subjectData, userData, resultsData] = await Promise.all([
         getSubjectById(subjectID),
+        getUser(storedID),
         getResultsByUser(storedID)
       ]);
       setCurrentSubject(subjectData);
+      setUser(userData);
       setResults(resultsData);
       setLoading(false); // Stop loading
     };
@@ -29,12 +32,15 @@ const SubjectPage = () => {
   }, [subjectID]);
 
   const getBadgeStatus = (topicID) => {
-    if (!results || results.length === 0) return 'none';
-    // Find all results for this specific topic/challenge
-    const topicResults = results.filter(result => result.topicID === topicID);
-    if (topicResults.length === 0) return 'none';
-    // Get the percentage of their best attempt
-    const percentage = Math.max(...topicResults.map(result => result.percentage));
+    // If the user does not exist or does not have an array completedQuizzes
+    if (!user || !user.completedQuizzes) return 'none';
+    // Find the specific object for this topic
+    const record = user.completedQuizzes.find(q => q.topicID === topicID);
+    // If the topic has never been attempted
+    if (!record) return 'none';
+    // Best percentage that was stored in the object 
+    const percentage = record.bestPercentage;
+    console.log(percentage)
     // Boundaries that determine what tier Badge is earnt
     if (percentage >= 70) return 'gold';
     if (percentage >= 50) return 'silver';
