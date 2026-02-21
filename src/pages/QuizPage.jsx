@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PauseCircle, Cat, Save, Play, ChevronLeft, ChevronRight, CirclePoundSterling } from 'lucide-react';
+import { PauseCircle, Save, Play, ChevronLeft, ChevronRight, CirclePoundSterling } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Span from '../components/Span';
 import Badge from '../components/Badge';
+import Avatar from '../components/Avatar';
 // Import API service functions to fetch data
-import { getQuestions, completeQuiz, getSubjectById, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
+import { getUser, getQuestions, completeQuiz, getSubjectById, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
 
 const QuizPage = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   // Extract subjectID and topicID from the URL
   const { subjectID, topicID } = useParams();
 
@@ -42,13 +44,17 @@ const QuizPage = () => {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
+      const storedID = localStorage.getItem("userID");
       try {
-        const [quizData, subjectData] = await Promise.all([
+        const [userData, quizData, subjectData] = await Promise.all([
+          getUser(storedID),
           getQuestions(topicID),
           getSubjectById(subjectID)
         ]);
 
-        if (subjectData) {
+        if (userData && quizData && subjectData) {
+          setUser(userData);
+          setQuestions(quizData.questions);
           setCurrentSubject(subjectData);
           // Combine both arrays to search the whole subject data
           const allContent = [...(subjectData.topics || []), ...(subjectData.challenges || [])];
@@ -61,11 +67,8 @@ const QuizPage = () => {
             console.warn("No matching quiz found!");
           }
         }
-        if (quizData) {
-          setQuestions(quizData.questions);
-        }
+
         // Load saved progress from the DB
-        const storedID = localStorage.getItem("userID");
         if (storedID) {
           try {
             const savedProgress = await getQuizProgress(storedID, topicID);
@@ -370,10 +373,10 @@ const QuizPage = () => {
               {/* I want to change this for an expression later if possible */}
               {selectedOption ? (
                 selectedOption === question.correct_option ?
-                  <Cat className='fill-green-400' size={60} strokeWidth={1.5} /> :
-                  <Cat className='fill-red-400' size={60} strokeWidth={1.5} />
+                  <Avatar avatarName={user.avatar} className='fill-green-400' size={60} strokeWidth={1.5} /> :
+                  <Avatar avatarName={user.avatar} className='fill-red-400' size={60} strokeWidth={1.5} />
               ) : (
-                <Cat className='fill-amber-400' size={60} strokeWidth={1.5} />
+                <Avatar avatarName={user.avatar} className='fill-amber-400' size={60} strokeWidth={1.5} />
               )}
               {selectedOption ? (
                 selectedOption === question.correct_option ?

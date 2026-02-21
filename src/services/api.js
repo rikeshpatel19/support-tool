@@ -151,3 +151,18 @@ export const getResultsByUser = async (userID) => {
   if (!response.ok) return [];
   return await response.json();
 };
+
+// Update Account Details
+export const updateProfile = async (userID, userData) => {
+    const response = await fetch(`${API_URL}/users/${userID}/update-profile`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+    });
+    // Checks if the server responded with an error code
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update profile');
+    }
+    return response.json();
+};

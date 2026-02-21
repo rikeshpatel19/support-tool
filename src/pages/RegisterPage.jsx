@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { User, Lock, UserPlus, Smile, Mail } from 'lucide-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
+import Input from '../components/Input';
 import { registerUser } from '../services/api';
 
 const RegisterPage = ({ setUser }) => {
@@ -50,17 +51,6 @@ const RegisterPage = ({ setUser }) => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (formData.password !== formData.confirmPassword) {
-  //     alert("Passwords don't match!");
-  //     return;
-  //   }
-  //   // TODO: Add real registration logic here
-  //   console.log("Registering with:", formData);
-  //   navigate('/sd');
-  // };
-
   return (
     <div className="min-h-screen bg-yellow-50 flex items-center justify-center p-6 pb-20">
       <div className="max-w-md w-full">
@@ -77,102 +67,64 @@ const RegisterPage = ({ setUser }) => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              {/* First Name */}
+              <Input
+                label="First Name"
+                name="firstName"
+                icon={Smile}
+                onChange={handleChange}
+                placeholder="e.g. John"
+              />
 
-            {/* First Name */}
-            <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">First Name</label>
-              <div className="relative">
-                <Smile className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                <input
-                  type="text"
-                  name="firstName"
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="e.g. John"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Surname */}
-            <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Surname</label>
-              <div className="relative">
-                <Smile className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                <input
-                  type="text"
-                  name="surname"
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="e.g. Doe"
-                  required
-                />
-              </div>
+              {/* Surname */}
+              <Input
+                label="Surname"
+                name="surname"
+                icon={Smile}
+                onChange={handleChange}
+                placeholder="e.g. Doe"
+              />
             </div>
 
             {/* Username */}
-            <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Username</label>
-              <div className="relative">
-                <User className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                <input
-                  type="text"
-                  name="username"
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="Choose a username"
-                  required
-                />
-              </div>
-            </div>
+            <Input
+              label="Username"
+              name="username"
+              icon={User}
+              onChange={handleChange}
+              placeholder="Choose a username"
+            />
 
             {/* Email */}
-            <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                <input
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="Email Address"
-                  required
-                />
-              </div>
-            </div>
+            <Input
+              label="Email"
+              icon={Mail}
+              type="email"
+              name="email"
+              onChange={handleChange}
+              placeholder="alex@example.com"
+            />
 
             {/* Password */}
-            <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                <input
-                  type="password"
-                  name="password"
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
+            <Input
+              label="Password"
+              icon={Lock}
+              type="password"
+              name="password"
+              onChange={handleChange}
+              placeholder="••••••••"
+            />
 
             {/* Confirm Password */}
-            <div>
-              <label className="block font-bold text-gray-900 mb-1 ml-1 text-sm">Confirm Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="Confirm Password"
-                  required
-                />
-              </div>
-            </div>
+            <Input
+              label="Confirm Password"
+              icon={Lock}
+              type="password"
+              name="confirmPassword"
+              onChange={handleChange}
+              placeholder="Confirm Password"
+            />
 
             {/* Display Error Message */}
             {error && (

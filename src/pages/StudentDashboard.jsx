@@ -1,33 +1,36 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserCircle, Cat, Brain, CirclePoundSterling } from 'lucide-react';
+import { UserCircle, Brain, CirclePoundSterling } from 'lucide-react';
 import { getUser } from '../services/api';
 import Button from '../components/Button'
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
 import BottomNav from '../components/BottomNav';
+import Avatar from '../components/Avatar';
+import AccountModal from '../components/AccountModal';
 import { subjectThemes } from '../constants/subjectThemes';
 
 const StudentDashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
 
     // Requires Commenting
     useEffect(() => {
         const loadData = async () => {
-            const storedId = localStorage.getItem("userID");
+            const storedID = localStorage.getItem("userID");
 
-            if (!storedId || storedId === "undefined") {
+            if (!storedID || storedID === "undefined") {
                 console.warn("No user ID found, redirecting to login...");
                 navigate('/login');
                 return;
             }
 
             try {
-                const userData = await getUser(storedId);
+                const userData = await getUser(storedID);
                 setUser(userData);
-            } catch (err) {
-                console.error("Error fetching user:", err);
+            } catch (error) {
+                console.error("Error fetching user:", error);
             }
         };
         loadData();
@@ -40,7 +43,6 @@ const StudentDashboard = () => {
     return (
         <div id="StudentDashboard" className="min-h-screen bg-gray-50 font-sans pb-24">
             {/* --- HEADER --- */}
-            {/*"fixed top-0 w-full bg-white p-4 border-b border-gray-200 z-10" */}
             <header className="bg-white p-4 border-b border-gray-200 sticky z-10">
                 <div className="max-w-4xl mx-auto flex justify-between items-center">
                     {/* Coin Counter */}
@@ -58,10 +60,19 @@ const StudentDashboard = () => {
                     {/* User Profile */}
                     <div className="flex items-center gap-3">
                         <span className="text-lg font-medium text-gray-700">{user.username}</span>
-                        <UserCircle size={40} className="text-gray-800" onClick={() => navigate('/login')} />
+                        {/* <UserCircle size={40} className="text-gray-800" onClick={() => navigate('/account')} /> */}
+                        <UserCircle size={40} className="text-gray-800" onClick={() => setIsAccountOpen(true)} />
                     </div>
                 </div>
             </header>
+
+            {/* --- ACCOUNT MODAL --- */}
+            <AccountModal
+                user={user}
+                isOpen={isAccountOpen}
+                onClose={() => setIsAccountOpen(false)}
+                onUserUpdate={(updatedUser) => setUser(updatedUser)} // Instantly updates the dashboard
+            />
 
             {/* --- MAIN CONTENT --- */}
             <main className="max-w-4xl mx-auto p-6 space-y-6">
@@ -69,7 +80,7 @@ const StudentDashboard = () => {
                     {/* 1. The Greeting Card (Span 2 columns) */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <div className="w-24 h-24 flex items-center justify-center">
-                            <Cat className='fill-amber-400' size={128} strokeWidth={1.5} />
+                            <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.firstName}!</h1>
@@ -106,7 +117,9 @@ const StudentDashboard = () => {
             </main>
 
             {/* --- BOTTOM NAVIGATION --- */}
-            <BottomNav activePage="home" />
+            {!isAccountOpen && (
+                <BottomNav activePage="home" />
+            )}
         </div>
     )
 }

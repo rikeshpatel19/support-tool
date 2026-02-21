@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TopicCard from '../components/TopicCard';
 import { getUser, getSubjectById, getResultsByUser } from '../services/api';
 import Header from '../components/Header';
+import { getSubjectTheme } from '../constants/subjectThemes';
 
 const SubjectPage = () => {
   const { subjectID } = useParams(); // Reads from the URL
@@ -13,6 +14,8 @@ const SubjectPage = () => {
   const [loading, setLoading] = useState(true);
   // State to store all user results
   const [results, setResults] = useState([]);
+  // Get the theme based on the URL ID
+  const theme = getSubjectTheme(subjectID);
 
   useEffect(() => {
     const loadData = async () => {
@@ -78,6 +81,7 @@ const SubjectPage = () => {
                 key={topic.id}
                 name={topic.name}
                 status={getBadgeStatus(topic.id)}
+                theme={theme}
                 onClick={() => navigate(`/quiz/${subjectID}/${topic.id}`)}
               />
             ))}
@@ -93,6 +97,7 @@ const SubjectPage = () => {
                 key={challenge.id}
                 name={challenge.name}
                 status={getBadgeStatus(challenge.id)}
+                theme={theme}
                 onClick={() => navigate(`/quiz/${subjectID}/${challenge.id}`)}
               />
             ))}

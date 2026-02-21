@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     bestPercentage: { type: Number, default: 0 }
   }],
   // Avatar that the user can customise
-  avatar: { type: String, default: 'cat_mascot' },
+  avatar: { type: String, default: 'Cat' },
   // An array to store the figures that a user has collected
   inventory: { type: [String], default: [] }
 });

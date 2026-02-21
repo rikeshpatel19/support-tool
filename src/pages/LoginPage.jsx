@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { User, Lock } from 'lucide-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
+import Input from '../components/Input';
 import { loginUser } from '../services/api';
 
 const LoginPage = ({ setUser }) => {
    const navigate = useNavigate();
+   // State for the error message
+   const [error, setError] = useState("");
 
    // Requires Commenting
    const [formData, setFormData] = useState({ username: '', password: '' });
@@ -17,6 +20,8 @@ const LoginPage = ({ setUser }) => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+      // Clear previous errors
+      setError("");
       try {
          const { username, password } = formData;
          const userData = await loginUser({ username, password });
@@ -24,19 +29,17 @@ const LoginPage = ({ setUser }) => {
          setUser(userData);
          navigate('/sd');
          console.log("Logged in as:", userData.username);
-      } catch (err) {
-         console.error(err);
-         alert("Login failed: " + err.message);
+      } catch (error) {
+         console.error(error);
+         setError(error.message);
       }
    };
 
    return (
       <div className="min-h-screen bg-blue-50 flex items-center justify-center p-6">
-
          <div className="max-w-md w-full">
             {/* Main Card */}
             <Card className="p-8">
-
                {/* Header */}
                <div className="text-center mb-8">
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-400 border-2 border-black rounded-full mb-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -48,40 +51,33 @@ const LoginPage = ({ setUser }) => {
 
                {/* Form */}
                <form onSubmit={handleSubmit} className="space-y-5">
-
                   {/* Username Field */}
-                  <div>
-                     <label className="block font-bold text-gray-900 mb-2 ml-1">Username</label>
-                     <div className="relative">
-                        <User className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                        <input
-                           type="text"
-                           name="username"
-                           value={formData.username}
-                           onChange={handleChange}
-                           className="input-field"
-                           placeholder="Enter your username"
-                           required
-                        />
-                     </div>
-                  </div>
+                  <Input
+                     label="Username"
+                     name="username"
+                     value={formData.username}
+                     icon={User}
+                     onChange={handleChange}
+                     placeholder="Enter your username"
+                  />
 
                   {/* Password Field */}
-                  <div>
-                     <label className="block font-bold text-gray-900 mb-2 ml-1">Password</label>
-                     <div className="relative">
-                        <Lock className="absolute left-3 top-3.5 text-gray-500" size={20} />
-                        <input
-                           type="password"
-                           name="password"
-                           value={formData.password}
-                           onChange={handleChange}
-                           className="input-field"
-                           placeholder="••••••••"
-                           required
-                        />
-                     </div>
-                  </div>
+                  <Input
+                     label="Password"
+                     icon={Lock}
+                     type="password"
+                     name="password"
+                     value={formData.password}
+                     onChange={handleChange}
+                     placeholder="••••••••"
+                  />
+
+                  {/* Display Error Message */}
+                  {error && (
+                     <p className="text-red-500 font-bold text-sm text-center bg-red-50 p-2 rounded-lg border border-red-200">
+                        {error}
+                     </p>
+                  )}
 
                   {/* Log In Button */}
                   <div className="pt-2">
@@ -91,7 +87,6 @@ const LoginPage = ({ setUser }) => {
                   <p className="text-center text-gray-500 text-sm font-medium mt-6">
                      Don't have an account? <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate('/register')}>Ask your Parent</span>
                   </p>
-
                </form>
             </Card>
          </div>

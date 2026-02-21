@@ -64,7 +64,7 @@ router.post('/register', async (request, response) => {
       password,
       points: 0, // New students start with zero points
       completedQuizzes: [],
-      avatar: 'cat_mascot', // Default starter avatar
+      avatar: 'Cat', // Default starter avatar
       inventory: [] // Empty inventory to start
     });
     // Save the new user to MongoDB Atlas
@@ -75,6 +75,32 @@ router.post('/register', async (request, response) => {
     // Handle server or database connection errors
     response.status(500).json({ message: "Registration failed: " + error.message });
   }
+});
+
+// Update users account details 
+router.patch('/:id/update-profile', async (request, response) => {
+    try {
+      // Destructures the results sent from the Account Modal
+        const { username, email, avatar } = request.body;
+        // Searches the database for the user by ID and applies the new data fields
+        const updatedUser = await User.findByIdAndUpdate(
+            request.params.id, // The ID extracted from the URL
+            { username, email, avatar }, // The new values to be saved in the database
+            { 
+              new: true, // Returns the updated document
+              runValidators: true // Forces Mongoose to check if the new data follows Schema rules
+            } 
+        );
+        // If the ID doesn't exist in the database, stop and return a 404 error
+        if (!updatedUser) {
+            return response.status(404).json({ message: "User not found" });
+        } 
+        // Sends the updated user object back to the frontend to refresh the UI
+        response.json(updatedUser);
+    } catch (error) {
+      // If database fails, return a 500 server error
+        response.status(500).json({ message: error.message });
+    }
 });
 
 // Add points and record completed quiz
