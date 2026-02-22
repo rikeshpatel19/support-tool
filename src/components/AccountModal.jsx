@@ -81,7 +81,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
         // Clears the local session
         localStorage.removeItem("userID");
         // Force refresh to clear all states
-        window.location.href = "/login";
+        window.location.href = "/";
     };
 
     return (

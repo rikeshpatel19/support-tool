@@ -342,7 +342,7 @@ const QuizPage = () => {
             <PauseCircle size={32} strokeWidth={2} />
           </button>
           <span className="font-bold text-xl capitalize">
-            <span>{currentSubject.title}:</span> {displayTopic}
+            <span style={{color: theme.primary}}>{currentSubject.title}:</span> {displayTopic}
           </span>
         </div>
         {/* Centre: Progress Bar */}
