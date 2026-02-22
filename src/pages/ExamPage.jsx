@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import Span from '../components/Span';
 import ExamResults from '../components/ExamResults';
 // Import API service functions to fetch data
-import { getExamQuestions, saveQuizProgress, getQuizProgress } from '../services/api';
+import { getExamQuestions, finaliseQuizResults } from '../services/api';
 
 const ExamPage = () => {
   const navigate = useNavigate();
@@ -105,6 +105,13 @@ const ExamPage = () => {
   // Calculate the percentage for the progress bar width
   const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
 
+  // Calculate score based on all answers
+  const score = questions.reduce((totalScore, currentQuestion, qIndex) => 
+    userAnswers[qIndex] === currentQuestion.correct_option ? totalScore + 1 : totalScore, 0
+  );
+  // Calculate total percentage to determine grade
+  const percentage = Math.round((score / questions.length) * 100);
+
   // --- EVENT HANDLERS ---
   // Handle when a user clicks the exit button
   const handleQuitRequest = () => {
@@ -121,8 +128,20 @@ const ExamPage = () => {
 
   // Handle when the timer hits 00:00
   const handleAutoSubmit = async () => {
-    // Submit whatever answers they have so far
-    setIsFinished(true);
+    const storedID = localStorage.getItem("userID");
+    if (storedID) {
+      try {
+        await finaliseQuizResults(storedID, examID, {
+          score: score,
+          totalQuestions: questions.length,
+          percentage: percentage,
+        });
+        console.log("Result saved cleared!");
+      } catch (error) {
+        console.error("Failed to finalize results:", error);
+      }
+      setIsFinished(true);
+    }
   };
 
   // Handle clicking the "Next" button
@@ -137,6 +156,7 @@ const ExamPage = () => {
         setQuestionPage(nextPage);
       }
     } else {
+      handleAutoSubmit();
       setIsFinished(true);
     }
   };

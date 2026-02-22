@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TopicCard from '../components/TopicCard';
-import { getUser, getSubjectById, getResultsByUser } from '../services/api';
+import { getUser, getSubjectById, getQuizProgress } from '../services/api';
 import Header from '../components/Header';
 import { getSubjectTheme } from '../constants/subjectThemes';
 
@@ -11,27 +11,47 @@ const SubjectPage = () => {
 
   const [currentSubject, setCurrentSubject] = useState(null);
   const [user, setUser] = useState(null);
+  const [topicProgressMap, setTopicProgressMap] = useState({}); // Store as { topicID: percentage }
   const [loading, setLoading] = useState(true);
-  // State to store all user results
-  const [results, setResults] = useState([]);
   // Get the theme based on the URL ID
   const theme = getSubjectTheme(subjectID);
 
   useEffect(() => {
-    const loadData = async () => {
-      const storedID = localStorage.getItem("userID");
-      const [subjectData, userData, resultsData] = await Promise.all([
-        getSubjectById(subjectID),
-        getUser(storedID),
-        getResultsByUser(storedID)
-      ]);
-      setCurrentSubject(subjectData);
-      setUser(userData);
-      setResults(resultsData);
-      setLoading(false); // Stop loading
-    };
+    const loadAllData = async () => {
+      setLoading(true);
+      try {
+        const storedID = localStorage.getItem("userID");
+        const [subjectData, userData] = await Promise.all([
+          getSubjectById(subjectID),
+          getUser(storedID)
+        ]);
+        setCurrentSubject(subjectData);
+        setUser(userData);
 
-    loadData();
+        // Fetch all user progress for topics and challenges
+        if (storedID && subjectData) {
+          const allItems = [...subjectData.topics, ...subjectData.challenges];
+          const progressData = {};
+
+          await Promise.all(
+            allItems.map(async (item) => {
+              try {
+                const saved = await getQuizProgress(storedID, item.id);
+                progressData[item.id] = saved?.progressPercent || 0;
+              } catch (err) {
+                progressData[item.id] = 0;
+              }
+            })
+          );
+          setTopicProgressMap(progressData);
+        }
+      } catch (error) {
+        console.error("Error loading Subject Page:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadAllData();
   }, [subjectID]);
 
   const getBadgeStatus = (topicID) => {
@@ -82,6 +102,7 @@ const SubjectPage = () => {
                 name={topic.name}
                 status={getBadgeStatus(topic.id)}
                 theme={theme}
+                progress={topicProgressMap[topic.id] || 0}
                 onClick={() => navigate(`/quiz/${subjectID}/${topic.id}`)}
               />
             ))}
@@ -98,6 +119,7 @@ const SubjectPage = () => {
                 name={challenge.name}
                 status={getBadgeStatus(challenge.id)}
                 theme={theme}
+                progress={topicProgressMap[challenge.id] || 0}
                 onClick={() => navigate(`/quiz/${subjectID}/${challenge.id}`)}
               />
             ))}

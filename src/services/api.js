@@ -115,6 +115,7 @@ export const saveQuizProgress = async (userID, topicID, data) => {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+            progressPercent: data.progress,
             userAnswers: data.userAnswers,
             currentQuestionIndex: data.currentQuestionIndex,
             isCompleted: false

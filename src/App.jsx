@@ -20,8 +20,8 @@ function App() {
 
   useEffect(() => {
     const initUser = async () => {
-      // Attempts to find a userID in local storage, fallback ID prevents the app from crashing
-      const userID = localStorage.getItem("userID") || "6982319c0085bc676ec4c938";
+      // Attempts to find a userID in local storage
+      const userID = localStorage.getItem("userID");
       // Get the user profile for this specfic userID
       const data = await getUser(userID);
       // If the data exists, update the global state so all pages can see it

@@ -64,12 +64,13 @@ router.get('/users/:userID/progress/:topicID', async (request, response) => {
 // PATCH Saved Progress (Saving)
 router.patch('/users/:userID/progress/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
-  const { userAnswers, currentQuestionIndex, isCompleted } = request.body;
+  const { progressPercent, userAnswers, currentQuestionIndex, isCompleted } = request.body;
 
   try {
     const progress = await Progress.findOneAndUpdate(
       { userID, topicID },
       { 
+        progressPercent,
         userAnswers, 
         currentQuestionIndex, 
         isCompleted, 

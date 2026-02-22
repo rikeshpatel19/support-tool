@@ -8,12 +8,15 @@ import Badge from '../components/Badge';
 import Avatar from '../components/Avatar';
 // Import API service functions to fetch data
 import { getUser, getQuestions, completeQuiz, getSubjectById, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
+import { getSubjectTheme } from '../constants/subjectThemes';
 
 const QuizPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   // Extract subjectID and topicID from the URL
   const { subjectID, topicID } = useParams();
+  // Get the theme based on the URL ID
+  const theme = getSubjectTheme(subjectID);
 
   // --- STATE MANAGEMENT ---
   // State to store current subject
@@ -206,11 +209,14 @@ const QuizPage = () => {
     setIsPaused(false);
   };
 
+  const progress = ((Object.keys(userAnswers).length) / questions.length) * 100;
+
   // "Save progress" and navigate back to the previous page
   const handleSaveAndExit = async () => {
     const storedID = localStorage.getItem("userID");
     try {
       await saveQuizProgress(storedID, topicID, {
+        progress,
         userAnswers,
         currentQuestionIndex
       });
@@ -272,10 +278,10 @@ const QuizPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans flex flex-col">
+    <div className="min-h-screen font-sans flex flex-col" style={{backgroundColor: theme.secondary}}>
       {/* Pause Menu Overlay */}
       {isPaused && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-500/30 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm animate-in fade-in duration-200">
           {/* The Menu Card */}
           <Card className='w-100 h-100'>
             <h2 className="text-3xl text-center font-black mb-15">Paused</h2>
@@ -342,7 +348,7 @@ const QuizPage = () => {
         {/* Centre: Progress Bar */}
         <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-1/3 h-4 bg-gray-200 rounded-full border-2 border-black overflow-hidden">
           {/* The inner filling bar that changes width based on progressPercent */}
-          <div className="h-full bg-gray-800 transition-all duration-300" style={{ width: `${progressPercent}%` }} />
+          <div className="h-full bg-gray-800 transition-all duration-300" style={{ width: `${progressPercent}%`, backgroundColor: theme.primary }} />
         </div>
         {/* Right: Coin Counter */}
         <div className="flex items-center group animate-in fade-in zoom-in duration-300">
@@ -360,13 +366,14 @@ const QuizPage = () => {
       {/* MAIN CONTENT */}
       <main className="flex-1 max-w-4xl mx-auto w-full p-6 flex flex-col gap-6">
         {/* The Big Question Card */}
-        <div className="border-2 border-black rounded-3xl p-8 min-h-75 relative flex flex-col justify-between">
+        <div className="bg-white border-2 border-black rounded-3xl p-8 min-h-75 relative flex flex-col justify-between">
           <div className="flex justify-between items-start">
             {/* Question Text */}
-            <h2 className="text-2xl md:text-3xl font-bold leading-tight max-w-2xl">
-              <span className="text-4xl mr-3">{currentQuestionIndex + 1}</span>
+            <h2 className="text-2xl md:text-3xl leading-tight max-w-2xl">
+              <span className="font-bold text-4xl mr-3" style={{color: theme.primary}}>{currentQuestionIndex + 1}</span>
               {question.question_text}
             </h2>
+            <h3></h3>
             {/* Mascot / Feedback Area */}
             <div className="hidden md:flex flex-col items-center">
               {/* Cat Placeholder */}
@@ -474,7 +481,7 @@ const QuizPage = () => {
                     // Jump directly to this specific question when the number is clicked
                     onClick={() => handleJumpToQuestion(actualIndex)}
                     className={`${isCurrent
-                      ? 'bg-purple-300 text-white!' // Current Question
+                      ? 'bg-purple-300 text-white!'  // Current Question
                       : isAnswered
                         ? 'bg-yellow-200 text-yellow-400 border-yellow-400' // Answered Question
                         : 'bg-white text-gray-400 border-gray-400' // Skipped Question
