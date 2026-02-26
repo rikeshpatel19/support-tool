@@ -20,6 +20,7 @@ const PassageModal = ({ isOpen, onClose, title, author, synopsis, text }) => {
 
         {/* Content */}
         <div className="p-6 overflow-y-auto leading-relaxed">
+          <h3 className="text-lg mb-2">Read this passage carefully, then answer the questions</h3>
           <h1 className="whitespace-pre-wrap text-bold text-3xl">{title}</h1>
           <h2 className="whitespace-pre-wrap mb-2 font-bold text-lg">by {author}</h2>
           <div className="whitespace-pre-wrap mb-2 p-2 italic text-lg border-2 border-black rounded-xl">{synopsis}</div>

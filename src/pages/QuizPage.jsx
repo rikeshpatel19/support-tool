@@ -46,7 +46,7 @@ const QuizPage = () => {
   // State to store passage text if it exists
   const [passage, setPassage] = useState(null);
   // Determines if the text passage is open or not
-  const [isPassageOpen, setIsPassageOpen] = useState(false);
+  const [isPassageOpen, setIsPassageOpen] = useState(true);
 
   // --- LOAD DATA ---
   // Requires Commenting
