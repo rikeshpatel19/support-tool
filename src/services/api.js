@@ -111,39 +111,52 @@ export const purchaseItem = async (userID, itemID, price) => {
 
 // Function to save partial progress
 export const saveQuizProgress = async (userID, topicID, data) => {
-    const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            progressPercent: data.progress,
-            userAnswers: data.userAnswers,
-            currentQuestionIndex: data.currentQuestionIndex,
-            isCompleted: false
-        }),
-    });
-    return response.json();
+  const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      subjectID: data.subjectID,
+      progressPercent: data.progress,
+      userAnswers: data.userAnswers,
+      currentQuestionIndex: data.currentQuestionIndex,
+      isCompleted: false
+    }),
+  });
+  return response.json();
 };
 
 // Function to fetch saved progress when the page loads
 export const getQuizProgress = async (userID, topicID) => {
-    try {
-        const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`);
-        if (!response.ok) return null; // Return null if no progress exists yet
-        return await response.json();
-    } catch (err) {
-        console.error("Fetch progress error:", err);
-        return null;
-    }
+  try {
+    const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`);
+    if (!response.ok) return null; // Return null if no progress exists yet
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch progress error:", error);
+    return null;
+  }
+};
+
+// Function to fetch all saved progress assosciated with a user for a specfic subject
+export const getSubjectProgress = async (userID, subjectID) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${userID}/progress/subject/${subjectID}`);
+    if (!response.ok) return []; // Returns an empty array if no progress exists
+    return await response.json(); // Returns an array of progress objects
+  } catch (error) {
+    console.error("Error fetching all progress for subject:", error);
+    return [];
+  }
 };
 
 // Function to save a fully completed quiz
 export const finaliseQuizResults = async (userID, topicID, data) => {
-    const response = await fetch(`${API_URL}/users/${userID}/results/${topicID}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    });
-    return response.json();
+  const response = await fetch(`${API_URL}/users/${userID}/results/${topicID}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  return response.json();
 };
 
 // Get all the results for a single user
@@ -155,15 +168,15 @@ export const getResultsByUser = async (userID) => {
 
 // Update Account Details
 export const updateProfile = async (userID, userData) => {
-    const response = await fetch(`${API_URL}/users/${userID}/update-profile`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-    });
-    // Checks if the server responded with an error code
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update profile');
-    }
-    return response.json();
+  const response = await fetch(`${API_URL}/users/${userID}/update-profile`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData),
+  });
+  // Checks if the server responded with an error code
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to update profile');
+  }
+  return response.json();
 };

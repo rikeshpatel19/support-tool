@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import Span from '../components/Span';
 import Badge from '../components/Badge';
 import Avatar from '../components/Avatar';
+import PassageModal from '../components/PassageModal';
 // Import API service functions to fetch data
 import { getUser, getQuestions, completeQuiz, getSubjectById, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
 import { getSubjectTheme } from '../constants/subjectThemes';
@@ -42,6 +43,11 @@ const QuizPage = () => {
   // Fixed limit of 10 question numbers to display at one time
   const questionsPerPage = 10;
 
+  // State to store passage text if it exists
+  const [passage, setPassage] = useState(null);
+  // Determines if the text passage is open or not
+  const [isPassageOpen, setIsPassageOpen] = useState(false);
+
   // --- LOAD DATA ---
   // Requires Commenting
   useEffect(() => {
@@ -58,6 +64,9 @@ const QuizPage = () => {
         if (userData && quizData && subjectData) {
           setUser(userData);
           setQuestions(quizData.questions);
+          if (quizData.passage) {
+            setPassage(quizData.passage);
+          }
           setCurrentSubject(subjectData);
           // Combine both arrays to search the whole subject data
           const allContent = [...(subjectData.topics || []), ...(subjectData.challenges || [])];
@@ -216,6 +225,7 @@ const QuizPage = () => {
     const storedID = localStorage.getItem("userID");
     try {
       await saveQuizProgress(storedID, topicID, {
+        subjectID,
         progress,
         userAnswers,
         currentQuestionIndex
@@ -278,24 +288,27 @@ const QuizPage = () => {
   };
 
   return (
-    <div className="min-h-screen font-sans flex flex-col" style={{backgroundColor: theme.secondary}}>
+    <div className="min-h-screen font-sans flex flex-col" style={{ backgroundColor: theme.secondary }}>
       {/* Pause Menu Overlay */}
       {isPaused && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm animate-in fade-in duration-200">
-          {/* The Menu Card */}
-          <Card className='w-100 h-100'>
-            <h2 className="text-3xl text-center font-black mb-15">Paused</h2>
-            <div className="space-y-4">
-              {/* Resume Button */}
-              <Button variant="black" onClick={handleResume} className="w-full justify-center p-2">
-                <Play size={20} className="mr-2 fill-white" /> Resume
-              </Button>
-              {/* Save & Exit Button */}
-              <Button variant="secondary" onClick={handleSaveAndExit} className="w-full justify-center">
-                <Save size={20} className="mr-2" /> Save & Exit
-              </Button>
-            </div>
-          </Card>
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="max-w-xl w-full relative">
+
+            {/* The Menu Card */}
+            <Card>
+              <h2 className="text-2xl mb-6 text-center font-bold">Paused</h2>
+              <div className="space-y-4 py-4">
+                {/* Resume Button */}
+                <Button variant="black" onClick={handleResume} className="w-full h-14 text-lg">
+                  <Play size={20} className="mr-2 fill-white" /> Resume
+                </Button>
+                {/* Save & Exit Button */}
+                <Button variant="secondary" onClick={handleSaveAndExit} className="w-full h-14 text-lg">
+                  <Save size={20} className="mr-2" /> Save & Exit
+                </Button>
+              </div>
+            </Card>
+          </div>
         </div>
       )}
       {/* Quiz Completion Overlay */}
@@ -342,7 +355,7 @@ const QuizPage = () => {
             <PauseCircle size={32} strokeWidth={2} />
           </button>
           <span className="font-bold text-xl capitalize">
-            <span style={{color: theme.primary}}>{currentSubject.title}:</span> {displayTopic}
+            <span style={{ color: theme.primary }}>{currentSubject.title}:</span> {displayTopic}
           </span>
         </div>
         {/* Centre: Progress Bar */}
@@ -350,6 +363,15 @@ const QuizPage = () => {
           {/* The inner filling bar that changes width based on progressPercent */}
           <div className="h-full bg-gray-800 transition-all duration-300" style={{ width: `${progressPercent}%`, backgroundColor: theme.primary }} />
         </div>
+        {/* Conditional Passage Button */}
+        {passage && (
+          <Button
+            onClick={() => setIsPassageOpen(true)}
+            className="absolute right-60 max-w-30 text-xs"
+          >
+            View Passage
+          </Button>
+        )}
         {/* Right: Coin Counter */}
         <div className="flex items-center group animate-in fade-in zoom-in duration-300">
           {/* Pound Icon */}
@@ -370,10 +392,10 @@ const QuizPage = () => {
           <div className="flex justify-between items-start">
             {/* Question Text */}
             <h2 className="text-2xl md:text-3xl leading-tight max-w-2xl">
-              <span className="font-bold text-4xl mr-3" style={{color: theme.primary}}>{currentQuestionIndex + 1}</span>
+              <span className="font-bold text-4xl mr-3" style={{ color: theme.primary }}>{currentQuestionIndex + 1}</span>
               {question.question_text}
             </h2>
-            <h3></h3>
+
             {/* Mascot / Feedback Area */}
             <div className="hidden md:flex flex-col items-center">
               {/* Cat Placeholder */}
@@ -518,6 +540,18 @@ const QuizPage = () => {
           {currentQuestionIndex + 1 === questions.length ? "Finish" : "Next"}
         </Button>
       </footer>
+
+      {/* Only renders the component if the passage object exists and is open */}
+      {isPassageOpen && passage && (
+        <PassageModal
+          isOpen={isPassageOpen}
+          onClose={() => setIsPassageOpen(false)}
+          title={passage.title}
+          author={passage.author}
+          synopsis={passage.synopsis}
+          text={passage.text}
+        />
+      )}
     </div>
   );
 };

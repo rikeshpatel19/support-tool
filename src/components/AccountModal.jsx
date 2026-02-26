@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, LogOut, User, Mail, Cat, Dog, Bird, Check, Origami } from 'lucide-react';
 import Button from './Button';
 import Card from './Card';
@@ -6,6 +7,7 @@ import Input from './Input';
 import { updateProfile } from '../services/api';
 
 const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
+    const navigate = useNavigate();
     // Stores the text input values for the form
     const [formData, setFormData] = useState({ username: '', email: '', avatar: '' });
     // Tracks which icon is currently selected
@@ -77,16 +79,18 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
     };
 
     // Deals with logging out of the system
-    const handleSignOut = () => {
+    const handleLogOut = () => {
+        // Navigate to start page
+        navigate('/');
         // Clears the local session
         localStorage.removeItem("userID");
-        // Force refresh to clear all states
-        window.location.href = "/";
+        // Success message
+        console.log("Logged Out successfully");
     };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-            <div className="max-w-xl w-full relative animate-in fade-in zoom-in duration-200">
+            <div className="max-w-xl w-full relative">
                 {/* X (Close) Button */}
                 <button
                     onClick={onClose}
@@ -110,13 +114,13 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                                 Edit Account Details
                                 <User size={20} />
                             </Button>
-                            {/* Sign Out Button */}
+                            {/* Log Out Button */}
                             <Button
-                                onClick={handleSignOut}
+                                onClick={handleLogOut}
                                 variant="red"
                                 className="w-full justify-between h-14 text-lg"
                             >
-                                Sign Out
+                                Log Out
                                 <LogOut size={20} />
                             </Button>
                         </div>
@@ -201,7 +205,10 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                             </div>
                             {/* Back Button */}
                             <Button
-                                onClick={() => setView('menu')}
+                                onClick={() => {
+                                    handleReset();
+                                    setView('menu');
+                                }}
                                 variant="primary"
                                 className="flex-1 justify-center"
                             >

@@ -43,7 +43,8 @@ const TestPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {subject.exams.map((exam) => (
                   <button
-                    onClick={() => navigate(`/test/${subjectID}/${exam.id}`)}
+                  key={exam.id}  
+                  onClick={() => navigate(`/test/${subjectID}/${exam.id}`)}
                     style={{
                       backgroundColor: theme.secondary,
                       borderColor: theme.primary,

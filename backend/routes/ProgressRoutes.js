@@ -3,7 +3,6 @@ const router = express.Router();
 const Progress = require('../models/Progress');
 const Result = require('../models/Result');
 
-// Requires Commenting
 // POST Final Results and Clear Progress
 router.post('/users/:userID/results/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
@@ -33,7 +32,7 @@ router.post('/users/:userID/results/:topicID', async (request, response) => {
     // Delete the temporary progress record
     await Progress.findOneAndDelete({ userID, topicID });
 
-    response.status(201).json({ message: "Result saved (Max 5) and progress cleared", result: newResult });
+    response.status(201).json({ message: "Result saved (Max 20) and progress cleared", result: newResult });
   } catch (error) {
     response.status(500).json({ message: "Error finalising quiz" });
   }
@@ -61,20 +60,32 @@ router.get('/users/:userID/progress/:topicID', async (request, response) => {
   }
 });
 
+// GET All progress for a user for a specfic subject
+router.get('/users/:userID/progress/subject/:subjectID', async (request, response) => {
+  try {
+    const { userID, subjectID } = request.params;
+    const progress = await Progress.find({ userID, subjectID });
+    response.json(progress);
+  } catch (error) {
+    response.status(500).json({ message: "Error fetching subject progress" });
+  }
+});
+
 // PATCH Saved Progress (Saving)
 router.patch('/users/:userID/progress/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
-  const { progressPercent, userAnswers, currentQuestionIndex, isCompleted } = request.body;
+  const { subjectID, progressPercent, userAnswers, currentQuestionIndex, isCompleted } = request.body;
 
   try {
     const progress = await Progress.findOneAndUpdate(
       { userID, topicID },
-      { 
+      {
+        subjectID,
         progressPercent,
-        userAnswers, 
-        currentQuestionIndex, 
-        isCompleted, 
-        lastUpdated: Date.now() 
+        userAnswers,
+        currentQuestionIndex,
+        isCompleted,
+        lastUpdated: Date.now()
       },
       { upsert: true, new: true } // Creates record if missing
     );

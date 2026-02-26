@@ -52,15 +52,15 @@ const RegisterPage = ({ setUser }) => {
   };
 
   return (
-    <div className="min-h-screen bg-yellow-50 flex items-center justify-center p-6 pb-20">
+    <div className="min-h-screen bg-amber-50 flex items-center justify-center p-6 pb-20">
       <div className="max-w-md w-full">
 
         <Card className="p-8">
 
           {/* Header */}
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-400 border-2 border-black rounded-full mb-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <UserPlus size={32} className="text-black" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-200 border-2 border-black rounded-full mb-4 shadow-medium">
+              <UserPlus size={48} className="text-black" />
             </div>
             <h1 className="text-3xl font-black text-gray-900 tracking-tight">Join the Team!</h1>
             <p className="text-gray-500 mt-2 font-medium">Create your student account below.</p>

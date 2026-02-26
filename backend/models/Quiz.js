@@ -18,8 +18,13 @@ const QuizSchema = new mongoose.Schema({
   topicID: { type: String, required: true, unique: true },
   // Subject that the quiz belongs to 
   subject: { type: String, required: true },
-  // Optional string for reading comprehension passages
-  passage_text: { type: String, default: "" },
+  // Optional object for reading comprehension passages
+  passage: {
+    title: { type: String },
+    author: { type: String },
+    synopsis: { type: String},
+    text: { type: String }
+  },
   // An array of question objects
   questions: [QuestionSchema] 
 });

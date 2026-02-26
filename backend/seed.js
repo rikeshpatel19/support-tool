@@ -6,7 +6,6 @@ const quizData = [
   {
     topicID: "mc1",
     subject: "Maths",
-    passage_text: "", // No passage for Maths
     questions: [
       {
         difficulty: 1,
@@ -138,7 +137,6 @@ const quizData = [
   {
     topicID: "mc2",
     subject: "Maths",
-    passage_text: "", // No passage for Maths
     questions: [
       {
         difficulty: 1,
@@ -270,7 +268,6 @@ const quizData = [
   {
     topicID: "mc3",
     subject: "Maths",
-    passage_text: "", // No passage for Maths
     questions: [
       {
         difficulty: 1,
@@ -402,7 +399,13 @@ const quizData = [
   {
     topicID: "enc1",
     subject: "English",
-    passage_text: "", // No passage for Maths
+    passage:
+    {
+      title: "The Swiss Family Robinson",
+      author: "Johann David Wyss",
+      synopsis: "",
+      text: ""
+    },
     questions: [
       {
         difficulty: 1,
@@ -534,7 +537,6 @@ const quizData = [
   {
     topicID: "vrc1",
     subject: "Verbal Reasoning",
-    passage_text: "", // No passage for Maths
     questions: [
       {
         difficulty: 1,
@@ -666,7 +668,6 @@ const quizData = [
   {
     topicID: "nvrc1",
     subject: "Non-Verbal Reasoning",
-    passage_text: "", // No passage for Maths
     questions: [
       {
         difficulty: 1,
