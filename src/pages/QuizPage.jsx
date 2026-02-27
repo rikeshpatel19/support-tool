@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { PauseCircle, Save, Play, ChevronLeft, ChevronRight, CirclePoundSterling } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import Span from '../components/Span';
 import Badge from '../components/Badge';
 import Avatar from '../components/Avatar';
 import PassageModal from '../components/PassageModal';
@@ -18,6 +17,12 @@ const QuizPage = () => {
   const { subjectID, topicID } = useParams();
   // Get the theme based on the URL ID
   const theme = getSubjectTheme(subjectID);
+  // Dictionary to map theme colours to CSS variables
+  const themeStyle = {
+    '--primary': theme.primary,
+    '--secondary': theme.secondary,
+    '--hover': theme.hover
+  };
 
   // --- STATE MANAGEMENT ---
   // State to store current subject
@@ -386,7 +391,7 @@ const QuizPage = () => {
       </header>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 max-w-4xl mx-auto w-full p-6 flex flex-col gap-6">
+      <main className="flex-1 max-w-4xl mx-auto w-full p-6 flex flex-col gap-6" style={themeStyle}>
         {/* The Big Question Card */}
         <div className="bg-white border-2 border-black rounded-3xl p-8 min-h-75 relative flex flex-col justify-between">
           <div className="flex justify-between items-start">
@@ -418,7 +423,7 @@ const QuizPage = () => {
           </div>
 
           {/* Conditional Image Area */}
-          {question?.question_image && (
+          {question.question_image && (
             <div className="w-full flex justify-center mt-2 transition-all duration-300">
               <div className="p-2 max-w-70 md:max-w-xs">
                 <img
@@ -444,8 +449,8 @@ const QuizPage = () => {
                 disabled={!!selectedOption} // Disable after clicking once
                 variant='option_txt'
                 className={getOptionStyle(option)}>
-                {/* The A/B/C/D Label Square */}
-                <Span className={getLabelStyle(option)} varaint='option_txt'>{label}</Span>
+                {/* The A/B/C/D/E Label Square */}
+                <span className={`flex h-8 w-8 items-center justify-center rounded-lg border-2 border-(--primary) bg-(--secondary) font-bold text-(--primary) ${getLabelStyle(option)}`}>{label}</span>
                 {/* The Option Text */}
                 <span className={`font-bold text-lg ${getTextStyle(option)}`}>{option}</span>
               </Button>
@@ -462,13 +467,13 @@ const QuizPage = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="p-4 border-t-2 border-black flex justify-between items-center bg-white sticky bottom-0 z-10">
+      <footer className="p-4 border-t-2 border-black flex justify-between items-center bg-white sticky bottom-0 z-10" style={themeStyle}>
         {/* Left: Previous Button */}
         <Button
           onClick={handlePrevious}
           disabled={currentQuestionIndex === 0}
-          variant='grey'
-          className={`${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-500'}`}
+          variant='themed'
+          className={`${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-(--hover)'}`}
         >
           Previous
         </Button>
@@ -483,7 +488,7 @@ const QuizPage = () => {
               onClick={() => setQuestionPage(Math.max(0, questionPage - 1))}
               // Disable the button if the user is already on the first page
               disabled={questionPage === 0}
-              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage === 0 ? 'opacity-30' : 'hover:bg-purple-100'}`}
+              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage === 0 ? 'opacity-30' : 'hover:bg-(--hover)'}`}
             >
               <ChevronLeft size={20} />
             </button>
@@ -503,9 +508,10 @@ const QuizPage = () => {
                     // Jump directly to this specific question when the number is clicked
                     onClick={() => handleJumpToQuestion(actualIndex)}
                     className={`${isCurrent
-                      ? 'bg-purple-300 text-white!'  // Current Question
+                      ? 'bg-(--primary) text-white!'  // Current Question
                       : isAnswered
                         ? 'bg-yellow-200 text-yellow-400 border-yellow-400' // Answered Question
+                        // ? 'bg-(--secondary) text-(--primary) border-(--primary)!' // Debating if I like this
                         : 'bg-white text-gray-400 border-gray-400' // Skipped Question
                       }`}
                   >
@@ -521,7 +527,7 @@ const QuizPage = () => {
               onClick={() => setQuestionPage(Math.min(totalPages - 1, questionPage + 1))}
               // Disable the button if the user has reached the last available page
               disabled={questionPage >= totalPages - 1}
-              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage >= totalPages - 1 ? 'opacity-30' : 'hover:bg-purple-100'}`}
+              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage >= totalPages - 1 ? 'opacity-30' : 'hover:bg-(--hover)'}`}
             >
               <ChevronRight size={20} />
             </button>
@@ -534,8 +540,8 @@ const QuizPage = () => {
         {/* Right: Next Button */}
         <Button
           onClick={handleNext}
-          variant='grey'
-          className='hover:bg-gray-500'
+          variant='themed'
+          className='hover:bg-(--hover)'
         >
           {currentQuestionIndex + 1 === questions.length ? "Finish" : "Next"}
         </Button>

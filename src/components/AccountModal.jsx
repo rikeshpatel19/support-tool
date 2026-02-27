@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, LogOut, User, Mail, Cat, Dog, Bird, Check, Origami } from 'lucide-react';
+// import { Butterfly } from 'phosphor-react';
 import Button from './Button';
 import Card from './Card';
 import Input from './Input';
@@ -38,6 +39,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
         { name: 'Dog', icon: Dog, color: '' },
         { name: 'Bird', icon: Bird, color: '' },
         { name: 'Origami', icon: Origami, color: '' },
+        // { name: 'Butterfly', icon: Butterfly, color: '' }
     ];
 
     // Updates formData whenever a student changes anything

@@ -9,34 +9,13 @@ const ShelfPage = () => {
   const [user, setUser] = useState(null);
   // State to hold all collectibles
   const [allCollectibles, setAllCollectibles] = useState([]);
-  // Call API to get user data
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     const userData = await getUser();
-  //     setUser(userData);
-  //   };
-  //   loadData();
-  // }, []); // The empty array ensures this only runs once
-
-  // Requires Commenting
-//   useEffect(() => {
-//   const loadData = async () => {
-//     const storedId = localStorage.getItem("userID");
-    
-//     if (storedId) {
-//       const userData = await getUser(storedId);
-//       setUser(userData); // This will now contain the real inventory from Atlas
-//     }
-//   };
-//   loadData();
-// }, []); // The empty array ensures this only runs once
 
   useEffect(() => {
     const loadData = async () => {
-      const storedId = localStorage.getItem("userID");
-      if (storedId) {
+      const storedID = localStorage.getItem("userID");
+      if (storedID) {
         const [userData, collectiblesData] = await Promise.all([
-          getUser(storedId),
+          getUser(storedID),
           getAllCollectibles()
         ]);
         setUser(userData);
@@ -44,7 +23,7 @@ const ShelfPage = () => {
       }
     };
     loadData();
-  }, []);
+  }, []); // The empty array ensures this only runs once
 
   // If user data or collectibles have not loaded yet, display a simple loading message
   if (!user || allCollectibles.length === 0) return <div className="p-10 text-center font-bold">Loading Shelf...</div>;

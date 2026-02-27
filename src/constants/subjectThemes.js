@@ -10,6 +10,8 @@ export const subjectThemes = {
     primary: '#0BA3AC',
     // Secondary Colour
     secondary: '#E0F2F3',
+    // Hover Colour
+    hover: '#14d6e0',
     // Shadow Colour
     shadow: '4px 4px 0px 0px #087d85',
     // Icon
@@ -24,6 +26,8 @@ export const subjectThemes = {
     primary: '#CB4183',
     // Secondary Colour
     secondary: '#F8E7EF',
+    // Hover Colour
+    hover: '#ED519B',
     // Shadow Colour
     shadow: '4px 4px 0px 0px #a13468',
     // Icon
@@ -38,6 +42,8 @@ export const subjectThemes = {
     primary: '#82BF00',
     // Secondary Colour
     secondary: '#EEF7DE',
+    // Hover Colour
+    hover: '#9FE802',
     // Shadow Colour
     shadow: '4px 4px 0px 0px #669600',
     // Icon
@@ -52,6 +58,8 @@ export const subjectThemes = {
     primary: '#FE9335',
     // Secondary Colour
     secondary: '#FEECB7',
+    // Hover Colour
+    hover: '#FCA558',
     // Shadow Colour
     shadow: '4px 4px 0px 0px #d47b2c',
     // Icon

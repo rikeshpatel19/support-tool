@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Clock, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import Button from '../components/Button';
-import Span from '../components/Span';
 import ExamResults from '../components/ExamResults';
 // Import API service functions to fetch data
 import { getExamQuestions, finaliseQuizResults } from '../services/api';
@@ -255,7 +254,7 @@ const ExamPage = () => {
           </div>
 
           {/* Conditional Image Area */}
-          {question?.question_image && (
+          {question.question_image && (
             <div className="w-full flex justify-center mt-2 transition-all duration-300">
               <div className="p-2 max-w-70 md:max-w-xs">
                 <img
@@ -280,8 +279,8 @@ const ExamPage = () => {
                 onClick={() => handleOptionClick(option)}
                 variant='option_txt'
                 className={getOptionStyle(option)}>
-                {/* The A/B/C/D Label Square */}
-                <Span className={getLabelStyle(option)} varaint='option_txt'>{label}</Span>
+                {/* The A/B/C/D/E Label Square */}
+                <span className={`flex h-8 w-8 items-center justify-center rounded-lg border-2 border-black bg-neutral-200 font-bold text-(--primary) ${getLabelStyle(option)}`}>{label}</span>
                 {/* The Option Text */}
                 <span className={`font-bold text-lg ${getTextStyle(option)}`}>{option}</span>
               </Button>

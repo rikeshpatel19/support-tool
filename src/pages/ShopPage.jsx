@@ -50,15 +50,15 @@ const ShopPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-sky-50 pb-32">
+    <div className="min-h-screen bg-gray-50 pb-32">
       {/* Header */}
       <Header label="THE SHOP" points={user.points.toLocaleString()} />
 
       <div className="max-w-4xl mx-auto p-6">
         {/* Banner Section */}
-        <div className="mb-8 bg-purple-500 border-4 border-black rounded-3xl p-6 text-white shadow-medium flex justify-between items-center">
+        <div className="mb-8 bg-purple-300 border-4 border-black rounded-3xl p-6 text-black shadow-medium flex justify-between items-center">
           <div>
-            <h2 className="text-2xl font-black">NEW ARRIVALS!</h2>
+            <h2 className="text-2xl font-black">AWESOME FIGURES TO ADD TO YOUR COLLECTION!</h2>
             <p className="font-medium opacity-90">Spend your hard-earned coins on cool figures.</p>
           </div>
           <ShoppingBag size={48} className="opacity-50" />
