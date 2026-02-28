@@ -4,7 +4,7 @@ const Progress = require('../models/Progress');
 const Result = require('../models/Result');
 
 // POST Final Results and Clear Progress
-router.post('/users/:userID/results/:topicID', async (request, response) => {
+router.post('/:userID/results/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
   const { score, totalQuestions, percentage } = request.body;
 
@@ -39,7 +39,7 @@ router.post('/users/:userID/results/:topicID', async (request, response) => {
 });
 
 // Get all results assosciated with a user
-router.get('/users/:userID/results', async (request, response) => {
+router.get('/:userID/results', async (request, response) => {
   try {
     const results = await Result.find({ userID: request.params.userID });
     response.json(results);
@@ -49,7 +49,7 @@ router.get('/users/:userID/results', async (request, response) => {
 });
 
 // GET Saved Progress (Loading)
-router.get('/users/:userID/progress/:topicID', async (request, response) => {
+router.get('/:userID/progress/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
   try {
     const progress = await Progress.findOne({ userID, topicID });
@@ -61,7 +61,7 @@ router.get('/users/:userID/progress/:topicID', async (request, response) => {
 });
 
 // GET All progress for a user for a specfic subject
-router.get('/users/:userID/progress/subject/:subjectID', async (request, response) => {
+router.get('/:userID/progress/subject/:subjectID', async (request, response) => {
   try {
     const { userID, subjectID } = request.params;
     const progress = await Progress.find({ userID, subjectID });
@@ -72,7 +72,7 @@ router.get('/users/:userID/progress/subject/:subjectID', async (request, respons
 });
 
 // PATCH Saved Progress (Saving)
-router.patch('/users/:userID/progress/:topicID', async (request, response) => {
+router.patch('/:userID/progress/:topicID', async (request, response) => {
   const { userID, topicID } = request.params;
   const { subjectID, progressPercent, userAnswers, currentQuestionIndex, isCompleted } = request.body;
 

@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5000';
 
 // Requires Commenting
 export const loginUser = async (credentials) => {
@@ -111,7 +111,7 @@ export const purchaseItem = async (userID, itemID, price) => {
 
 // Function to save partial progress
 export const saveQuizProgress = async (userID, topicID, data) => {
-  const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`, {
+  const response = await fetch(`${API_URL}/progresses/${userID}/progress/${topicID}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -128,7 +128,7 @@ export const saveQuizProgress = async (userID, topicID, data) => {
 // Function to fetch saved progress when the page loads
 export const getQuizProgress = async (userID, topicID) => {
   try {
-    const response = await fetch(`${API_URL}/users/${userID}/progress/${topicID}`);
+    const response = await fetch(`${API_URL}/progresses/${userID}/progress/${topicID}`);
     if (!response.ok) return null; // Return null if no progress exists yet
     return await response.json();
   } catch (error) {
@@ -140,7 +140,7 @@ export const getQuizProgress = async (userID, topicID) => {
 // Function to fetch all saved progress assosciated with a user for a specfic subject
 export const getSubjectProgress = async (userID, subjectID) => {
   try {
-    const response = await fetch(`${API_URL}/users/${userID}/progress/subject/${subjectID}`);
+    const response = await fetch(`${API_URL}/progresses/${userID}/progress/subject/${subjectID}`);
     if (!response.ok) return []; // Returns an empty array if no progress exists
     return await response.json(); // Returns an array of progress objects
   } catch (error) {
@@ -151,7 +151,7 @@ export const getSubjectProgress = async (userID, subjectID) => {
 
 // Function to save a fully completed quiz
 export const finaliseQuizResults = async (userID, topicID, data) => {
-  const response = await fetch(`${API_URL}/users/${userID}/results/${topicID}`, {
+  const response = await fetch(`${API_URL}/progresses/${userID}/results/${topicID}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -161,7 +161,7 @@ export const finaliseQuizResults = async (userID, topicID, data) => {
 
 // Get all the results for a single user
 export const getResultsByUser = async (userID) => {
-  const response = await fetch(`${API_URL}/users/${userID}/results`);
+  const response = await fetch(`${API_URL}/progresses/${userID}/results`);
   if (!response.ok) return [];
   return await response.json();
 };

@@ -16,12 +16,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 // Mapping specfic URL paths to route files
-app.use('/api/quizzes', quizRoutes);
-app.use('/api', progressRoutes);
-app.use('/api/exams', examRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/subjects', subjectRoutes);
-app.use('/api/collectibles', collectibleRoutes);
+app.use('/quizzes', quizRoutes);
+app.use('/progresses', progressRoutes);
+app.use('/exams', examRoutes);
+app.use('/users', userRoutes);
+app.use('/subjects', subjectRoutes);
+app.use('/collectibles', collectibleRoutes);
 // Connecting to the MongoDB Atlas Cluster
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected..."))
