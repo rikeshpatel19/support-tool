@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions')
 require('dotenv').config();
 
 // Import Routes
@@ -13,7 +14,7 @@ const collectibleRoutes = require('./routes/CollectibleRoutes');
 // Initialize the app
 const app = express();
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 // Mapping specfic URL paths to route files
 app.use('/quizzes', quizRoutes);
