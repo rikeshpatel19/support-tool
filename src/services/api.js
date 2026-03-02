@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000';
+const API_URL = 'http://localhost:8080';
 
 // Requires Commenting
 export const loginUser = async (credentials) => {
