@@ -237,7 +237,7 @@ const ExamPage = () => {
         <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-black bg-gray-50 
                   ${timeLeft < 300 ? 'text-red-500 border-red-500 animate-pulse' : 'text-black'}`}>
           <Clock size={24} />
-          <span className="font-mono font-black text-2xl">{formatTime(timeLeft)}</span>
+          <span className="font-black text-2xl">{formatTime(timeLeft)}</span>
         </div>
       </header>
 

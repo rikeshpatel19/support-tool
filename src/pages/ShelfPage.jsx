@@ -57,10 +57,10 @@ const ShelfPage = () => {
                   <div key={item.id} className="flex flex-col items-center gap-2 w-24">
 
                     {/* The Slot Box */}
-                    <div className={`h-24 w-20 border-2 rounded-t-xl -mb-1 flex items-center justify-center text-4xl transition-all
+                    <div className={`h-24 w-20 border-2 border-b-0 rounded-t-xl -mb-1 flex items-center justify-center text-4xl
                       ${isUnlocked
-                        ? "bg-white border-black border-b-0 pb-1 drop-shadow-md"
-                        : "border-b-0 border-dashed border-gray-400 opacity-50"
+                        ? "bg-white border-black pb-1 drop-shadow-lg"
+                        : "border-dashed border-gray-400 opacity-50"
                       }
                     `}>
                       {/* Show the item icon if unlocked, otherwise show the Lock icon */}

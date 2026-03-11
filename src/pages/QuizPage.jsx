@@ -7,7 +7,7 @@ import Badge from '../components/Badge';
 import Avatar from '../components/Avatar';
 import PassageModal from '../components/PassageModal';
 // Import API service functions to fetch data
-import { getUser, getQuestions, completeQuiz, getSubjectById, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
+import { getUser, getQuestions, completeQuiz, getSubjectByID, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
 import { getSubjectTheme } from '../constants/subjectThemes';
 
 const QuizPage = () => {
@@ -63,7 +63,7 @@ const QuizPage = () => {
         const [userData, quizData, subjectData] = await Promise.all([
           getUser(storedID),
           getQuestions(topicID),
-          getSubjectById(subjectID)
+          getSubjectByID(subjectID)
         ]);
 
         if (userData && quizData && subjectData) {

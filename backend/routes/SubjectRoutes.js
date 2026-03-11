@@ -1,17 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Subject = require('../models/Subject');
+const {getSubjects, getSubjectByID} = require('../controllers/subjectsController');
 
-// Get all subjects
-router.get('/', async (request, response) => {
-  const subjects = await Subject.find();
-  response.json(subjects);
-});
-
-// Get one specific subject 
-router.get('/:id', async (request, response) => {
-  const subject = await Subject.findOne({ subjectID: request.params.id });
-  response.json(subject);
-});
+router.route('/') .get(getSubjects);
+router.route('/:id') .get(getSubjectByID);
 
 module.exports = router;

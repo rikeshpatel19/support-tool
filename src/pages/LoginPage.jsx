@@ -74,7 +74,7 @@ const LoginPage = ({ setUser }) => {
 
                   {/* Display Error Message */}
                   {error && (
-                     <p className="text-red-500 font-bold text-sm text-center bg-red-50 p-2 rounded-lg border border-red-200">
+                     <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
                         {error}
                      </p>
                   )}

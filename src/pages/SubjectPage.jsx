@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TopicCard from '../components/TopicCard';
-import { getUser, getSubjectById, getSubjectProgress } from '../services/api';
+import { getUser, getSubjectByID, getSubjectProgress } from '../services/api';
 import Header from '../components/Header';
 import { getSubjectTheme } from '../constants/subjectThemes';
 
@@ -25,7 +25,7 @@ const SubjectPage = () => {
         // Retrieves the user ID from local storage
         const storedID = localStorage.getItem("userID");
         const [subjectData, userData, progressData] = await Promise.all([
-          getSubjectById(subjectID),
+          getSubjectByID(subjectID),
           getUser(storedID),
           getSubjectProgress(storedID, subjectID) // Fetches progress records belonging to a specific subject
         ]);

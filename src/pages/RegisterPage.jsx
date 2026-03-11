@@ -31,7 +31,7 @@ const RegisterPage = ({ setUser }) => {
 
     // 1. Client-side Validation: Check if passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match! Please try again.");
+      setError("Oops! Those passwords do not match! Please try again.");
       return; // Stop the function here
     }
 
@@ -128,7 +128,7 @@ const RegisterPage = ({ setUser }) => {
 
             {/* Display Error Message */}
             {error && (
-              <p className="text-red-500 font-bold text-sm text-center bg-red-50 p-2 rounded-lg border border-red-200">
+              <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
                 {error}
               </p>
             )}

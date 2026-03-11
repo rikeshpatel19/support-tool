@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Collectible = require('./models/Collectible');
+const Collectible = require('../models/Collectible');
 require('dotenv').config();
 
 const collectibleData = [
