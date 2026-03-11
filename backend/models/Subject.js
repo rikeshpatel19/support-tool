@@ -6,9 +6,9 @@ const SubjectSchema = new mongoose.Schema({
   // Display title for each subject
   title: { type: String, required: true },
   // Assosciated topics for each subject
-  topics: [{ id: String, name: String, status: String }],
+  topics: [{ id: String, name: String }],
   // Assosciated challenges for each subject
-  challenges: [{ id: String, name: String, status: String }],
+  challenges: [{ id: String, name: String }],
   // Assosciated exams for each subject
   exams: [{ id: String, name: String }]
 });

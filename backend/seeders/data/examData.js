@@ -1,7 +1,3 @@
-const mongoose = require('mongoose');
-const Exam = require('../models/Exam');
-require('dotenv').config();
-
 const examData = [
   {
     examID: "me1",
@@ -64,27 +60,4 @@ const examData = [
   }
 ];
 
-const seedExams = async () => {
-  try {
-    // Using Mongoose to connect to Atlas using the URI stored in the .env file
-    await mongoose.connect(process.env.MONGO_URI);
-    // Log a success message to the console once the connection is established
-    console.log("Connected to database for seeding");
-    // Clear existing exams to avoid duplicates every time the script runs
-    await Exam.deleteMany({});
-    // Insert the data
-    await Exam.insertMany(examData);
-    // Log a success message once all data is safely in the database
-    console.log("Mock Exams seeded successfully!");
-    // Terminate 
-    process.exit();
-    // If the try crashes, catch the error
-  } catch (error) {
-    // Log the specific error to the console to help with debugging
-    console.error(error);
-    // Terminate with error code (1) to indicate a failure
-    process.exit(1);
-  }
-};
-
-seedExams();
+module.exports = { examData };

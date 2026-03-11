@@ -7,14 +7,14 @@ const subjectData = [
         subjectID: "maths",
         title: "Maths",
         topics: [
-            { id: 'm1', name: "Addition", status: 'gold' },
-            { id: 'm2', name: "Subtraction", status: 'silver' },
-            { id: 'm3', name: "Multiplication", status: 'bronze' }
+            { id: 'm1', name: "Addition" },
+            { id: 'm2', name: "Subtraction" },
+            { id: 'm3', name: "Multiplication" }
         ],
         challenges: [
-            { id: 'mc1', name: "Speed Math", status: 'gold' },
-            { id: 'mc2', name: "Mental Math", status: 'none' },
-            { id: 'mc3', name: "Word Problems", status: 'none' }
+            { id: 'mc1', name: "Speed Math" },
+            { id: 'mc2', name: "Mental Math" },
+            { id: 'mc3', name: "Word Problems" }
         ],
         exams: [
             { id: 'me1', name: "Maths Exam 1" },
@@ -26,14 +26,14 @@ const subjectData = [
         subjectID: "english",
         title: "English",
         topics: [
-            { id: 'en1', name: "Grammar", status: 'silver' },
-            { id: 'en2', name: "Spelling", status: 'none' },
-            { id: 'en3', name: "Punctuation", status: 'none' }
+            { id: 'en1', name: "Grammar" },
+            { id: 'en2', name: "Spelling" },
+            { id: 'en3', name: "Punctuation" }
         ],
         challenges: [
-            { id: 'enc1', name: "Vocab Blast", status: 'bronze' },
-            { id: 'enc2', name: "Spelling Bee", status: 'none' },
-            { id: 'enc3', name: "Reading Comp", status: 'none' }
+            { id: 'enc1', name: "Vocab Blast" },
+            { id: 'enc2', name: "Spelling Bee" },
+            { id: 'enc3', name: "Reading Comp" }
         ],
         exams: [
             { id: 'ene1', name: "English Exam 1" },
@@ -45,14 +45,14 @@ const subjectData = [
         subjectID: "vr",
         title: "Verbal Reasoning",
         topics: [
-            { id: 'vr1', name: "VR Topic 1", status: 'silver' },
-            { id: 'vr2', name: "VR Topic 2", status: 'none' },
-            { id: 'vr3', name: "VR Topic 3", status: 'none' }
+            { id: 'vr1', name: "VR Topic 1" },
+            { id: 'vr2', name: "VR Topic 2" },
+            { id: 'vr3', name: "VR Topic 3" }
         ],
         challenges: [
-            { id: 'vrc1', name: "VR Challenge 1", status: 'bronze' },
-            { id: 'vrc2', name: "VR Challenge 2", status: 'none' },
-            { id: 'vrc3', name: "VR Challenge 3", status: 'none' }
+            { id: 'vrc1', name: "VR Challenge 1" },
+            { id: 'vrc2', name: "VR Challenge 2" },
+            { id: 'vrc3', name: "VR Challenge 3" }
         ],
         exams: [
             { id: 'vre1', name: "VR Exam 1" },
@@ -64,14 +64,14 @@ const subjectData = [
         subjectID: "nvr",
         title: "Non-Verbal Reasoning",
         topics: [
-            { id: 'nvr1', name: "NVR Topic 1", status: 'silver' },
-            { id: 'nvr2', name: "NVR Topic 2", status: 'none' },
-            { id: 'nvr3', name: "NVR Topic 3", status: 'none' }
+            { id: 'nvr1', name: "NVR Topic 1" },
+            { id: 'nvr2', name: "NVR Topic 2" },
+            { id: 'nvr3', name: "NVR Topic 3" }
         ],
         challenges: [
-            { id: 'nvrc1', name: "NVR Challenge 1", status: 'bronze' },
-            { id: 'nvrc2', name: "NVR Challenge 2", status: 'none' },
-            { id: 'nvrc3', name: "NVR Challenge 3", status: 'none' }
+            { id: 'nvrc1', name: "NVR Challenge 1" },
+            { id: 'nvrc2', name: "NVR Challenge 2" },
+            { id: 'nvrc3', name: "NVR Challenge 3" }
         ],
         exams: [
             { id: 'nvre1', name: "NVR Exam 1" },

@@ -1,3 +1,4 @@
+const Question = require('../models/Question');
 const Exam = require('../models/Exam');
 const asyncHandler = require('express-async-handler');
 
@@ -5,7 +6,7 @@ const asyncHandler = require('express-async-handler');
 // @route GET /exams/:examID
 const getExamQuestions = asyncHandler(async (request, response) => {
     // Serach MongoDB for an exam that matches with the examID
-    const exam = await Exam.findOne({ examID: request.params.examID });
+    const exam = await Exam.findOne({ examID: request.params.examID }).populate('questions');
     // If it cannot find one send a 404 Not Found error message
     if (!exam) {
         return response.status(404).json({ message: "Exam not found" });

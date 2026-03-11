@@ -68,21 +68,12 @@ const QuizPage = () => {
 
         if (userData && quizData && subjectData) {
           setUser(userData);
-          setQuestions(quizData.questions);
+          setQuestions(quizData.fixedQuestions);
+          setDisplayTopic(quizData.name); // This sets the name
           if (quizData.passage) {
             setPassage(quizData.passage);
           }
           setCurrentSubject(subjectData);
-          // Combine both arrays to search the whole subject data
-          const allContent = [...(subjectData.topics || []), ...(subjectData.challenges || [])];
-          // Searches the combined list for the matching ID
-          const currentItem = allContent.find(item => item.id === quizID);
-
-          if (currentItem) {
-            setDisplayTopic(currentItem.name); // This sets the name
-          } else {
-            console.warn("No matching quiz found!");
-          }
         }
 
         // Load saved progress from the DB
