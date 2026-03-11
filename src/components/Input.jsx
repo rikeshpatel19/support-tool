@@ -8,7 +8,7 @@ const Input = ({ label, icon: Icon, type = "text", placeholder, name, value, onC
             <div className="relative">
                 {/* Icon */}
                 {Icon && (
-                    <Icon className="absolute left-3 top-3.5 text-gray-500" size={20} />
+                    <Icon className="absolute left-3 top-4 text-gray-500" size={20} />
                 )}
                 <input
                     type={type}
