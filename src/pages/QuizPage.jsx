@@ -13,8 +13,8 @@ import { getSubjectTheme } from '../constants/subjectThemes';
 const QuizPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  // Extract subjectID and topicID from the URL
-  const { subjectID, topicID } = useParams();
+  // Extract subjectID and quizID from the URL
+  const { subjectID, quizID } = useParams();
   // Get the theme based on the URL ID
   const theme = getSubjectTheme(subjectID);
   // Dictionary to map theme colours to CSS variables
@@ -62,7 +62,7 @@ const QuizPage = () => {
       try {
         const [userData, quizData, subjectData] = await Promise.all([
           getUser(storedID),
-          getQuestions(topicID),
+          getQuestions(quizID),
           getSubjectByID(subjectID)
         ]);
 
@@ -76,7 +76,7 @@ const QuizPage = () => {
           // Combine both arrays to search the whole subject data
           const allContent = [...(subjectData.topics || []), ...(subjectData.challenges || [])];
           // Searches the combined list for the matching ID
-          const currentItem = allContent.find(item => item.id === topicID);
+          const currentItem = allContent.find(item => item.id === quizID);
 
           if (currentItem) {
             setDisplayTopic(currentItem.name); // This sets the name
@@ -88,7 +88,7 @@ const QuizPage = () => {
         // Load saved progress from the DB
         if (storedID) {
           try {
-            const savedProgress = await getQuizProgress(storedID, topicID);
+            const savedProgress = await getQuizProgress(storedID, quizID);
             if (savedProgress) {
               // If the student has saved progress, restore their spot
               setUserAnswers(savedProgress.userAnswers || {});
@@ -107,7 +107,7 @@ const QuizPage = () => {
       }
     };
     load();
-  }, [subjectID, topicID]);
+  }, [subjectID, quizID]);
 
   if (loading) return <div className="p-10 text-center font-bold">Loading quizzes...</div>;
 
@@ -175,8 +175,8 @@ const QuizPage = () => {
       if (storedID) {
         try {
           // Updates the users completedQuizzes array and their total points
-          await completeQuiz(storedID, topicID, currentPoints, percentage);
-          await finaliseQuizResults(storedID, topicID, {
+          await completeQuiz(storedID, quizID, currentPoints, percentage);
+          await finaliseQuizResults(storedID, quizID, {
             score: currentScore,
             totalQuestions: questions.length,
             percentage: percentage,
@@ -229,7 +229,7 @@ const QuizPage = () => {
   const handleSaveAndExit = async () => {
     const storedID = localStorage.getItem("userID");
     try {
-      await saveQuizProgress(storedID, topicID, {
+      await saveQuizProgress(storedID, quizID, {
         subjectID,
         progress,
         userAnswers,

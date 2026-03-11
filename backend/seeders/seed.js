@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const quizData = [
   {
-    topicID: "mc1",
+    quizID: "mc1",
     subject: "Maths",
     questions: [
       {
@@ -135,7 +135,7 @@ const quizData = [
     ]
   },
   {
-    topicID: "mc2",
+    quizID: "mc2",
     subject: "Maths",
     questions: [
       {
@@ -266,7 +266,7 @@ const quizData = [
     ]
   },
   {
-    topicID: "mc3",
+    quizID: "mc3",
     subject: "Maths",
     questions: [
       {
@@ -397,7 +397,7 @@ const quizData = [
     ]
   },
   {
-    topicID: "enc1",
+    quizID: "enc1",
     subject: "English",
     passage:
     {
@@ -452,7 +452,7 @@ const quizData = [
     ]
   },
   {
-    topicID: "vrc1",
+    quizID: "vrc1",
     subject: "Verbal Reasoning",
     questions: [
       {
@@ -583,7 +583,7 @@ const quizData = [
     ]
   },
   {
-    topicID: "nvrc1",
+    quizID: "nvrc1",
     subject: "Non-Verbal Reasoning",
     questions: [
       {

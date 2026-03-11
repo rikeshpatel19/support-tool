@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
   points: { type: Number, default: 0 },
   // Stores IDs of quizzes that the user has completed alongside their best score
   completedQuizzes: [{
-    topicID: { type: String },
+    quizID: { type: String },
     bestPercentage: { type: Number, default: 0 }
   }],
   // Avatar that the user can customise

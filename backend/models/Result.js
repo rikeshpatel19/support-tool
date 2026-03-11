@@ -4,7 +4,7 @@ const ResultSchema = new mongoose.Schema({
   // Stores the ID of the student
   userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   // Stores the ID of the specific quiz or exam
-  topicID: { type: String, required: true },
+  quizID: { type: String, required: true },
   // Stores numerical score achieved in the specfic quiz or exam
   score: { type: Number, required: true },
   // Total number of questions 

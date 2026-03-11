@@ -11,7 +11,7 @@ const SubjectPage = () => {
 
   const [currentSubject, setCurrentSubject] = useState(null);
   const [user, setUser] = useState(null);
-  const [topicProgressMap, setTopicProgressMap] = useState({}); // Store as { topicID: percentage }
+  const [topicProgressMap, setTopicProgressMap] = useState({}); // Store as { quizID: percentage }
   const [loading, setLoading] = useState(true);
   // Get the theme based on the URL ID
   const theme = getSubjectTheme(subjectID);
@@ -34,10 +34,10 @@ const SubjectPage = () => {
           setUser(userData);
           // Combines topics and challenges into a single list
           const allQuizzes = [...subjectData.topics, ...subjectData.challenges];
-          // Converts the progressData into a Map in the following format { topicID: progressObject }
+          // Converts the progressData into a Map in the following format { quizID: progressObject }
           const progressLookup = {};
           progressData.forEach(p => {
-            progressLookup[p.topicID] = p;
+            progressLookup[p.quizID] = p;
           });
           // Used to map all topics/challenges to their current percentage 
           const progressMap = {};
@@ -67,11 +67,11 @@ const SubjectPage = () => {
     };
   }, [subjectID]);
 
-  const getBadgeStatus = (topicID) => {
+  const getBadgeStatus = (quizID) => {
     // If the user does not exist or does not have an array completedQuizzes
     if (!user || !user.completedQuizzes) return 'none';
     // Find the specific object for this topic
-    const record = user.completedQuizzes.find(q => q.topicID === topicID);
+    const record = user.completedQuizzes.find(q => q.quizID === quizID);
     // If the topic has never been attempted
     if (!record) return 'none';
     // Best percentage that was stored in the object 

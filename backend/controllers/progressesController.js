@@ -3,13 +3,13 @@ const Result = require('../models/Result');
 const asyncHandler = require('express-async-handler');
 
 // @desc Saves partial progress for a quiz
-// @route PATCH /progresses/:userID/progress/:topicID
+// @route PATCH /progresses/:userID/progress/:quizID
 const saveQuizProgress = asyncHandler(async (request, response) => {
-    const { userID, topicID } = request.params;
+    const { userID, quizID } = request.params;
     const { subjectID, progressPercent, userAnswers, currentQuestionIndex, isCompleted } = request.body;
 
     const progress = await Progress.findOneAndUpdate(
-        { userID, topicID },
+        { userID, quizID },
         {
             subjectID,
             progressPercent,
@@ -24,10 +24,10 @@ const saveQuizProgress = asyncHandler(async (request, response) => {
 });
 
 // @desc Retrieve partial progress for a quiz
-// @route GET /progresses/:userID/progress/:topicID
+// @route GET /progresses/:userID/progress/:quizID
 const getQuizProgress = asyncHandler(async (request, response) => {
-    const { userID, topicID } = request.params;
-    const progress = await Progress.findOne({ userID, topicID });
+    const { userID, quizID } = request.params;
+    const progress = await Progress.findOne({ userID, quizID });
     if (!progress) {
         return response.status(404).json({ message: "No progress found" });
     }
@@ -43,13 +43,13 @@ const getSubjectProgress = asyncHandler(async (request, response) => {
 });
 
 // @desc Add result for a completed quiz and clear progress 
-// @route POST /progresses/:userID/results/:topicID
+// @route POST /progresses/:userID/results/:quizID
 const finaliseQuizResults = asyncHandler(async (request, response) => {
-    const { userID, topicID } = request.params;
+    const { userID, quizID } = request.params;
     const { score, totalQuestions, percentage } = request.body;
 
     // Check how many results already exist for this topic
-    const existingResults = await Result.find({ userID, topicID }).sort({ completedAt: 1 });
+    const existingResults = await Result.find({ userID, quizID }).sort({ completedAt: 1 });
 
     // If there are 20 or more, delete the oldest one
     if (existingResults.length >= 20) {
@@ -57,12 +57,12 @@ const finaliseQuizResults = asyncHandler(async (request, response) => {
         await Result.findByIdAndDelete(oldestID);
     }
 
-    const resultObject = new Result({ userID, topicID, score, totalQuestions, percentage, completedAt: Date.now() });
+    const resultObject = new Result({ userID, quizID, score, totalQuestions, percentage, completedAt: Date.now() });
     // Create and store new result based on the Result Schema
     const newResult = await Result.create(resultObject);
 
     // Delete the temporary progress record
-    await Progress.findOneAndDelete({ userID, topicID });
+    await Progress.findOneAndDelete({ userID, quizID });
 
     response.status(201).json({ message: "Result saved (Max 20) and progress cleared", result: newResult });
 });

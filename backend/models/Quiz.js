@@ -15,7 +15,7 @@ const QuestionSchema = new mongoose.Schema({
 
 const QuizSchema = new mongoose.Schema({
   // Unique ID to distinguish topics + challenges
-  topicID: { type: String, required: true, unique: true },
+  quizID: { type: String, required: true, unique: true },
   // Subject that the quiz belongs to 
   subject: { type: String, required: true },
   // Optional object for reading comprehension passages

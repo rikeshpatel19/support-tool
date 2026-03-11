@@ -121,7 +121,7 @@ const updateProfile = asyncHandler(async (request, response) => {
 // @route POST /users/:id/complete-quiz
 const completeQuiz = asyncHandler(async (request, response) => {
     // Destructures the results sent from the Quiz page
-    const { topicID, pointsEarned, percentage } = request.body;
+    const { quizID, pointsEarned, percentage } = request.body;
     // Get the users unique ID from the URL parameters
     const userID = request.params.id;
 
@@ -132,7 +132,7 @@ const completeQuiz = asyncHandler(async (request, response) => {
     const updatedUser = await User.findOneAndUpdate(
         {
             _id: userID,
-            "completedQuizzes.topicID": topicID, // Match the specific topic inside the array
+            "completedQuizzes.quizID": quizID, // Match the specific topic inside the array
             "completedQuizzes.bestPercentage": { $lt: percentage } // Only update if existing score < new score
         },
         {
@@ -147,11 +147,11 @@ const completeQuiz = asyncHandler(async (request, response) => {
         await User.updateOne(
             {
                 _id: userID,
-                "completedQuizzes.topicID": { $ne: topicID } // Only if topicID doesn't exist yet
+                "completedQuizzes.quizID": { $ne: quizID } // Only if quizID doesn't exist yet
             },
             {
                 // Adds a new object to the array, $addToSet ensures the same topic is not added twice
-                $addToSet: { completedQuizzes: { topicID, bestPercentage: percentage } }
+                $addToSet: { completedQuizzes: { quizID, bestPercentage: percentage } }
             }
         );
     }
