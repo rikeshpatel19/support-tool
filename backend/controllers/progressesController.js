@@ -6,7 +6,7 @@ const asyncHandler = require('express-async-handler');
 // @route PATCH /progresses/:userID/progress/:quizID
 const saveQuizProgress = asyncHandler(async (request, response) => {
     const { userID, quizID } = request.params;
-    const { subjectID, progressPercent, userAnswers, currentQuestionIndex, dynamicQuestionIDs, currentDifficulty } = request.body;
+    const { subjectID, progressPercent, userAnswers, currentQuestionIndex, batchScore, dynamicQuestionIDs, currentDifficulty } = request.body;
 
     const updatedData = {
         subjectID,
@@ -15,6 +15,11 @@ const saveQuizProgress = asyncHandler(async (request, response) => {
         currentQuestionIndex,
         lastUpdated: Date.now()
     };
+
+    // Check if batchScore was provided (Only for dynamic quizzes)
+    if (batchScore !== undefined) {
+        updatedData.batchScore = batchScore;
+    }
 
     // Check if dynamicQuestionIDs was provided (Only for dynamic quizzes)
     if (dynamicQuestionIDs !== undefined) {

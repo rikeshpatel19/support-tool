@@ -28,7 +28,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
 
         if (quizEnd) {
             const storedID = localStorage.getItem("userID");
-            console.log("LAST ONE");
+            console.log("Last Difficulty Calculation");
             // Determine new difficulty based on performance of the last 5 questions (Q16-20)
             const nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
             if (storedID) {
@@ -95,20 +95,23 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
         console.log(correctCount);
         if (correctCount === 5) {
             difficultyChange = 2;  // 5 Right: Up 2
+            console.log("2 Levels Up");
         } else if (correctCount === 4) {
             difficultyChange = 1;  // 4 Right: Up 1
+            console.log("1 Level Up");
         } else if (correctCount === 3) {
             difficultyChange = 0;  // 3 Right: Maintain
+            console.log("Maintain Difficulty");
         } else if (correctCount >= 1) {
             difficultyChange = -1; // 1 or 2 Right: Down 1
+            console.log("1 Level Down");
         } else if (correctCount === 0) {
             difficultyChange = -2; // 0 Right: Down 2
+            console.log("2 Levels Down");
         }
-        console.log("Difficulty Change: ");
-        console.log(difficultyChange);
+        console.log("Difficulty Change: ", difficultyChange);
         const newDifficulty = Math.max(1, Math.min(5, currentDifficulty + difficultyChange));
-        console.log("New Difficulty: ");
-        console.log(newDifficulty);
+        console.log("New Difficulty: ", newDifficulty);
         return newDifficulty;
     };
 

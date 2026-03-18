@@ -15,6 +15,8 @@ const ProgressSchema = new mongoose.Schema({
   userAnswers: { type: Object, default: {} }, 
   // Tracks which question the student is currently viewing (starts at 0)
   currentQuestionIndex: { type: Number, default: 0 },
+  // Tracks total score of current batch of questions
+  batchScore: { type: Number, default: 0 },
   // Tracks current difficulty of questions
   currentDifficulty: { type: Number, default: 1 },
   // Date and time stored when the progress is updated

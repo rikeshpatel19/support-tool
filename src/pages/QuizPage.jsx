@@ -127,6 +127,8 @@ const QuizPage = () => {
               console.log("Fetched Existing Questions: ");
               console.log(existingQuestions);
               setQuestions(existingQuestions);
+              setBatchScore(savedProgress.batchScore);
+              console.log("Previous Batch Score: ", savedProgress.batchScore);
               setDynamicQuestionIDs(savedProgress.dynamicQuestionIDs);
               // Carries on at correct difficulty
               setCurrentDifficulty(savedProgress.currentDifficulty || 1);
@@ -232,6 +234,7 @@ const QuizPage = () => {
         currentQuestionIndex
       };
       if (quizType === 'dynamic') {
+        progressData.batchScore = batchScore;
         progressData.dynamicQuestionIDs = dynamicQuestionIDs;
         progressData.currentDifficulty = currentDifficulty;
       }
