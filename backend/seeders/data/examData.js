@@ -1,8 +1,8 @@
 const examData = [
   {
     examID: "me1",
-    title: "Maths Mock Exam 1",
     subjectID: "maths",
+    title: "Maths Mock Exam 1",
     timeLimit: 3000, // 50 minutes
     totalQuestions: 50,
     questions: [

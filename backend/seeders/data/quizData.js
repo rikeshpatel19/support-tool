@@ -1,9 +1,335 @@
 const quizData = [
   {
+    quizID: "m1",
+    subjectID: "maths",
+    name: "Addition",
+    type: "dynamic",
+    totalQuestions: 20,
+    questions: [
+      {
+        difficulty: 1,
+        question_text: "(1.1) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.2) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.3) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.4) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.5) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.6) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.7) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.8) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.9) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 1,
+        question_text: "(1.10) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.1) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.2) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.3) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.4) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.5) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.6) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.7) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.8) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.9) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 2,
+        question_text: "(2.10) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.1) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.2) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.3) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.4) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.5) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.6) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.7) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.8) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.9) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 3,
+        question_text: "(3.10) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      }, 
+      {
+        difficulty: 4,
+        question_text: "(4.1) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.2) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.3) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.4) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.5) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.6) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.7) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.8) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.9) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 4,
+        question_text: "(4.10) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      }, 
+      {
+        difficulty: 5,
+        question_text: "(5.1) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.2) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.3) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.4) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.5) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.6) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.7) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.8) What is 345 + 345?",
+        options: ["680", "685", "690", "695", "700"],
+        correct_option: "690"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.9) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.10) Which number is even?",
+        options: ["2", "7", "11", "15", "17"],
+        correct_option: "2"
+      }
+    ]
+  },
+  {
+    quizID: "m2",
+    subjectID: "maths",
+    name: "Subtraction",
+    type: "dynamic",
+    totalQuestions: 20,
+    questions: []
+  },
+  {
+    quizID: "m3",
+    subjectID: "maths",
+    name: "Multiplication",
+    type: "dynamic",
+    totalQuestions: 20,
+    questions: []
+  },
+  {
     quizID: "mc1",
-    subject: "Maths",
+    subjectID: "maths",
     name: "Speed Math",
     type: "static",
+    totalQuestions: 20,
     questions: [
       {
         difficulty: 1,
@@ -134,9 +460,10 @@ const quizData = [
   },
   {
     quizID: "mc2",
-    subject: "Maths",
+    subjectID: "maths",
     name: "Mental Math",
     type: "static",
+    totalQuestions: 20,
     questions: [
       {
         difficulty: 1,
@@ -267,9 +594,10 @@ const quizData = [
   },
   {
     quizID: "mc3",
-    subject: "Maths",
+    subjectID: "maths",
     name: "Word Problems",
     type: "static",
+    totalQuestions: 20,
     questions: [
       {
         difficulty: 1,
@@ -400,9 +728,10 @@ const quizData = [
   },
   {
     quizID: "enc1",
-    subject: "English",
+    subjectID: "english",
     name: "Vocab Blast",
     type: "static",
+    totalQuestions: 20,
     passage:
     {
       title: "The Swiss Family Robinson",
@@ -457,9 +786,10 @@ const quizData = [
   },
   {
     quizID: "vrc1",
-    subject: "Verbal Reasoning",
+    subjectID: "vr",
     name: "VR Challenge 1",
     type: "static",
+    totalQuestions: 20,
     questions: [
       {
         difficulty: 1,
@@ -590,9 +920,10 @@ const quizData = [
   },
   {
     quizID: "nvrc1",
-    subject: "Non-Verbal Reasoning",
+    subjectID: "nvr",
     name: "NVR Challenge 1",
     type: "static",
+    totalQuestions: 20,
     questions: [
       {
         difficulty: 1,

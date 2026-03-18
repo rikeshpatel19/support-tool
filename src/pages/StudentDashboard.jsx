@@ -15,16 +15,9 @@ const StudentDashboard = () => {
     const [user, setUser] = useState(null);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
 
-    // Requires Commenting
     useEffect(() => {
         const loadData = async () => {
             const storedID = localStorage.getItem("userID");
-
-            if (!storedID || storedID === "undefined") {
-                console.warn("No user ID found, redirecting to login...");
-                navigate('/login');
-                return;
-            }
 
             try {
                 const userData = await getUser(storedID);
@@ -34,7 +27,7 @@ const StudentDashboard = () => {
             }
         };
         loadData();
-    }, [navigate]);
+    }, []);
 
     if (!user) {
         return <div>Loading your profile... (Make sure you are logged in)</div>;
@@ -42,7 +35,7 @@ const StudentDashboard = () => {
 
     return (
         <div id="StudentDashboard" className="min-h-screen bg-gray-50 font-sans pb-24">
-            {/* --- HEADER --- */}
+            {/* Header */}
             <header className="bg-white p-4 border-b border-gray-200 sticky z-10">
                 <div className="max-w-4xl mx-auto flex justify-between items-center">
                     {/* Coin Counter */}
@@ -66,7 +59,7 @@ const StudentDashboard = () => {
                 </div>
             </header>
 
-            {/* --- ACCOUNT MODAL --- */}
+            {/* Account Modal */}
             <AccountModal
                 user={user}
                 isOpen={isAccountOpen}
@@ -74,10 +67,10 @@ const StudentDashboard = () => {
                 onUserUpdate={(updatedUser) => setUser(updatedUser)} // Instantly updates the dashboard
             />
 
-            {/* --- MAIN CONTENT --- */}
+            {/* Main Content */}
             <main className="max-w-4xl mx-auto p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* 1. The Greeting Card (Span 2 columns) */}
+                    {/* Greeting Card (Span 2 columns) */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <div className="w-24 h-24 flex items-center justify-center">
                             <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
@@ -88,7 +81,7 @@ const StudentDashboard = () => {
                         </div>
                     </Card>
 
-                    {/* 2. The Brain Boost Card (Span 1 column) */}
+                    {/* Daily Brain Boost Card (Span 1 column) */}
                     <Card className="flex flex-col items-center text-center">
                         <div className="flex items-center gap-2 mb-4">
                             <Brain size={24} />
@@ -116,7 +109,7 @@ const StudentDashboard = () => {
                 </div>
             </main>
 
-            {/* --- BOTTOM NAVIGATION --- */}
+            {/* Bottom Navigation */}
             {!isAccountOpen && (
                 <BottomNav activePage="home" />
             )}

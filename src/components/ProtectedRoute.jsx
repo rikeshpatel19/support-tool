@@ -5,6 +5,7 @@ const ProtectedRoute = ({ children }) => {
   const userID = localStorage.getItem("userID");
   // Checks if the userID exists
   if (!userID) {
+    console.log("No user ID found, redirecting to start page");
     // Redirect to start if no ID is found
     return <Navigate to="/" replace />;
   }

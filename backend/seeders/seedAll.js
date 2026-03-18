@@ -23,14 +23,15 @@ const seedAll = async () => {
         for (const item of quizData) {
             // Add new questions to the Questions database
             const newQuestions = await Question.insertMany(
-                item.questions.map(q => ({ ...q, quizID: item.quizID }))
+                item.questions.map(q => ({ ...q, quizID: item.quizID, subjectID: item.subjectID}))
             );
             // Prepare quiz object
             const quizObject = {
                 quizID: item.quizID,
-                subject: item.subject,
+                subjectID: item.subjectID,
                 name: item.name,
                 type: item.type,
+                totalQuestions: item.totalQuestions,
                 // If static, map the IDs of the questions
                 fixedQuestions: item.type === 'static' ? newQuestions.map(q => q._id) : []
             };
@@ -47,7 +48,7 @@ const seedAll = async () => {
             // Add new questions to the Questions database
             const newQuestions = await Question.insertMany(
                 // Difficulty is required, default to 3
-                item.questions.map(q => ({ ...q, quizID: item.examID, difficulty: 3 }))
+                item.questions.map(q => ({ ...q, quizID: item.examID, subjectID: item.subjectID, difficulty: 3 }))
             );
             // Prepare exam object
             const examObject = {

@@ -2,23 +2,37 @@ const Progress = require('../models/Progress');
 const Result = require('../models/Result');
 const asyncHandler = require('express-async-handler');
 
-// @desc Saves partial progress for a quiz
+// @desc Saves partial progress for a quiz or creates it if it does not exist
 // @route PATCH /progresses/:userID/progress/:quizID
 const saveQuizProgress = asyncHandler(async (request, response) => {
     const { userID, quizID } = request.params;
-    const { subjectID, progressPercent, userAnswers, currentQuestionIndex, isCompleted } = request.body;
+    const { subjectID, progressPercent, userAnswers, currentQuestionIndex, dynamicQuestionIDs, currentDifficulty } = request.body;
+
+    const updatedData = {
+        subjectID,
+        progressPercent,
+        userAnswers,
+        currentQuestionIndex,
+        lastUpdated: Date.now()
+    };
+
+    // Check if dynamicQuestionIDs was provided (Only for dynamic quizzes)
+    if (dynamicQuestionIDs !== undefined) {
+        updatedData.dynamicQuestionIDs = dynamicQuestionIDs;
+    }
+
+    // Check if currentDifficulty was provided (Only for dynamic quizzes)
+    if (currentDifficulty !== undefined) {
+        updatedData.currentDifficulty = currentDifficulty;
+    }
 
     const progress = await Progress.findOneAndUpdate(
-        { userID, quizID },
-        {
-            subjectID,
-            progressPercent,
-            userAnswers,
-            currentQuestionIndex,
-            isCompleted,
-            lastUpdated: Date.now()
-        },
-        { upsert: true, new: true } // Creates record if missing
+        { userID, quizID }, // Finds a record matching both the userID and quizID
+        updatedData, // Updates it with the new data
+        { 
+            upsert: true, // Creates record if missing
+            new: true // Ensures the updated record is returned, not the old one
+        } 
     );
     response.json(progress);
 });
@@ -29,7 +43,7 @@ const getQuizProgress = asyncHandler(async (request, response) => {
     const { userID, quizID } = request.params;
     const progress = await Progress.findOne({ userID, quizID });
     if (!progress) {
-        return response.status(404).json({ message: "No progress found" });
+        return response.json({ message: "No progress found" });
     }
     response.json(progress);
 });

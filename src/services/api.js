@@ -6,11 +6,10 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const getUser = async (userID) => {
   try {
     const response = await fetch(`${API_URL}/users/${userID}`);
-
     if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
+      const error = await response.json();
+      throw new Error(error.message);
     }
-
     return await response.json();
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -107,16 +106,40 @@ export const getSubjectByID = async (subjectID) => {
 
 // --- QUIZZES ---
 
-// Get a specific quiz by quizID
-export const getQuestions = async (quizID) => {
+// Get quiz along with questions (empty if dynamic) using quizID
+export const getQuiz = async (quizID) => {
+  const response = await fetch(`${API_URL}/quizzes/quiz/${quizID}`);
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
+};
+
+// Get dynamic questions using quizID, subjectID and difficulty
+export const getDynamicQuestions = async (quizID, subjectID, difficulty) => {
   try {
-    const response = await fetch(`${API_URL}/quizzes/${quizID}`);
-    const data = await response.json();
-    // We return the whole quiz object so QuizPage.jsx can check for passage_text
-    return data;
+    const response = await fetch(`${API_URL}/quizzes/dynamic?quizID=${quizID}&subjectID=${subjectID}&difficulty=${difficulty}`);
+    return await response.json();
   } catch (error) {
-    console.error("Error fetching quiz:", error);
+    console.error("Error fetching dynamic quiz:", error);
     return null;
+  }
+};
+
+// Get questions using an array of question IDs
+export const getQuestionsByIDs = async (questionIDs) => {
+  try {
+    const response = await fetch(`${API_URL}/quizzes/fetchQuestions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ questionIDs })
+    });
+    if (!response.ok) throw new Error("Failed to fetch questions by IDs");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching specific questions:", error);
+    return [];
   }
 };
 
@@ -127,27 +150,19 @@ export const saveQuizProgress = async (userID, quizID, data) => {
   const response = await fetch(`${API_URL}/progresses/${userID}/progress/${quizID}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      subjectID: data.subjectID,
-      progressPercent: data.progress,
-      userAnswers: data.userAnswers,
-      currentQuestionIndex: data.currentQuestionIndex,
-      isCompleted: false
-    }),
+    body: JSON.stringify(data),
   });
   return response.json();
 };
 
 // Retrieve partial progress for a quiz
 export const getQuizProgress = async (userID, quizID) => {
-  try {
-    const response = await fetch(`${API_URL}/progresses/${userID}/progress/${quizID}`);
-    if (!response.ok) return null; // Return null if no progress exists yet
-    return await response.json();
-  } catch (error) {
-    console.error("Fetch progress error:", error);
-    return null;
+  const response = await fetch(`${API_URL}/progresses/${userID}/progress/${quizID}`);
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
   }
+  return await response.json();
 };
 
 // Retrieve all saved progress assosciated with a user for a specfic subject
@@ -183,15 +198,12 @@ export const getResultsByUser = async (userID) => {
 
 // Get a specific exam by examID
 export const getExamQuestions = async (examID) => {
-  try {
-    const response = await fetch(`${API_URL}/exams/${examID}`);
-    const data = await response.json();
-    // We return the whole exam object so ExamPage.jsx can check for passage_text
-    return data;
-  } catch (error) {
-    console.error("Error fetching exam:", error);
-    return null;
+  const response = await fetch(`${API_URL}/exams/${examID}`);
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
   }
+  return await response.json();
 };
 
 // --- COLLECTIBLES ---

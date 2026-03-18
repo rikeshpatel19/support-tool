@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getQuestions } = require('../controllers/quizzesController');
+const { getQuiz, getDynamicQuestions, getQuestionsByIDs } = require('../controllers/quizzesController');
 
-router.route('/:quizID').get(getQuestions);
+router.route('/quiz/:quizID').get(getQuiz);
+router.route('/dynamic').get(getDynamicQuestions);
+router.route('/fetchQuestions').post(getQuestionsByIDs);
 
 module.exports = router;

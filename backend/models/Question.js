@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const QuestionSchema = new mongoose.Schema({
     // Quiz that the question is associated with
     quizID: { type: String, required: true },
+    // Subject that the question is associated with
+    subjectID: { type: String, required: true },
     // Numerical difficulty level
     difficulty: { type: Number, required: true },
     // The actual text of the question being asked

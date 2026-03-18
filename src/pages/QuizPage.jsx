@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PauseCircle, Save, Play, ChevronLeft, ChevronRight, CirclePoundSterling } from 'lucide-react';
-import Card from '../components/Card';
 import Button from '../components/Button';
-import Badge from '../components/Badge';
 import Avatar from '../components/Avatar';
 import PassageModal from '../components/PassageModal';
-// Import API service functions to fetch data
-import { getUser, getQuestions, completeQuiz, getSubjectByID, getQuizProgress, saveQuizProgress, finaliseQuizResults } from '../services/api';
+import PauseMenu from '../components/PauseMenu';
+import QuizCompletionOverlay from '../components/QuizCompletionOverlay';
+import QuizHeader from '../components/QuizHeader';
+import QuizFooter from '../components/QuizFooter';
+import { getUser, getQuiz, getDynamicQuestions, getQuestionsByIDs, getSubjectByID, getQuizProgress, saveQuizProgress } from '../services/api';
 import { getSubjectTheme } from '../constants/subjectThemes';
 
 const QuizPage = () => {
@@ -24,13 +24,16 @@ const QuizPage = () => {
     '--hover': theme.hover
   };
 
-  // --- STATE MANAGEMENT ---
   // State to store current subject
   const [currentSubject, setCurrentSubject] = useState(null);
+  // State to store the quiz type
+  const [quizType, setQuizType] = useState("");
   // State to show current topic
   const [displayTopic, setDisplayTopic] = useState("");
   // State to store the array of questions fetched from the API
   const [questions, setQuestions] = useState([]);
+  // State to store total number of questions
+  const [totalQuestions, setTotalQuestions] = useState();
   // State to check status of loading
   const [loading, setLoading] = useState(true);
   // State to track which question is currently being displayed (Default 0)
@@ -45,53 +48,91 @@ const QuizPage = () => {
 
   // State to track which "page" of question numbers is currently visible in the navigation bar
   const [questionPage, setQuestionPage] = useState(0);
-  // Fixed limit of 10 question numbers to display at one time
-  const questionsPerPage = 10;
-
+  // 10 Questions shown for Static, 5 Questions shown for Dynamic
+  const perPage = quizType === 'dynamic' ? 5 : 10;
   // State to store passage text if it exists
   const [passage, setPassage] = useState(null);
   // Determines if the text passage is open or not
   const [isPassageOpen, setIsPassageOpen] = useState(true);
 
-  // --- LOAD DATA ---
-  // Requires Commenting
+  // State to store question IDs for dynamic quizzes if the user has existing progress
+  const [dynamicQuestionIDs, setDynamicQuestionIDs] = useState([]);
+  // State to store current difficulty of questions for dynamic quizzes
+  const [currentDifficulty, setCurrentDifficulty] = useState(1);
+  // State to track correct answers in the current batch of 5 for dynamic quizzes
+  const [batchScore, setBatchScore] = useState(0);
+
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       const storedID = localStorage.getItem("userID");
       try {
-        const [userData, quizData, subjectData] = await Promise.all([
+        const [userData, subjectData] = await Promise.all([
           getUser(storedID),
-          getQuestions(quizID),
           getSubjectByID(subjectID)
         ]);
-
-        if (userData && quizData && subjectData) {
+        
+        if (userData && subjectData) {
           setUser(userData);
-          setQuestions(quizData.fixedQuestions);
+          setCurrentSubject(subjectData);
+        }
+
+        const quizData = await getQuiz(quizID);
+        const validQuiz = quizData && !quizData.message;
+
+        if (validQuiz) {
           setDisplayTopic(quizData.name); // This sets the name
           if (quizData.passage) {
             setPassage(quizData.passage);
           }
-          setCurrentSubject(subjectData);
-        }
+          setTotalQuestions(quizData.totalQuestions);
+          console.log("Total Questions: ");
+          console.log(quizData.totalQuestions);
+          setQuizType(quizData.type); // Static or Dynamic
 
-        // Load saved progress from the DB
-        if (storedID) {
-          try {
-            const savedProgress = await getQuizProgress(storedID, quizID);
-            if (savedProgress) {
-              // If the student has saved progress, restore their spot
-              setUserAnswers(savedProgress.userAnswers || {});
-              setCurrentQuestionIndex(savedProgress.currentQuestionIndex || 0);
-              // Move the pagination strip to the correct page
-              setQuestionPage(Math.floor((savedProgress.currentQuestionIndex || 0) / 10));
-            }
-          } catch (error) {
-            console.log("No saved progress found for this topic.");
+          const savedProgress = await getQuizProgress(storedID, quizID);
+          const validProgress = savedProgress && !savedProgress.message;
+
+          // If the student has saved progress, restore their spot
+          if (validProgress) {
+            console.log("Progress Found");
+            const restoredIndex = savedProgress.currentQuestionIndex || 0;
+            setUserAnswers(savedProgress.userAnswers || {});
+            setCurrentQuestionIndex(restoredIndex);
+            // Move the pagination strip to the correct page
+            setQuestionPage(Math.floor(restoredIndex / perPage));
+          } else {
+            console.log(savedProgress.message);
           }
-          setLoading(false);
+
+          if (quizData.type === 'static') {
+            console.log("Static Quiz");
+            setQuestions(quizData.fixedQuestions);
+          } else if (quizData.type === 'dynamic') {
+            console.log("Dynamic Quiz");
+            if (validProgress && (savedProgress.dynamicQuestionIDs).length > 0) {
+              // Ensures the student is presented with the same questions as before for dynamic quizzes
+              const existingQuestions = await getQuestionsByIDs(savedProgress.dynamicQuestionIDs);
+              console.log("Fetched Existing Questions: ");
+              console.log(existingQuestions);
+              setQuestions(existingQuestions);
+              setDynamicQuestionIDs(savedProgress.dynamicQuestionIDs);
+              // Carries on at correct difficulty
+              setCurrentDifficulty(savedProgress.currentDifficulty || 1);
+            } else {
+              // Start of with Very Easy questions if it is there first time
+              const initialQuestions = await getDynamicQuestions(quizID, subjectID, 1);
+              console.log("Fetched Initial Questions: ");
+              console.log(initialQuestions);
+              setQuestions(initialQuestions);
+              // Stores the question IDs for the inital 5 questions
+              setDynamicQuestionIDs(initialQuestions.map(q => q._id));
+            }
+          }
+        } else {
+          // console.log(quizData.message);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error loading quiz:", error);
         setLoading(false);
@@ -102,24 +143,16 @@ const QuizPage = () => {
 
   if (loading) return <div className="p-10 text-center font-bold">Loading quizzes...</div>;
 
-  if (!questions || questions.length === 0) {
+  if (questions.length === 0) {
     return (
       <div className="p-10 text-center">
         <h2 className="text-xl">Waiting for quiz data...</h2>
         <p className="text-gray-500">Please be patient while the quiz loads.</p>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate(-1)}>Return to Subject Page</span>
       </div>
     );
   }
 
-  // Calculate start and end indices for the number strip
-  // Determines the starting index of the current "page" of question numbers
-  const startIndex = questionPage * questionsPerPage;
-  // Creates a sub-array of questions to render as buttons based on the current page and limit
-  const visibleQuestions = questions.slice(startIndex, startIndex + questionsPerPage);
-  // Calculates the total number of pages needed by dividing total questions by the limit and rounding up
-  const totalPages = Math.ceil(questions.length / questionsPerPage);
-
-  // --- DERIVED STATE ---
   // Get the current question object based on the index
   const question = questions[currentQuestionIndex];
   // Check if the user has already answered the current question
@@ -134,75 +167,19 @@ const QuizPage = () => {
   const questionPoints = 50;
   const currentPoints = currentScore * questionPoints;
   // Calculate the percentage for the progress bar width
-  const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
-  // --- EVENT HANDLERS ---
   // Handle when a user clicks an answer option (A, B, C, D, E)
   const handleOptionClick = (option) => {
     // Prevent changing answer if already selected for this specific question
     if (userAnswers[currentQuestionIndex]) return;
-
-    // Save the answer to our object: { 0: "Answer A", 1: "Answer B" }
-    setUserAnswers(prev => ({
-      ...prev,
-      [currentQuestionIndex]: option
-    }));
-  };
-
-  // Handle clicking the "Next" button + saving points earned
-  const handleNext = async () => {
-    const nextIndex = currentQuestionIndex + 1;
-    const percentage = (currentScore / questions.length) * 100;
-    if (nextIndex < questions.length) {
-      setCurrentQuestionIndex(nextIndex);
-      // Calculate which page the next index belongs to (items 0-9 = page 0, 10-19 = page 1, etc)
-      const nextPage = Math.floor(nextIndex / 10);
-      // If the next question is on a new page, slide the nav bar forward
-      if (nextPage !== questionPage) {
-        setQuestionPage(nextPage);
-      }
-    } else {
-      const storedID = localStorage.getItem("userID");
-      if (storedID) {
-        try {
-          // Updates the users completedQuizzes array and their total points
-          await completeQuiz(storedID, quizID, currentPoints, percentage);
-          await finaliseQuizResults(storedID, quizID, {
-            score: currentScore,
-            totalQuestions: questions.length,
-            percentage: percentage,
-          });
-          console.log("Result saved and progress cleared!");
-          console.log("Points saved successfully!");
-        } catch (error) {
-          console.error("Failed to finalize results:", error);
-          console.error("Failed to save points:", error);
-        }
-      }
-      setIsFinished(true);
+    // Increment batchScore if correct (only for dynamic quizzes)
+    if (quizType === 'dynamic' && option === question.correct_option) {
+      setBatchScore(prev => prev + 1);
     }
+    // Adds the answer to the users answers in the format: { 0: "Answer A", 1: "Answer B" }
+    setUserAnswers(prev => ({ ...prev, [currentQuestionIndex]: option }));
   };
-
-  // Handle clicking the "Previous" button
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      const prevIndex = currentQuestionIndex - 1;
-      setCurrentQuestionIndex(prevIndex);
-      // Calculate which page the previous index belongs to
-      const prevPage = Math.floor(prevIndex / 10);
-      // If we have moved back to the previous set of 10, update the nav bar
-      if (prevPage !== questionPage) {
-        setQuestionPage(prevPage);
-      }
-    }
-  };
-
-  // Handle clicking a specific number in the bottom nav bar
-  const handleJumpToQuestion = (index) => {
-    setCurrentQuestionIndex(index);
-  };
-
-  // --- PAUSE MENU HANDLERS ---
 
   // Open the pause menu
   const handlePause = () => {
@@ -214,25 +191,39 @@ const QuizPage = () => {
     setIsPaused(false);
   };
 
-  const progress = ((Object.keys(userAnswers).length) / questions.length) * 100;
+  const progress = ((Object.keys(userAnswers).length) / totalQuestions) * 100;
 
   // "Save progress" and navigate back to the previous page
   const handleSaveAndExit = async () => {
     const storedID = localStorage.getItem("userID");
+    // Checks if any questions have actually been answered
+    const answeredCount = Object.keys(userAnswers).length;
+
+    if (answeredCount === 0) {
+      console.log("No answers to save yet.");
+      navigate(-1);
+      return;
+    }
+
     try {
-      await saveQuizProgress(storedID, quizID, {
+      const progressData = {
         subjectID,
-        progress,
+        progressPercent: progress,
         userAnswers,
         currentQuestionIndex
-      });
+      };
+      if (quizType === 'dynamic') {
+        progressData.dynamicQuestionIDs = dynamicQuestionIDs;
+        progressData.currentDifficulty = currentDifficulty;
+      }
+      console.log(progressData);
+      await saveQuizProgress(storedID, quizID, progressData);
       navigate(-1);
     } catch (error) {
       console.error("Save error:", error);
-      alert("We couldn't save your progress.");
     }
   };
-  // --- HELPER STYLES ---
+
   // Determine the background colour of the answer button (Green/Red/Default)
   const getOptionStyle = (option) => {
     // If THIS option is selected
@@ -271,117 +262,36 @@ const QuizPage = () => {
     return ""; // Otherwise keep default (Grey box, Black text)
   };
 
-  // Logic to determine which Badge to award based on score percentage
-  const getBadgeTier = () => {
-    if (questions.length === 0) return 'none'; // Safety check
-    const percentage = (currentScore / questions.length) * 100;
-
-    // Return tier string based on thresholds
-    if (percentage >= 70) return 'gold';
-    if (percentage >= 50) return 'silver';
-    if (percentage >= 40) return 'bronze';
-    return 'none';
-  };
-
   return (
     <div className="min-h-screen font-sans flex flex-col" style={{ backgroundColor: theme.secondary }}>
       {/* Pause Menu Overlay */}
-      {isPaused && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-          <div className="max-w-xl w-full relative">
+      <PauseMenu
+        isPaused={isPaused}
+        handleResume={handleResume}
+        handleSaveAndExit={handleSaveAndExit}
+      />
 
-            {/* The Menu Card */}
-            <Card>
-              <h2 className="text-2xl mb-6 text-center font-bold">Paused</h2>
-              <div className="space-y-4 py-4">
-                {/* Resume Button */}
-                <Button variant="black" onClick={handleResume} className="w-full h-14 text-lg">
-                  <Play size={20} className="mr-2 fill-white" /> Resume
-                </Button>
-                {/* Save & Exit Button */}
-                <Button variant="secondary" onClick={handleSaveAndExit} className="w-full h-14 text-lg">
-                  <Save size={20} className="mr-2" /> Save & Exit
-                </Button>
-              </div>
-            </Card>
-          </div>
-        </div>
-      )}
       {/* Quiz Completion Overlay */}
-      {isFinished && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-500/30 backdrop-blur-sm animate-in fade-in duration-200">
-          <Card className="text-center p-10 flex flex-col items-center gap-6 w-96">
-            <h1 className="text-4xl font-black">Quiz Complete!</h1>
+      <QuizCompletionOverlay
+        isFinished={isFinished}
+        totalQuestions={totalQuestions}
+        currentScore={currentScore}
+        currentPoints={currentPoints}
+      />
 
-            {/* Badge Display */}
-            <div className="transform scale-125">
-              <Badge tier={getBadgeTier()} size={100} />
-            </div>
+      {/* Quiz Header */}
+      <QuizHeader
+        handlePause={handlePause}
+        theme={theme}
+        currentSubject={currentSubject}
+        displayTopic={displayTopic}
+        progressPercent={progressPercent}
+        passage={passage}
+        setIsPassageOpen={setIsPassageOpen}
+        currentPoints={currentPoints}
+      />
 
-            {/* Dynamic Message */}
-            <h2 className="text-2xl font-bold capitalize">
-              {getBadgeTier() === 'none' ? "Keep Practicing!" : `You earned ${getBadgeTier()}!`}
-            </h2>
-
-            {/* Score and Coins */}
-            <div className="w-full space-y-2 text-xl font-medium border-t-2 border-dashed border-gray-300 pt-4">
-              <div className="flex justify-between">
-                <span>Score:</span>
-                <span>{currentScore} / {questions.length}</span>
-              </div>
-              <div className="flex justify-between text-yellow-600">
-                <span>Coins:</span>
-                <span>+{currentPoints}</span>
-              </div>
-            </div>
-
-            {/* Back Button */}
-            <Button variant="black" onClick={() => navigate(-1)} className="w-full justify-center mt-2 p-2">
-              Back to Topics
-            </Button>
-          </Card>
-        </div>
-      )}
-
-      {/* HEADER */}
-      <header className="border-b-2 border-black p-4 flex items-center justify-between bg-white sticky top-0 z-10">
-        {/* Left: Pause & Display Subject (formatted) and Topic */}
-        <div className="flex items-center gap-4">
-          <button onClick={handlePause} className="hover:opacity-70">
-            <PauseCircle size={32} strokeWidth={2} />
-          </button>
-          <span className="font-bold text-xl capitalize">
-            <span style={{ color: theme.primary }}>{currentSubject.title}:</span> {displayTopic}
-          </span>
-        </div>
-        {/* Centre: Progress Bar */}
-        <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-1/3 h-4 bg-gray-200 rounded-full border-2 border-black overflow-hidden">
-          {/* The inner filling bar that changes width based on progressPercent */}
-          <div className="h-full bg-gray-800 transition-all duration-300" style={{ width: `${progressPercent}%`, backgroundColor: theme.primary }} />
-        </div>
-        {/* Conditional Passage Button */}
-        {passage && (
-          <Button
-            onClick={() => setIsPassageOpen(true)}
-            className="absolute right-60 max-w-30 text-xs"
-          >
-            View Passage
-          </Button>
-        )}
-        {/* Right: Coin Counter */}
-        <div className="flex items-center group animate-in fade-in zoom-in duration-300">
-          {/* Pound Icon */}
-          <div className="mr-1">
-            <CirclePoundSterling size={40} className="text-yellow-500" />
-          </div>
-          {/* User Points */}
-          <div className="flex flex-col leading-none text-center text-yellow-500 font-bold">
-            <span className="text-lg mb-px">{currentPoints}</span>
-          </div>
-        </div>
-      </header>
-
-      {/* MAIN CONTENT */}
+      {/* Main Content */}
       <main className="flex-1 max-w-4xl mx-auto w-full p-6 flex flex-col gap-6" style={themeStyle}>
         {/* The Big Question Card */}
         <div className="bg-white border-2 border-black rounded-3xl p-8 min-h-75 relative flex flex-col justify-between">
@@ -457,86 +367,30 @@ const QuizPage = () => {
         )}
       </main>
 
-      {/* FOOTER */}
-      <footer className="p-4 border-t-2 border-black flex justify-between items-center bg-white sticky bottom-0 z-10" style={themeStyle}>
-        {/* Left: Previous Button */}
-        <Button
-          onClick={handlePrevious}
-          disabled={currentQuestionIndex === 0}
-          variant='themed'
-          className={`${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-(--hover)'}`}
-        >
-          Previous
-        </Button>
-        {/* Centre: Wrapper for Numbers AND Text */}
-        <div className="flex flex-col items-center gap-2">
-          {/* INTERACTIVE NUMBER STRIP WITH PAGINATION */}
-          <div className="hidden md:flex items-center gap-3">
-
-            {/* Left Arrow: Moves to the previous set of 10 questions */}
-            <button
-              // Decrease "page" by 1 using Math.max to ensure it never goes below 0
-              onClick={() => setQuestionPage(Math.max(0, questionPage - 1))}
-              // Disable the button if the user is already on the first page
-              disabled={questionPage === 0}
-              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage === 0 ? 'opacity-30' : 'hover:bg-(--hover)'}`}
-            >
-              <ChevronLeft size={20} />
-            </button>
-
-            <div className="flex gap-2">
-              {/* Loop through only the 10 questions currently visible in the strip */}
-              {visibleQuestions.map((_, idx) => {
-                // Calculate the actual index (First Button on Page 2 is Question 11, this would have the Index 10)
-                const actualIndex = startIndex + idx;
-                const isCurrent = actualIndex === currentQuestionIndex;
-                // Checks if User has attempted a question
-                const isAnswered = userAnswers.hasOwnProperty(actualIndex);
-                return (
-                  <Button
-                    key={actualIndex}
-                    variant='q_select'
-                    // Jump directly to this specific question when the number is clicked
-                    onClick={() => handleJumpToQuestion(actualIndex)}
-                    className={`${isCurrent
-                      ? 'bg-(--primary) text-white!'  // Current Question
-                      : isAnswered
-                        ? 'bg-yellow-200 text-yellow-400 border-yellow-400' // Answered Question
-                        // ? 'bg-(--secondary) text-(--primary) border-(--primary)!' // Debating if I like this
-                        : 'bg-white text-gray-400 border-gray-400' // Skipped Question
-                      }`}
-                  >
-                    {actualIndex + 1}
-                  </Button>
-                );
-              })}
-            </div>
-
-            {/* Right Arrow: Moves to the next set of 10 questions */}
-            <button
-              // Increase page by 1 using Math.min to ensure it doesn't exceed the total pages
-              onClick={() => setQuestionPage(Math.min(totalPages - 1, questionPage + 1))}
-              // Disable the button if the user has reached the last available page
-              disabled={questionPage >= totalPages - 1}
-              className={`p-1 rounded-full border-2 border-black transition-colors ${questionPage >= totalPages - 1 ? 'opacity-30' : 'hover:bg-(--hover)'}`}
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-          {/* Question X out of Y */}
-          <span className="font-bold text-black text-sm">
-            Question {currentQuestionIndex + 1} of {questions.length}
-          </span>
-        </div>
-        {/* Right: Next Button */}
-        <Button
-          onClick={handleNext}
-          variant='themed'
-          className='hover:bg-(--hover)'
-        >
-          {currentQuestionIndex + 1 === questions.length ? "Finish" : "Next"}
-        </Button>
-      </footer>
+      {/* Quiz Footer */}
+      <QuizFooter
+        quizID={quizID}
+        currentPoints={currentPoints}
+        currentScore={currentScore}
+        themeStyle={themeStyle}
+        currentQuestionIndex={currentQuestionIndex}
+        questions={questions}
+        totalQuestions={totalQuestions}
+        userAnswers={userAnswers}
+        quizType={quizType}
+        setCurrentQuestionIndex={setCurrentQuestionIndex}
+        questionPage={questionPage}
+        setQuestionPage={setQuestionPage}
+        perPage={perPage}
+        setIsFinished={setIsFinished}
+        setQuestions={setQuestions}
+        setDynamicQuestionIDs={setDynamicQuestionIDs}
+        batchScore={batchScore}
+        currentDifficulty={currentDifficulty}
+        subjectID={subjectID}
+        setCurrentDifficulty={setCurrentDifficulty}
+        setBatchScore={setBatchScore}
+      />
 
       {/* Only renders the component if the passage object exists and is open */}
       {isPassageOpen && passage && (

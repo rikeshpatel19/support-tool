@@ -47,7 +47,7 @@ const ExamPage = () => {
         }
         setLoading(false);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching exam:", error);
       }
     };
     loadExam();
@@ -79,11 +79,12 @@ const ExamPage = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (!questions || questions.length === 0) {
+  if (questions.length === 0) {
     return (
       <div className="p-10 text-center">
         <h2 className="text-xl">Waiting for exam data...</h2>
         <p className="text-gray-500">Please be patient while the exam loads.</p>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate(-1)}>Return to Exam Page</span>
       </div>
     );
   }
