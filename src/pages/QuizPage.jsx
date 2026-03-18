@@ -48,8 +48,8 @@ const QuizPage = () => {
 
   // State to track which "page" of question numbers is currently visible in the navigation bar
   const [questionPage, setQuestionPage] = useState(0);
-  // 10 Questions shown for Static, 5 Questions shown for Dynamic
-  const perPage = quizType === 'dynamic' ? 5 : 10;
+  // State to store the questions per page
+  const [perPage, setPerPage] = useState(0);
   // State to store passage text if it exists
   const [passage, setPassage] = useState(null);
   // Determines if the text passage is open or not
@@ -71,13 +71,16 @@ const QuizPage = () => {
           getUser(storedID),
           getSubjectByID(subjectID)
         ]);
-        
+
         if (userData && subjectData) {
           setUser(userData);
           setCurrentSubject(subjectData);
         }
 
         const quizData = await getQuiz(quizID);
+        // 10 Questions shown for Static, 5 Questions shown for Dynamic
+        const perPage = quizData.type === 'dynamic' ? 5 : 10;
+        setPerPage(perPage);
         const validQuiz = quizData && !quizData.message;
 
         if (validQuiz) {
@@ -99,6 +102,7 @@ const QuizPage = () => {
             const restoredIndex = savedProgress.currentQuestionIndex || 0;
             setUserAnswers(savedProgress.userAnswers || {});
             setCurrentQuestionIndex(restoredIndex);
+            console.log("Restored Index:", restoredIndex);
             // Move the pagination strip to the correct page
             setQuestionPage(Math.floor(restoredIndex / perPage));
           } else {

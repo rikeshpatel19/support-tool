@@ -18,7 +18,7 @@ const NumberStrip = ({ totalQuestions, currentQuestionIndex, userAnswers, quizTy
         // Finds the highest index of the questions answered or returns -1 (no questions answered)
         const maxAnsweredIndex = answeredIndices.length > 0 ? Math.max(...answeredIndices) : -1;
         console.log("Highest Question Index: ", maxAnsweredIndex);
-        // If the quiz is dynamic and the question they want to go to is after the latest question
+        // If the quiz is dynamic and the question they want to go to is one or more after the latest question
         if (quizType === 'dynamic' && newIndex > maxAnsweredIndex + 1) {
             // Need to change this for a "caution" message eventually
             alert("Please answer this question before moving on!");

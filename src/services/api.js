@@ -65,11 +65,11 @@ export const updateProfile = async (userID, userData) => {
 };
 
 // Add points and record completed quiz
-export const completeQuiz = async (userID, quizID, points, percentage) => {
+export const completeQuiz = async (userID, quizID, points, percentage, currentDifficulty) => {
   const response = await fetch(`${API_URL}/users/${userID}/complete-quiz`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ quizID, pointsEarned: points, percentage: percentage })
+    body: JSON.stringify({ quizID, pointsEarned: points, percentage: percentage, lastDifficulty: currentDifficulty })
   });
   return await response.json();
 };

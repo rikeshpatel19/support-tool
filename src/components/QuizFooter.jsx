@@ -5,15 +5,10 @@ import { getDynamicQuestions, completeQuiz, finaliseQuizResults } from '../servi
 const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQuestionIndex, questions, totalQuestions, userAnswers, quizType, setCurrentQuestionIndex,
     questionPage, setQuestionPage, perPage, setIsFinished, setQuestions, setDynamicQuestionIDs, batchScore, currentDifficulty, subjectID, setCurrentDifficulty, setBatchScore }) => {
 
-    // 10 Questions shown for Static, 5 Questions shown for Dynamic
-    // const perPage = quizType === 'dynamic' ? 5 : 10;
-
     // Calculates the current page based on current quiz type
     const getPage = (index) => {
-        console.log("Index: ");
-        console.log(index);
-        console.log("Page: ");
-        console.log(Math.floor((index || 0) / perPage));
+        // console.log("Index: ", index);
+        // console.log("Page: ", Math.floor((index || 0) / perPage));
         // Example: Question 8 (index 7) for Static Quiz --> 0.7 rounds down to Page 0
         // Example: Question 11 (index 10) for Static Quiz --> 1.1 rounds down to Page 1
         return (Math.floor((index || 0) / perPage));
@@ -35,19 +30,21 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
             const storedID = localStorage.getItem("userID");
             if (storedID) {
                 try {
-                    // Updates the users completedQuizzes array and their total points
-                    console.log("Percentage: ");
-                    console.log(percentage);
-                    await completeQuiz(storedID, quizID, currentPoints, percentage);
-                    const result = await finaliseQuizResults(storedID, quizID, {
+                    const quizResults = {
                         score: currentScore,
                         totalQuestions: totalQuestions,
                         percentage: percentage,
-                    });
-                    console.log(result.message);
+                    };
+                    // Updates the users completedQuizzes array and their total points
+                    console.log("Percentage: ", percentage);
+                    console.log("Difficulty: ", currentDifficulty);
+                    await Promise.all([
+                        completeQuiz(storedID, quizID, currentPoints, percentage, currentDifficulty),
+                        finaliseQuizResults(storedID, quizID, quizResults)
+                    ])
+                    console.log("Result saved and progress cleared");
                 } catch (error) {
-                    console.error("Failed to finalize results:", error);
-                    console.error("Failed to save points:", error);
+                    console.error(error.message);
                 }
             }
             setIsFinished(true);

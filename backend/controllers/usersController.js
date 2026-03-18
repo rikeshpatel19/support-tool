@@ -121,40 +121,44 @@ const updateProfile = asyncHandler(async (request, response) => {
 // @route POST /users/:id/complete-quiz
 const completeQuiz = asyncHandler(async (request, response) => {
     // Destructures the results sent from the Quiz page
-    const { quizID, pointsEarned, percentage } = request.body;
+    const { quizID, pointsEarned, percentage, lastDifficulty } = request.body;
     // Get the users unique ID from the URL parameters
     const userID = request.params.id;
 
     // Increments the total points by the pointsEarned
     await User.findByIdAndUpdate(userID, { $inc: { points: pointsEarned } });
 
-    // Update the score if the topic exists and the new score is higher
+    // Finds the specfic quiz matching the quizID
     const updatedUser = await User.findOneAndUpdate(
         {
             _id: userID,
-            "completedQuizzes.quizID": quizID, // Match the specific topic inside the array
-            "completedQuizzes.bestPercentage": { $lt: percentage } // Only update if existing score < new score
+            "completedQuizzes.quizID": quizID // Match the specific quiz inside the array
         },
         {
             // $ used to update the specific array element that was matched above
-            $set: { "completedQuizzes.$.bestPercentage": percentage }
+            $set: { "completedQuizzes.$.lastDifficulty": lastDifficulty } // Difficulty updated
         },
         { new: true } // Return the document after the update is applied
     );
 
-    // If nothing was updated (new topic), add it to the array
-    if (!updatedUser) {
+    if (updatedUser) {
+        // Finds the specific object that was just updated in the users completedQuizzes
+        const quizIndex = updatedUser.completedQuizzes.findIndex(q => q.quizID === quizID);
+        
+        // Only update if existing score < new score
+        if (percentage > updatedUser.completedQuizzes[quizIndex].bestPercentage) {
+            updatedUser.completedQuizzes[quizIndex].bestPercentage = percentage;
+            await updatedUser.save(); // Saves changes
+        }
+    } else {
+        // If the quizID was not found, it must be the users first attempt
         await User.updateOne(
-            {
-                _id: userID,
-                "completedQuizzes.quizID": { $ne: quizID } // Only if quizID doesn't exist yet
-            },
-            {
-                // Adds a new object to the array, $addToSet ensures the same topic is not added twice
-                $addToSet: { completedQuizzes: { quizID, bestPercentage: percentage } }
-            }
+            { _id: userID },
+            // Adds a new object to the array, $addToSet ensures the same topic is not added twice
+            { $addToSet: { completedQuizzes: { quizID, bestPercentage: percentage, lastDifficulty: lastDifficulty } }}
         );
     }
+
     // Return a success message to the frontend
     response.json({ message: "High score (Percentage) and points updated!" });
 });
