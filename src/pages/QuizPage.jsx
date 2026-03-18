@@ -75,6 +75,13 @@ const QuizPage = () => {
         if (userData && subjectData) {
           setUser(userData);
           setCurrentSubject(subjectData);
+          if (userData.completedQuizzes) {
+            const pastAttempt = userData.completedQuizzes.find(q => q.quizID === quizID);
+            if (pastAttempt && pastAttempt.lastDifficulty) {
+              console.log(`Resuming at saved difficulty: ${pastAttempt.lastDifficulty}`);
+              setCurrentDifficulty(pastAttempt.lastDifficulty);
+            }
+          }
         }
 
         const quizData = await getQuiz(quizID);
@@ -125,16 +132,24 @@ const QuizPage = () => {
               setCurrentDifficulty(savedProgress.currentDifficulty || 1);
             } else {
               // Start of with Very Easy questions if it is there first time
-              const initialQuestions = await getDynamicQuestions(quizID, subjectID, 1);
-              console.log("Fetched Initial Questions: ");
-              console.log(initialQuestions);
+              let difficulty = 1;
+              if (userData.completedQuizzes) {
+                // Finds the specific object with the same quizID in completedQuizzes
+                const pastAttempt = userData.completedQuizzes.find(q => q.quizID === quizID);
+                if (pastAttempt && pastAttempt.lastDifficulty) {
+                  // Resume using difficulty calculated in the previous attempt 
+                  difficulty = pastAttempt.lastDifficulty;
+                  console.log("Resuming at saved difficulty: ", difficulty);
+                }
+              }
+              const initialQuestions = await getDynamicQuestions(quizID, subjectID, difficulty);
+              console.log("Fetched Initial Questions: ", initialQuestions);
               setQuestions(initialQuestions);
               // Stores the question IDs for the inital 5 questions
               setDynamicQuestionIDs(initialQuestions.map(q => q._id));
+              setCurrentDifficulty(difficulty);
             }
           }
-        } else {
-          // console.log(quizData.message);
         }
         setLoading(false);
       } catch (error) {

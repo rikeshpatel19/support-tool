@@ -28,6 +28,9 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
 
         if (quizEnd) {
             const storedID = localStorage.getItem("userID");
+            console.log("LAST ONE");
+            // Determine new difficulty based on performance of the last 5 questions (Q16-20)
+            const nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
             if (storedID) {
                 try {
                     const quizResults = {
@@ -37,9 +40,9 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
                     };
                     // Updates the users completedQuizzes array and their total points
                     console.log("Percentage: ", percentage);
-                    console.log("Difficulty: ", currentDifficulty);
+                    console.log("Difficulty: ", nextDifficulty);
                     await Promise.all([
-                        completeQuiz(storedID, quizID, currentPoints, percentage, currentDifficulty),
+                        completeQuiz(storedID, quizID, currentPoints, percentage, nextDifficulty),
                         finaliseQuizResults(storedID, quizID, quizResults)
                     ])
                     console.log("Result saved and progress cleared");
