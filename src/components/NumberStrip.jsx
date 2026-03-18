@@ -9,16 +9,22 @@ const NumberStrip = ({ totalQuestions, currentQuestionIndex, userAnswers, quizTy
     const totalPages = Math.ceil(totalQuestions / perPage);
     // Placeholder array used to map the correct number of buttons for the current page
     const visibleQuestions = Array.from({ length: perPage });
-    
+
     // Handle clicking a specific number in the number strip
-    const handleJumpToQuestion = (index) => {
-        // User needs to answer question before moving on to the next question
-        if (quizType === 'dynamic' && !userAnswers[index] && !userAnswers[currentQuestionIndex]) {
+    const handleJumpToQuestion = (newIndex) => {
+        // Array of all question indices that have been answered in the quiz
+        const answeredIndices = Object.keys(userAnswers).map(Number);
+        console.log("Answered Indices: ", ...answeredIndices);
+        // Finds the highest index of the questions answered or returns -1 (no questions answered)
+        const maxAnsweredIndex = answeredIndices.length > 0 ? Math.max(...answeredIndices) : -1;
+        console.log("Highest Question Index: ", maxAnsweredIndex);
+        // If the quiz is dynamic and the question they want to go to is after the latest question
+        if (quizType === 'dynamic' && newIndex > maxAnsweredIndex + 1) {
             // Need to change this for a "caution" message eventually
             alert("Please answer this question before moving on!");
             return;
         }
-        setCurrentQuestionIndex(index);
+        setCurrentQuestionIndex(newIndex);
     };
 
     return (
