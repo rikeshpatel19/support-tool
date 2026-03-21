@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserCircle, Brain, CirclePoundSterling } from 'lucide-react';
-import { getUser } from '../services/api';
 import Button from '../components/Button'
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
@@ -10,24 +9,9 @@ import Avatar from '../components/Avatar';
 import AccountModal from '../components/AccountModal';
 import { subjectThemes } from '../constants/subjectThemes';
 
-const StudentDashboard = () => {
+const StudentDashboard = ({user}) => {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
-
-    useEffect(() => {
-        const loadData = async () => {
-            const storedID = localStorage.getItem("userID");
-
-            try {
-                const userData = await getUser(storedID);
-                setUser(userData);
-            } catch (error) {
-                console.error("Error fetching user:", error);
-            }
-        };
-        loadData();
-    }, []);
 
     if (!user) {
         return <div>Loading your profile... (Make sure you are logged in)</div>;

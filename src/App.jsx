@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { useNavigate, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import StartPage from './pages/StartPage';
@@ -16,6 +16,7 @@ import { getUser } from './services/api';
 function App() {
   // State to track which user is logged in 
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Attempts to find a user ID in local storage
@@ -27,15 +28,19 @@ function App() {
     }
     const initUser = async () => {
       try {
-        const data = await getUser(storedID);
+        const userData = await getUser(storedID);
         // If the data exists, update the global state so all pages can see it
-        if (data) setUser(data);
+        if (userData){
+          setUser(userData);
+          console.log("User session found, redirecting to Student Dashboard");
+          navigate("/sd", { replace: true });
+        } 
       } catch (error) {
-        console.error("Failed to fetch user on app start:", error);
+        console.error("Failed to fetch user:", error);
       }
     };
     initUser();
-  }, []); // The empty array ensures this only runs once
+  }, [navigate]);
 
   return (
     <Routes>

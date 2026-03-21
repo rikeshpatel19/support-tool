@@ -84,7 +84,7 @@ const ShelfPage = () => {
         ))}
       </div>
 
-      {/* --- BOTTOM NAVIGATION --- */}
+      {/* Bottom Navigation */}
       <BottomNav activePage="shelf" />
     </div>
   );

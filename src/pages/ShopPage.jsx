@@ -118,7 +118,7 @@ const ShopPage = () => {
           })}
         </div>
       </div>
-      {/* --- BOTTOM NAVIGATION --- */}
+      {/* Bottom Navigation */}
       <BottomNav activePage="shop" />
     </div>
   );
