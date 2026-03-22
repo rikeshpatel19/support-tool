@@ -5,6 +5,10 @@ const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
   // Surname of user
   surname: { type: String, required: true, trim: true },
+  // First Name of parent
+  parentFirstName: { type: String, required: true, trim: true },
+  // Surname of parent
+  parentSurname: { type: String, required: true, trim: true },
   // Unique username for each user
   username: { type: String, required: true, unique: true, trim: true },
   // Parent email

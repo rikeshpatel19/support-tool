@@ -25,8 +25,7 @@ const LoginPage = ({ setUser }) => {
       // Clear previous errors
       setError("");
       try {
-         const { username, password } = formData;
-         const userData = await loginUser({ username, password });
+         const userData = await loginUser({ username: formData.username, password: formData.password });
          localStorage.setItem("userID", userData._id);
          setUser(userData);
          navigate('/sd');

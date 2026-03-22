@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UserCircle, CirclePoundSterling } from 'lucide-react';
 import { getUser, getResultsByUser } from '../services/api';
-import Button from '../components/Button';
 import Card from '../components/Card';
 import BottomNav from '../components/BottomNav';
 import Avatar from '../components/Avatar';
@@ -76,11 +75,31 @@ const ParentDashboard = () => {
             };
         });
 
+        const masteryEntries = Object.entries(masteryBreakdown);
+
+        // Find the subject with the highest averageMastery
+        const bestSubject = masteryEntries.length > 0
+            // Compares two items, chooses the one with the Higher Average Best Percentage, continues with next item until one remains
+            // Grabs subjectID of the item that remains using [0]
+            ? masteryEntries.reduce((a, b) => a[1].averageMastery > b[1].averageMastery ? a : b)[0]
+            // Returns null if no quizzes have been completed
+            : null;
+
+        // Find the subject with the lowest averageMastery
+        const worstSubject = masteryEntries.length > 0
+            // Compares two items, chooses the one with the Lower Average Best Percentage, continues with next item until one remains
+            // Grabs subjectID of the item that remains using [0]    
+            ? masteryEntries.reduce((a, b) => a[1].averageMastery < b[1].averageMastery ? a : b)[0]
+            // Returns null if no quizzes have been completed
+            : null;
+
         return {
             totalCorrect, // Every question the student got right no matter the subject over the last week
             totalAnswered, // Every question the student has answered no matter the subject over the last week
             subjectBreakdown, // Weekly Stats for each subject (Total Correct / Total Answered)
-            masteryBreakdown // Stats for Average Best Percentage and Total Quizzes Completed
+            masteryBreakdown, // Stats for Average Best Percentage and Total Quizzes Completed
+            bestSubject, // Subject with the Highest Average Best Percentage
+            worstSubject // Subject with the Lowest Average Best Percentage
         };
     };
 
@@ -140,7 +159,7 @@ const ParentDashboard = () => {
 
             {/* Main Content */}
             <main className="max-w-4xl mx-auto p-6 space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800">Welcome back, Parent!</h2>
+                <h2 className="text-2xl font-bold text-gray-800">Welcome back, {user.parentFirstName}!</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     {/* Greeting Card */}
                     <Card className="md:col-span-2 flex items-center gap-6">
@@ -150,9 +169,30 @@ const ParentDashboard = () => {
                     </Card>
 
                     {/* Summary */}
-                    <Card className="flex flex-col items-center text-center">
-                        <p>Best Subject</p>
-                        <p>Subject to work on</p>
+                    <Card className="flex flex-col items-center text-center p-4 space-y-4">
+                        {/* "?" prevents the app from crashing if stats is null */}
+                        {stats?.bestSubject && stats?.worstSubject ? (
+                            // Fragement (<>) used to avoid uneccesary <div>
+                            <>
+                                {/* Best Subject */}
+                                <div>
+                                    <p className="text-xs text-gray-400 font-bold">Best Subject</p>
+                                    <p className="font-bold text-lg" style={{ color: getSubjectTheme(stats.bestSubject).primary }}>
+                                        {getSubjectTheme(stats.bestSubject).label}
+                                    </p>
+                                </div>
+
+                                {/* Worst Subject */}
+                                <div className="w-full border-t border-gray-300 pt-3">
+                                    <p className="text-xs text-gray-400 font-bold">Subject to Work On</p>
+                                    <p className="font-bold text-lg" style={{ color: getSubjectTheme(stats.worstSubject).primary }}>
+                                        {getSubjectTheme(stats.worstSubject).label}
+                                    </p>
+                                </div>
+                            </>
+                        ) : (
+                            <p className="text-sm text-gray-400 italic">No mastery data yet</p>
+                        )}
                     </Card>
                 </div>
 
@@ -161,7 +201,7 @@ const ParentDashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Question Accuracy */}
                     <Card className="p-6">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">Questions This Week</h3>
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Correct Questions</h3>
                         {!stats ? (
                             <p>Loading</p>
                         ) : (

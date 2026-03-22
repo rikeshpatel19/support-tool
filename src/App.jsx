@@ -1,5 +1,5 @@
-import { useNavigate, Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import StartPage from './pages/StartPage';
 import StudentDashboard from './pages/StudentDashboard';
@@ -12,36 +12,10 @@ import ParentDashboard from './pages/ParentDashboard';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ExamPage from './pages/ExamPage';
-import { getUser } from './services/api';
 
 function App() {
   // State to track which user is logged in 
   const [user, setUser] = useState(null);
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // Attempts to find a user ID in local storage
-  //   const storedID = localStorage.getItem("userID");
-  //   // Checks if the user ID exists 
-  //   if (!storedID) {
-  //     console.log("User session not found, waiting for login");
-  //     return;
-  //   }
-  //   const initUser = async () => {
-  //     try {
-  //       const userData = await getUser(storedID);
-  //       // If the data exists, update the global state so all pages can see it
-  //       if (userData){
-  //         setUser(userData);
-  //         console.log("User session found, redirecting to Student Dashboard");
-  //         navigate("/sd", { replace: true });
-  //       } 
-  //     } catch (error) {
-  //       console.error("Failed to fetch user:", error);
-  //     }
-  //   };
-  //   initUser();
-  // }, [navigate]);
 
   return (
     <Routes>

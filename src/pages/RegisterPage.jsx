@@ -14,6 +14,8 @@ const RegisterPage = ({ setUser }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     surname: '',
+    parentFirstName: '',
+    parentSurname: '',
     username: '',
     email: '',
     password: '',
@@ -36,9 +38,15 @@ const RegisterPage = ({ setUser }) => {
     }
 
     try {
-      // Extract only what the database needs
-      const { firstName, surname, username, email, password } = formData;
-      const userData = { firstName, surname, username, email, password };
+      const userData = {
+        firstName: formData.firstName,
+        surname: formData.surname,
+        parentFirstName: formData.parentFirstName,
+        parentSurname: formData.parentSurname,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      };
       const newUser = await registerUser(userData);
       // Log the user in automatically by saving their ID
       localStorage.setItem("userID", newUser._id);
@@ -81,6 +89,26 @@ const RegisterPage = ({ setUser }) => {
               <Input
                 label="Surname"
                 name="surname"
+                icon={Smile}
+                onChange={handleChange}
+                placeholder="e.g. Doe"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Parent First Name */}
+              <Input
+                label="Parent First Name"
+                name="parentFirstName"
+                icon={Smile}
+                onChange={handleChange}
+                placeholder="e.g. John"
+              />
+
+              {/* Parent Surname */}
+              <Input
+                label="Parent Surname"
+                name="parentSurname"
                 icon={Smile}
                 onChange={handleChange}
                 placeholder="e.g. Doe"
