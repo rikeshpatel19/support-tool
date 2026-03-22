@@ -28,23 +28,35 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
 
         if (quizEnd) {
             const storedID = localStorage.getItem("userID");
-            console.log("Last Difficulty Calculation");
-            // Determine new difficulty based on performance of the last 5 questions (Q16-20)
-            const nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
             if (storedID) {
                 try {
+                    const questionsAnswered = Object.keys(userAnswers).length;
+                    console.log("Questions Answered: ", questionsAnswered);
+
+                    let nextDifficulty = currentDifficulty;
+
+                    if (quizType === 'dynamic') {
+                        console.log("Last Difficulty Calculation");
+                        // Determine new difficulty based on performance of the last 5 questions (Q16-20)
+                        nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
+                    }
+                    
                     const quizResults = {
                         score: currentScore,
+                        questionsAnswered: questionsAnswered,
                         totalQuestions: totalQuestions,
                         percentage: percentage,
                     };
-                    // Updates the users completedQuizzes array and their total points
+
                     console.log("Percentage: ", percentage);
                     console.log("Difficulty: ", nextDifficulty);
+
+                    // Updates the users completedQuizzes array and their total points
                     await Promise.all([
                         completeQuiz(storedID, quizID, currentPoints, percentage, nextDifficulty),
-                        finaliseQuizResults(storedID, quizID, quizResults)
+                        finaliseQuizResults(storedID, subjectID, quizID, quizResults)
                     ])
+
                     console.log("Result saved and progress cleared");
                 } catch (error) {
                     console.error(error.message);

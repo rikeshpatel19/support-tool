@@ -41,7 +41,7 @@ const BottomNav = ({ activePage }) => {
           label="Parent Zone"
           icon={<UserCog size={36} />}
           active={activePage === 'parent'}
-          onClick={() => console.log("Parent Zone")}
+          onClick={() => navigate('/parent')}
         />
       </div>
     </nav>

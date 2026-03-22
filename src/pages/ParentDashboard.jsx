@@ -1,0 +1,190 @@
+import { useEffect, useState } from 'react';
+import { UserCircle, CirclePoundSterling } from 'lucide-react';
+import { getUser, getResultsByUser } from '../services/api';
+import Button from '../components/Button';
+import Card from '../components/Card';
+import BottomNav from '../components/BottomNav';
+import Avatar from '../components/Avatar';
+import AccountModal from '../components/AccountModal';
+import { getSubjectTheme } from '../constants/subjectThemes';
+
+const ParentDashboard = () => {
+    const [user, setUser] = useState(null);
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
+    // State to store the filtered user results
+    const [stats, setStats] = useState(null);
+
+    const calculateWeeklyStats = (results) => {
+        // Initially starts of at todays date 
+        const lastWeek = new Date();
+        // Sets it to todays date - 7 days 
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        // Filters for results only from the last 7 days
+        const weeklyResults = results.filter(res => new Date(res.completedAt) >= lastWeek);
+
+        // Initialize totals
+        let totalCorrect = 0;
+        let totalAnswered = 0;
+        // Initially an empty object that will store stats for specfic subjects
+        const subjectBreakdown = {};
+
+        // Loops through every quiz from the last week 
+        weeklyResults.forEach(res => {
+            // Adds up all the correct answers from the quizzes 
+            totalCorrect += res.score;
+            // Adds up all the questions answered across the quizzes
+            totalAnswered += res.questionsAnswered;
+            // If the subject has not been seen in the subjectBreakdown
+            if (!subjectBreakdown[res.subjectID]) {
+                // Creates a new entry for that subject
+                subjectBreakdown[res.subjectID] = { correct: 0, attempted: 0, quizAttempts: 0 };
+            }
+            // Adds the score to the specfic subjects correct answers
+            subjectBreakdown[res.subjectID].correct += res.score;
+            // Adds the questions answered to the specfic subjects attempted questions
+            subjectBreakdown[res.subjectID].attempted += res.questionsAnswered;
+        });
+
+        return {
+            totalCorrect, // Every question the student got right no matter the subject over the last week
+            totalAnswered, // Every question the student has answered no matter the subject over the last week
+            subjectBreakdown, // Stats for each subject
+            totalTimeSpent: "2h 15m" // Dummy data for Time Spent
+        };
+    };
+
+    useEffect(() => {
+        const loadData = async () => {
+            const storedID = localStorage.getItem("userID");
+
+            try {
+                const userData = await getUser(storedID);
+                setUser(userData);
+                const allResults = await getResultsByUser(storedID);
+                const filteredStats = calculateWeeklyStats(allResults);
+                setStats(filteredStats);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+        loadData();
+    }, []);
+
+    if (!user) {
+        return <div>Loading your profile... (Make sure you are logged in)</div>;
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-50 font-sans pb-24">
+            {/* Header */}
+            <header className="bg-white p-4 border-b border-gray-200 sticky z-10">
+                <div className="max-w-4xl mx-auto flex justify-between items-center">
+                    {/* Coin Counter */}
+                    <div className="flex items-center group animate-in fade-in zoom-in duration-300">
+                        {/* Pound Icon */}
+                        <div className="mr-1">
+                            <CirclePoundSterling size={40} className="text-yellow-500" />
+                        </div>
+                        {/* User Points */}
+                        <div className="flex flex-col leading-none text-center text-yellow-500 font-bold">
+                            <span className="text-lg mb-px">{user.points.toLocaleString()}</span>
+                        </div>
+                    </div>
+
+                    {/* User Profile */}
+                    <div className="flex items-center gap-3">
+                        <span className="text-lg font-medium text-gray-700">{user.username}</span>
+                        <UserCircle size={40} className="text-gray-800" onClick={() => setIsAccountOpen(true)} />
+                    </div>
+                </div>
+            </header>
+
+            {/* Account Modal */}
+            <AccountModal
+                user={user}
+                isOpen={isAccountOpen}
+                onClose={() => setIsAccountOpen(false)}
+                onUserUpdate={(updatedUser) => setUser(updatedUser)} // Instantly updates the dashboard
+            />
+
+            {/* Main Content */}
+            <main className="max-w-4xl mx-auto p-6 space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">Welcome back, Parent!</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    {/* Greeting Card */}
+                    <Card className="md:col-span-2 flex items-center gap-6">
+                        <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
+                        {/* Feel like an accent colour for the name would be nice, not sure if I want this to be the final colour */}
+                        <p className="text-2xl font-semibold text-gray-900">Viewing progress for <span className="font-bold text-indigo-600">{user.firstName}</span></p>
+                    </Card>
+
+                    {/* Summary */}
+                    <Card className="flex flex-col items-center text-center">
+                        <p>Best Subject</p>
+                        <p>Subject to work on</p>
+                    </Card>
+                </div>
+
+                {/* Weekly Analytics */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Question Accuracy */}
+                    <Card className="p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Questions This Week</h3>
+                        {!stats ? (
+                            <p>Loading</p>
+                        ) : (
+                            <div>
+                                {/* Total Correct Answers / Total Questions Attempted */}
+                                <div className="flex items-end gap-2 mb-4">
+                                    <span className="text-5xl font-semibold text-indigo-600">{stats.totalCorrect || 0}</span>
+                                    <span className="text-2xl text-gray-700 mb-1">/ {stats.totalAnswered || 0} correct</span>
+                                </div>
+                                {/* Subject Specific Total Correct Answers / Total Questions Attempted */}
+                                <div className="space-y-3 border-t pt-4">
+                                    <h4 className="text-sm font-semibold text-gray-800 uppercase">By Subject</h4>
+                                    {/* If stats is not null and subjectBreakdown actually contains subjects */}
+                                    {stats && Object.entries(stats.subjectBreakdown).length > 0 ? (
+                                        // Converts subjectBreakdown into an array then loops through each subject
+                                        // Example Entry for Maths: ["maths", {correct: 3, attempted: 3}]
+                                        // Destructuring used to seperate the subjectID from the object (data)
+                                        Object.entries(stats.subjectBreakdown).map(([subjectID, data]) => {
+                                            const theme = getSubjectTheme(subjectID); // Used to get labal and colour
+                                            return (
+                                                <div key={subjectID} className="flex justify-between items-center text-sm">
+                                                    {/* Displays subject */}
+                                                    <span style={{ color: theme.primary }} className="font-bold">{theme.label}</span>
+                                                    {/* Correct / Attempted for specfic subject  */}
+                                                    <span className="text-gray-700">{data.correct} / {data.attempted}</span>
+                                                </div>
+                                            );
+                                        })
+                                    ) : (
+                                        <p className="text-sm text-gray-600 italic">No questions completed this week.</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </Card>
+
+                    {/* Time Spent */}
+                    {/* Debating whether to move this somewhere else or remove it entirely */}
+                    <Card className="p-6">
+                        {/* <h3 className="text-xl font-bold text-gray-800 mb-4">Time Spent</h3>
+                        {!stats ? (
+                            <p>Loading</p>
+                        ) : (
+                            <span className="text-4xl font-bold text-gray-800">{stats.totalTimeSpent}</span>
+                        )} */}
+                    </Card>
+                </div>
+            </main>
+
+            {/* Bottom Navigation */}
+            {!isAccountOpen && (
+                <BottomNav activePage="parent" />
+            )}
+        </div>
+    )
+}
+
+export default ParentDashboard;

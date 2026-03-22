@@ -178,8 +178,8 @@ export const getSubjectProgress = async (userID, subjectID) => {
 };
 
 // Add result for a completed quiz and clear progress 
-export const finaliseQuizResults = async (userID, quizID, data) => {
-  const response = await fetch(`${API_URL}/progresses/${userID}/results/${quizID}`, {
+export const finaliseQuizResults = async (userID, subjectID, quizID, data) => {
+  const response = await fetch(`${API_URL}/progresses/${userID}/results/${subjectID}/${quizID}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)

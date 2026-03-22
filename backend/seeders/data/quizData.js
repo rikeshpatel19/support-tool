@@ -2260,7 +2260,7 @@ const quizData = [
     subjectID: "english",
     name: "Vocab Blast",
     type: "static",
-    totalQuestions: 20,
+    totalQuestions: 10,
     passage:
     {
       title: "The Swiss Family Robinson",
@@ -2310,6 +2310,48 @@ const quizData = [
         question_text: "How many adjectives can you count in the sentence beginning “We refreshed our eyes…”? (lines 3–5)",
         options: ["1", "2", "3", "4", "5"],
         correct_option: "4"
+      },
+      {
+        difficulty: 1,
+        question_text: "At what time of year is the passage set?",
+        options: ["winter", "spring", "rainy season", "mid-summer", "autumn"],
+        correct_option: "spring"
+      },
+      {
+        difficulty: 1,
+        question_text: "The father compares himself and his family to prisoners set free. Why? (lines 2–3)",
+        options: [
+          "They had been held hostage by pirates.",
+          "They had been trapped in their cave",
+          "They had been trapped in their house due to stormy weather.",
+          "They had been caught in heavy rain which had finally stopped.",
+          "They had been unfairly accused of crimes but the accusations had been dropped."
+        ],
+        correct_option: "They had been trapped in their house due to stormy weather."
+      },
+      {
+        difficulty: 2,
+        question_text: "‘The winds at length were lulled’ (line 1) What is another way of saying ‘lulled’?",
+        options: ["rhythmic", "weakened", "welcomed", "rocked", "calmed"],
+        correct_option: "calmed"
+      },
+      {
+        difficulty: 2,
+        question_text: "Why might the author have decided to include water references in the first paragraph? (lines 1–5)",
+        options: [
+          "The heavy rain had recently stopped.",
+          "Rain was still falling heavily.",
+          "Water makes the setting seem more peaceful.",
+          "The family hadn’t had a drink for a long time.",
+          "The family have found themselves on an island surrounded by water."
+        ],
+        correct_option: "The heavy rain had recently stopped."
+      },
+      {
+        difficulty: 1,
+        question_text: "How many adjectives can you count in the sentence beginning “We refreshed our eyes…”? (lines 3–5)",
+        options: ["1", "2", "3", "4", "5"],
+        correct_option: "4"
       }
     ]
   },
@@ -2318,7 +2360,7 @@ const quizData = [
     subjectID: "english",
     name: "Spelling Bee",
     type: "static",
-    totalQuestions: 20,
+    totalQuestions: 10,
     passage:
     {
       title: "The Swiss Family Robinson",
@@ -2368,6 +2410,48 @@ const quizData = [
         question_text: "How many adjectives can you count in the sentence beginning “We refreshed our eyes…”? (lines 3–5)",
         options: ["1", "2", "3", "4", "5"],
         correct_option: "4"
+      },
+      {
+        difficulty: 1,
+        question_text: "At what time of year is the passage set?",
+        options: ["winter", "spring", "rainy season", "mid-summer", "autumn"],
+        correct_option: "spring"
+      },
+      {
+        difficulty: 1,
+        question_text: "The father compares himself and his family to prisoners set free. Why? (lines 2–3)",
+        options: [
+          "They had been held hostage by pirates.",
+          "They had been trapped in their cave",
+          "They had been trapped in their house due to stormy weather.",
+          "They had been caught in heavy rain which had finally stopped.",
+          "They had been unfairly accused of crimes but the accusations had been dropped."
+        ],
+        correct_option: "They had been trapped in their house due to stormy weather."
+      },
+      {
+        difficulty: 2,
+        question_text: "‘The winds at length were lulled’ (line 1) What is another way of saying ‘lulled’?",
+        options: ["rhythmic", "weakened", "welcomed", "rocked", "calmed"],
+        correct_option: "calmed"
+      },
+      {
+        difficulty: 2,
+        question_text: "Why might the author have decided to include water references in the first paragraph? (lines 1–5)",
+        options: [
+          "The heavy rain had recently stopped.",
+          "Rain was still falling heavily.",
+          "Water makes the setting seem more peaceful.",
+          "The family hadn’t had a drink for a long time.",
+          "The family have found themselves on an island surrounded by water."
+        ],
+        correct_option: "The heavy rain had recently stopped."
+      },
+      {
+        difficulty: 1,
+        question_text: "How many adjectives can you count in the sentence beginning “We refreshed our eyes…”? (lines 3–5)",
+        options: ["1", "2", "3", "4", "5"],
+        correct_option: "4"
       }
     ]
   },
@@ -2376,7 +2460,7 @@ const quizData = [
     subjectID: "english",
     name: "Reading Comp",
     type: "static",
-    totalQuestions: 20,
+    totalQuestions: 10,
     passage:
     {
       title: "The Swiss Family Robinson",
@@ -2385,6 +2469,48 @@ const quizData = [
       text: ""
     },
     questions: [
+      {
+        difficulty: 1,
+        question_text: "At what time of year is the passage set?",
+        options: ["winter", "spring", "rainy season", "mid-summer", "autumn"],
+        correct_option: "spring"
+      },
+      {
+        difficulty: 1,
+        question_text: "The father compares himself and his family to prisoners set free. Why? (lines 2–3)",
+        options: [
+          "They had been held hostage by pirates.",
+          "They had been trapped in their cave",
+          "They had been trapped in their house due to stormy weather.",
+          "They had been caught in heavy rain which had finally stopped.",
+          "They had been unfairly accused of crimes but the accusations had been dropped."
+        ],
+        correct_option: "They had been trapped in their house due to stormy weather."
+      },
+      {
+        difficulty: 2,
+        question_text: "‘The winds at length were lulled’ (line 1) What is another way of saying ‘lulled’?",
+        options: ["rhythmic", "weakened", "welcomed", "rocked", "calmed"],
+        correct_option: "calmed"
+      },
+      {
+        difficulty: 2,
+        question_text: "Why might the author have decided to include water references in the first paragraph? (lines 1–5)",
+        options: [
+          "The heavy rain had recently stopped.",
+          "Rain was still falling heavily.",
+          "Water makes the setting seem more peaceful.",
+          "The family hadn’t had a drink for a long time.",
+          "The family have found themselves on an island surrounded by water."
+        ],
+        correct_option: "The heavy rain had recently stopped."
+      },
+      {
+        difficulty: 1,
+        question_text: "How many adjectives can you count in the sentence beginning “We refreshed our eyes…”? (lines 3–5)",
+        options: ["1", "2", "3", "4", "5"],
+        correct_option: "4"
+      },
       {
         difficulty: 1,
         question_text: "At what time of year is the passage set?",

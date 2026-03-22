@@ -8,8 +8,8 @@ import { getExamQuestions, finaliseQuizResults } from '../services/api';
 
 const ExamPage = () => {
   const navigate = useNavigate();
-  // Extract examID from the URL
-  const { examID } = useParams();
+  // Extract subjectID and examID from the URL
+  const { subjectID, examID } = useParams();
 
   // --- STATE MANAGEMENT ---
   // State to store the title of the exam
@@ -106,7 +106,7 @@ const ExamPage = () => {
   const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   // Calculate score based on all answers
-  const score = questions.reduce((totalScore, currentQuestion, qIndex) => 
+  const score = questions.reduce((totalScore, currentQuestion, qIndex) =>
     userAnswers[qIndex] === currentQuestion.correct_option ? totalScore + 1 : totalScore, 0
   );
   // Calculate total percentage to determine grade
@@ -131,8 +131,12 @@ const ExamPage = () => {
     const storedID = localStorage.getItem("userID");
     if (storedID) {
       try {
-        await finaliseQuizResults(storedID, examID, {
+        const questionsAnswered = Object.keys(userAnswers).length;
+        console.log("Questions Answered: ", questionsAnswered);
+
+        await finaliseQuizResults(storedID, subjectID, examID, {
           score: score,
+          questionsAnswered: questionsAnswered,
           totalQuestions: questions.length,
           percentage: percentage,
         });

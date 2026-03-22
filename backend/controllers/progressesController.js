@@ -64,8 +64,8 @@ const getSubjectProgress = asyncHandler(async (request, response) => {
 // @desc Add result for a completed quiz and clear progress 
 // @route POST /progresses/:userID/results/:quizID
 const finaliseQuizResults = asyncHandler(async (request, response) => {
-    const { userID, quizID } = request.params;
-    const { score, totalQuestions, percentage } = request.body;
+    const { userID, subjectID, quizID } = request.params;
+    const { score, questionsAnswered, totalQuestions, percentage } = request.body;
 
     // Check how many results already exist for this topic
     const existingResults = await Result.find({ userID, quizID }).sort({ completedAt: 1 });
@@ -76,7 +76,7 @@ const finaliseQuizResults = asyncHandler(async (request, response) => {
         await Result.findByIdAndDelete(oldestID);
     }
 
-    const resultObject = new Result({ userID, quizID, score, totalQuestions, percentage, completedAt: Date.now() });
+    const resultObject = new Result({ userID, subjectID, quizID, score, questionsAnswered, totalQuestions, percentage, completedAt: Date.now() });
     // Create and store new result based on the Result Schema
     const newResult = await Result.create(resultObject);
 

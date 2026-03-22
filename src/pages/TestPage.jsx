@@ -6,8 +6,6 @@ import { getSubjects } from '../services/api';
 import { getSubjectTheme } from '../constants/subjectThemes';
 
 const TestPage = () => {
-  // Extract subjectID from the URL
-  const { subjectID } = useParams();
   const navigate = useNavigate();
   // State to store subjects
   const [subjects, setSubjects] = useState([]);
@@ -44,7 +42,7 @@ const TestPage = () => {
                 {subject.exams.map((exam) => (
                   <button
                   key={exam.id}  
-                  onClick={() => navigate(`/test/${subjectID}/${exam.id}`)}
+                  onClick={() => navigate(`/test/${subject.subjectID}/${exam.id}`)}
                     style={{
                       backgroundColor: theme.secondary,
                       borderColor: theme.primary,

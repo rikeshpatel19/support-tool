@@ -4,7 +4,7 @@ const {saveQuizProgress, getQuizProgress, getSubjectProgress, finaliseQuizResult
 
 router.route('/:userID/progress/:quizID').patch(saveQuizProgress) .get(getQuizProgress);
 router.route('/:userID/progress/subject/:subjectID').get(getSubjectProgress);
-router.route('/:userID/results/:quizID').post(finaliseQuizResults);
+router.route('/:userID/results/:subjectID/:quizID').post(finaliseQuizResults);
 router.route('/:userID/results').get(getResultsByUser);
 
 module.exports = router;

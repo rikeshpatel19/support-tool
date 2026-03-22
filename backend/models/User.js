@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   completedQuizzes: [{
     quizID: { type: String },
     bestPercentage: { type: Number, default: 0 },
-    lastDifficulty: { type: Number, default: 1 } // Used to adjust difficulty for the next attempt 
+    lastDifficulty: { type: Number, default: 3 } // Used to adjust difficulty for the next attempt 
   }],
   // Avatar that the user can customise
   avatar: { type: String, default: 'Cat' },

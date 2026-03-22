@@ -131,10 +131,10 @@ const QuizPage = () => {
               console.log("Previous Batch Score: ", savedProgress.batchScore);
               setDynamicQuestionIDs(savedProgress.dynamicQuestionIDs);
               // Carries on at correct difficulty
-              setCurrentDifficulty(savedProgress.currentDifficulty || 1);
+              setCurrentDifficulty(savedProgress.currentDifficulty || 3);
             } else {
-              // Start of with Very Easy questions if it is there first time
-              let difficulty = 1;
+              // Start of with Normal questions if it is there first time
+              let difficulty = 3;
               if (userData.completedQuizzes) {
                 // Finds the specific object with the same quizID in completedQuizzes
                 const pastAttempt = userData.completedQuizzes.find(q => q.quizID === quizID);

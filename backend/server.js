@@ -25,9 +25,11 @@ app.use('/subjects', subjectRoutes);
 app.use('/collectibles', collectibleRoutes);
 // Connecting to the MongoDB Atlas Cluster
 mongoose.connect(process.env.MONGO_URI)
+  // Only runs if connection is successful 
   .then(() => console.log("MongoDB Connected..."))
+  // Runs if connection fails
   .catch(err => console.log(err));
-// Defining the Port number
-const PORT = process.env.PORT || 5000;
+// Defining the Port number (8080)
+const PORT = process.env.PORT || 8080;
 // Start the server
 app.listen(PORT, () => console.log(`Server is purring on port ${PORT}`));

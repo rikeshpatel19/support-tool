@@ -8,6 +8,7 @@ import TestPage from './pages/TestPage';
 import QuizPage from './pages/QuizPage';
 import ShopPage from './pages/ShopPage';
 import ShelfPage from './pages/ShelfPage';
+import ParentDashboard from './pages/ParentDashboard';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ExamPage from './pages/ExamPage';
@@ -16,31 +17,31 @@ import { getUser } from './services/api';
 function App() {
   // State to track which user is logged in 
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    // Attempts to find a user ID in local storage
-    const storedID = localStorage.getItem("userID");
-    // Checks if the user ID exists 
-    if (!storedID) {
-      console.log("User session not found, waiting for login");
-      return;
-    }
-    const initUser = async () => {
-      try {
-        const userData = await getUser(storedID);
-        // If the data exists, update the global state so all pages can see it
-        if (userData){
-          setUser(userData);
-          console.log("User session found, redirecting to Student Dashboard");
-          navigate("/sd", { replace: true });
-        } 
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-      }
-    };
-    initUser();
-  }, [navigate]);
+  // useEffect(() => {
+  //   // Attempts to find a user ID in local storage
+  //   const storedID = localStorage.getItem("userID");
+  //   // Checks if the user ID exists 
+  //   if (!storedID) {
+  //     console.log("User session not found, waiting for login");
+  //     return;
+  //   }
+  //   const initUser = async () => {
+  //     try {
+  //       const userData = await getUser(storedID);
+  //       // If the data exists, update the global state so all pages can see it
+  //       if (userData){
+  //         setUser(userData);
+  //         console.log("User session found, redirecting to Student Dashboard");
+  //         navigate("/sd", { replace: true });
+  //       } 
+  //     } catch (error) {
+  //       console.error("Failed to fetch user:", error);
+  //     }
+  //   };
+  //   initUser();
+  // }, [navigate]);
 
   return (
     <Routes>
@@ -58,11 +59,13 @@ function App() {
       <Route path="/shop" element={<ProtectedRoute><ShopPage /></ProtectedRoute>} />
       {/* Channel 7: The Shelf Page */}
       <Route path="/shelf" element={<ProtectedRoute><ShelfPage /></ProtectedRoute>} />
-      {/* Channel 8: The Login Page */}
+      {/* Channel 8: The Parent Dashboard */}
+      <Route path="/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
+      {/* Channel 9: The Login Page */}
       <Route path="/login" element={<LoginPage setUser={setUser} />} />
-      {/* Channel 9: The Register Page */}
+      {/* Channel 10: The Register Page */}
       <Route path="/register" element={<RegisterPage />} />
-      {/* Channel 10: The Exam Page */}
+      {/* Channel 11: The Exam Page */}
       <Route path="/test/:subjectID/:examID" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
     </Routes>
   );

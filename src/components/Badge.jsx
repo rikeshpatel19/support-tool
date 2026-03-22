@@ -2,7 +2,7 @@ import { Hexagon } from 'lucide-react';
 
 const Badge = ({ tier = 'none', size = 32 }) => {
   
-  // Define the styles for each tier
+  // Defines the styles for each tier
   const styles = {
     gold: {
       color: "text-black",

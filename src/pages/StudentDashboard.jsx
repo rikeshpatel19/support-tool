@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserCircle, Brain, CirclePoundSterling } from 'lucide-react';
-import Button from '../components/Button'
+import { getUser } from '../services/api';
+import Button from '../components/Button';
 import Card from '../components/Card';
 import SubjectCard from '../components/SubjectCard';
 import BottomNav from '../components/BottomNav';
@@ -9,9 +10,24 @@ import Avatar from '../components/Avatar';
 import AccountModal from '../components/AccountModal';
 import { subjectThemes } from '../constants/subjectThemes';
 
-const StudentDashboard = ({user}) => {
+const StudentDashboard = () => {
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
+
+    useEffect(() => {
+        const loadData = async () => {
+            const storedID = localStorage.getItem("userID");
+
+            try {
+                const userData = await getUser(storedID);
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+        loadData();
+    }, []);
 
     if (!user) {
         return <div>Loading your profile... (Make sure you are logged in)</div>;
@@ -37,7 +53,6 @@ const StudentDashboard = ({user}) => {
                     {/* User Profile */}
                     <div className="flex items-center gap-3">
                         <span className="text-lg font-medium text-gray-700">{user.username}</span>
-                        {/* <UserCircle size={40} className="text-gray-800" onClick={() => navigate('/account')} /> */}
                         <UserCircle size={40} className="text-gray-800" onClick={() => setIsAccountOpen(true)} />
                     </div>
                 </div>
@@ -54,7 +69,7 @@ const StudentDashboard = ({user}) => {
             {/* Main Content */}
             <main className="max-w-4xl mx-auto p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Greeting Card (Span 2 columns) */}
+                    {/* Greeting Card */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <div className="w-24 h-24 flex items-center justify-center">
                             <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
@@ -65,7 +80,7 @@ const StudentDashboard = ({user}) => {
                         </div>
                     </Card>
 
-                    {/* Daily Brain Boost Card (Span 1 column) */}
+                    {/* Daily Brain Boost Card */}
                     <Card className="flex flex-col items-center text-center">
                         <div className="flex items-center gap-2 mb-4">
                             <Brain size={24} />
