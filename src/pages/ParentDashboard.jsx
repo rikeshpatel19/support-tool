@@ -191,7 +191,7 @@ const ParentDashboard = () => {
                                 </div>
                             </>
                         ) : (
-                            <p className="text-sm text-gray-400 italic">No mastery data yet</p>
+                            <p className="text-sm text-center text-gray-500 italic flex items-center justify-center h-full">No mastery data yet</p>
                         )}
                     </Card>
                 </div>
@@ -249,42 +249,51 @@ const ParentDashboard = () => {
                 <div className="space-y-4">
                     <h3 className="text-xl font-bold text-gray-800 mb-4">Subject Mastery</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {stats && Object.entries(stats.masteryBreakdown).map(([subjectID, data]) => {
-                            const theme = getSubjectTheme(subjectID);
-                            const mastery = data.averageMastery;
-                            return (
-                                <Card key={subjectID} className="p-4">
-                                    {/* Subject Name + Total Unqiue Quizzes Completed */}
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="font-bold" style={{ color: theme.primary }}>{theme.label}</span>
-                                        <span className="text-sm text-gray-500">{data.totalQuizzes} {data.totalQuizzes === 1 ? 'Quiz' : 'Quizzes'} Total</span>
-                                    </div>
+                        {stats && Object.entries(stats.masteryBreakdown).length > 0 ? (
+                            Object.entries(stats.masteryBreakdown).map(([subjectID, data]) => {
+                                const theme = getSubjectTheme(subjectID);
+                                const mastery = data.averageMastery;
+                                return (
+                                    <Card key={subjectID} className="p-4">
+                                        {/* Subject Name + Total Unqiue Quizzes Completed */}
+                                        <div className="flex justify-between items-center mb-2">
+                                            <span className="font-bold" style={{ color: theme.primary }}>{theme.label}</span>
+                                            <span className="text-sm text-gray-500">{data.totalQuizzes} {data.totalQuizzes === 1 ? 'Quiz' : 'Quizzes'} Total</span>
+                                        </div>
 
-                                    {/* Show Progress Bar only if 3 unique quizzes have been completed */}
-                                    {data.totalQuizzes >= 3 ? (
-                                        <div className="space-y-2">
-                                            {/* Progress Bar */}
-                                            <div className="bg-gray-200 w-full rounded-full h-4">
-                                                {/* Inner Progress */}
-                                                <div className="h-4 rounded-full" style={{ width: `${mastery}%`, backgroundColor: theme.primary }} />
+                                        {/* Show Progress Bar only if 3 unique quizzes have been completed */}
+                                        {data.totalQuizzes >= 3 ? (
+                                            <div className="space-y-2">
+                                                {/* Progress Bar */}
+                                                <div className="bg-gray-200 w-full rounded-full h-4">
+                                                    {/* Inner Progress */}
+                                                    <div className="h-4 rounded-full" style={{ width: `${mastery}%`, backgroundColor: theme.primary }} />
+                                                </div>
+                                                {/* Calculation Information + Mastery Percentage */}
+                                                <div className="flex justify-between items-center">
+                                                    <p className="text-xs text-gray-400">Calculated by Average Best Percentage</p>
+                                                    <p className="text-sm font-bold" style={{ color: theme.primary }}>{mastery}% Mastery</p>
+                                                </div>
                                             </div>
-                                            {/* Calculation Information + Mastery Percentage */}
-                                            <div className="flex justify-between items-center">
-                                                <p className="text-xs text-gray-400">Calculated by Average Best Percentage</p>
-                                                <p className="text-sm font-bold" style={{ color: theme.primary }}>{mastery}% Mastery</p>
+                                        ) : (
+                                            // Message if they have not got enough quizzes completed to show mastery
+                                            <div className="bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
+                                                <p className="text-xs text-gray-500 italic">
+                                                    Complete {3 - data.totalQuizzes} more unique {(3 - data.totalQuizzes) === 1 ? 'quiz' : 'quizzes'} in {theme.label} to unlock mastery data
+                                                </p>
                                             </div>
-                                        </div>
-                                    ) : (
-                                        // Message if they have not got enough quizzes completed to show mastery
-                                        <div className="bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
-                                            <p className="text-xs text-gray-500 italic">
-                                                Complete {3 - data.totalQuizzes} more unique {(3 - data.totalQuizzes) === 1 ? 'quiz' : 'quizzes'} in {theme.label} to unlock mastery data
-                                            </p>
-                                        </div>
-                                    )}
-                                </Card>
-                            );
-                        })}
+                                        )}
+                                    </Card>
+                                );
+                            })
+                        ) : (
+                            // Message if the student has not done any quizzes
+                            <Card className="col-span-full p-8 text-center">
+                                <p className="text-gray-500 italic">
+                                    No mastery data available yet. Have {user.firstName} complete some quizzes to see progress!
+                                </p>
+                            </Card>
+                        )}
                     </div>
                 </div>
             </main>
