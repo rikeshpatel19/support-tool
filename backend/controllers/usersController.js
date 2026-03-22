@@ -121,7 +121,7 @@ const updateProfile = asyncHandler(async (request, response) => {
 // @route POST /users/:id/complete-quiz
 const completeQuiz = asyncHandler(async (request, response) => {
     // Destructures the results sent from the Quiz page
-    const { quizID, pointsEarned, percentage, lastDifficulty } = request.body;
+    const { quizID, subjectID, pointsEarned, percentage, lastDifficulty } = request.body;
     // Get the users unique ID from the URL parameters
     const userID = request.params.id;
 
@@ -155,7 +155,7 @@ const completeQuiz = asyncHandler(async (request, response) => {
         await User.updateOne(
             { _id: userID },
             // Adds a new object to the array, $addToSet ensures the same topic is not added twice
-            { $addToSet: { completedQuizzes: { quizID, bestPercentage: percentage, lastDifficulty: lastDifficulty } }}
+            { $addToSet: { completedQuizzes: { quizID, subjectID, bestPercentage: percentage, lastDifficulty: lastDifficulty } }}
         );
     }
 

@@ -14,7 +14,7 @@ const ParentDashboard = () => {
     // State to store the filtered user results
     const [stats, setStats] = useState(null);
 
-    const calculateWeeklyStats = (results) => {
+    const calculateWeeklyStats = (results, userData) => {
         // Initially starts of at todays date 
         const lastWeek = new Date();
         // Sets it to todays date - 7 days 
@@ -34,7 +34,7 @@ const ParentDashboard = () => {
             totalCorrect += res.score;
             // Adds up all the questions answered across the quizzes
             totalAnswered += res.questionsAnswered;
-            // If the subject has not been seen in the subjectBreakdown
+            // If the subject has not been seen in yet in the subjectBreakdown
             if (!subjectBreakdown[res.subjectID]) {
                 // Creates a new entry for that subject
                 subjectBreakdown[res.subjectID] = { correct: 0, attempted: 0, quizAttempts: 0 };
@@ -45,11 +45,42 @@ const ParentDashboard = () => {
             subjectBreakdown[res.subjectID].attempted += res.questionsAnswered;
         });
 
+        // Object to contain Total Best Percentages and Quiz Count for each subject
+        const subjectMasteryData = {};
+
+        // If the user exists and they have completedQuizzes
+        if (userData && userData.completedQuizzes) {
+            // Loops through each quiz that the user has completed
+            userData.completedQuizzes.forEach(quiz => {
+                // If the subject has not been seen in yet in the subjectMasteryData
+                if (!subjectMasteryData[quiz.subjectID]) {
+                    // Creates a new entry for that subject
+                    subjectMasteryData[quiz.subjectID] = { totalBestPercentage: 0, quizCount: 0 };
+                }
+                // Sum up the best percentages for the subject
+                subjectMasteryData[quiz.subjectID].totalBestPercentage += quiz.bestPercentage;
+                // Keeps track of how many quizzes have been added
+                subjectMasteryData[quiz.subjectID].quizCount += 1;
+            });
+        }
+
+        // Object to store the Average Best Percentage and Total Quizzes Completed
+        const masteryBreakdown = {};
+        // Converted into an array then loops through each subject
+        Object.entries(subjectMasteryData).forEach(([subjectID, data]) => {
+            masteryBreakdown[subjectID] = {
+                // Average Best Percentage
+                averageMastery: Math.round(data.totalBestPercentage / data.quizCount),
+                // Total Quizzes Completed
+                totalQuizzes: data.quizCount
+            };
+        });
+
         return {
             totalCorrect, // Every question the student got right no matter the subject over the last week
             totalAnswered, // Every question the student has answered no matter the subject over the last week
-            subjectBreakdown, // Stats for each subject
-            totalTimeSpent: "2h 15m" // Dummy data for Time Spent
+            subjectBreakdown, // Weekly Stats for each subject (Total Correct / Total Answered)
+            masteryBreakdown // Stats for Average Best Percentage and Total Quizzes Completed
         };
     };
 
@@ -61,7 +92,7 @@ const ParentDashboard = () => {
                 const userData = await getUser(storedID);
                 setUser(userData);
                 const allResults = await getResultsByUser(storedID);
-                const filteredStats = calculateWeeklyStats(allResults);
+                const filteredStats = calculateWeeklyStats(allResults, userData);
                 setStats(filteredStats);
             } catch (error) {
                 console.error("Error fetching user:", error);
@@ -126,6 +157,7 @@ const ParentDashboard = () => {
                 </div>
 
                 {/* Weekly Analytics */}
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Weekly Analytics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Question Accuracy */}
                     <Card className="p-6">
@@ -169,13 +201,51 @@ const ParentDashboard = () => {
                     {/* Time Spent */}
                     {/* Debating whether to move this somewhere else or remove it entirely */}
                     <Card className="p-6">
-                        {/* <h3 className="text-xl font-bold text-gray-800 mb-4">Time Spent</h3>
-                        {!stats ? (
-                            <p>Loading</p>
-                        ) : (
-                            <span className="text-4xl font-bold text-gray-800">{stats.totalTimeSpent}</span>
-                        )} */}
+                        {/* <h3 className="text-xl font-bold text-gray-800 mb-4">Time Spent</h3> */}
                     </Card>
+                </div>
+
+                {/* Subject Mastery */}
+                <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">Subject Mastery</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {stats && Object.entries(stats.masteryBreakdown).map(([subjectID, data]) => {
+                            const theme = getSubjectTheme(subjectID);
+                            const mastery = data.averageMastery;
+                            return (
+                                <Card key={subjectID} className="p-4">
+                                    {/* Subject Name + Total Unqiue Quizzes Completed */}
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="font-bold" style={{ color: theme.primary }}>{theme.label}</span>
+                                        <span className="text-sm text-gray-500">{data.totalQuizzes} {data.totalQuizzes === 1 ? 'Quiz' : 'Quizzes'} Total</span>
+                                    </div>
+
+                                    {/* Show Progress Bar only if 3 unique quizzes have been completed */}
+                                    {data.totalQuizzes >= 3 ? (
+                                        <div className="space-y-2">
+                                            {/* Progress Bar */}
+                                            <div className="bg-gray-200 w-full rounded-full h-4">
+                                                {/* Inner Progress */}
+                                                <div className="h-4 rounded-full" style={{ width: `${mastery}%`, backgroundColor: theme.primary }} />
+                                            </div>
+                                            {/* Calculation Information + Mastery Percentage */}
+                                            <div className="flex justify-between items-center">
+                                                <p className="text-xs text-gray-400">Calculated by Average Best Percentage</p>
+                                                <p className="text-sm font-bold" style={{ color: theme.primary }}>{mastery}% Mastery</p>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        // Message if they have not got enough quizzes completed to show mastery
+                                        <div className="bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
+                                            <p className="text-xs text-gray-500 italic">
+                                                Complete {3 - data.totalQuizzes} more unique {(3 - data.totalQuizzes) === 1 ? 'quiz' : 'quizzes'} in {theme.label} to unlock mastery data
+                                            </p>
+                                        </div>
+                                    )}
+                                </Card>
+                            );
+                        })}
+                    </div>
                 </div>
             </main>
 

@@ -53,7 +53,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
 
                     // Updates the users completedQuizzes array and their total points
                     await Promise.all([
-                        completeQuiz(storedID, quizID, currentPoints, percentage, nextDifficulty),
+                        completeQuiz(storedID, quizID, subjectID, currentPoints, percentage, nextDifficulty),
                         finaliseQuizResults(storedID, subjectID, quizID, quizResults)
                     ])
 

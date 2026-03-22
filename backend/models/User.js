@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
   // Stores IDs of quizzes that the user has completed alongside their best score
   completedQuizzes: [{
     quizID: { type: String },
+    subjectID: { type: String },
     bestPercentage: { type: Number, default: 0 },
     lastDifficulty: { type: Number, default: 3 } // Used to adjust difficulty for the next attempt 
   }],

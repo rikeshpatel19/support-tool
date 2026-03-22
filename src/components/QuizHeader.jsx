@@ -16,7 +16,7 @@ const QuizHeader = ({ handlePause, theme, currentSubject, displayTopic, progress
         {/* Centre: Progress Bar */}
         <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-1/3 h-4 bg-gray-200 rounded-full border-2 border-black overflow-hidden">
           {/* The inner filling bar that changes width based on progressPercent */}
-          <div className="h-full bg-gray-800 transition-all duration-300" style={{ width: `${progressPercent}%`, backgroundColor: theme.primary }} />
+          <div className="h-full transition-all duration-300" style={{ width: `${progressPercent}%`, backgroundColor: theme.primary }} />
         </div>
         {/* Conditional Passage Button */}
         {passage && (

@@ -75,13 +75,6 @@ const QuizPage = () => {
         if (userData && subjectData) {
           setUser(userData);
           setCurrentSubject(subjectData);
-          if (userData.completedQuizzes) {
-            const pastAttempt = userData.completedQuizzes.find(q => q.quizID === quizID);
-            if (pastAttempt && pastAttempt.lastDifficulty) {
-              console.log(`Resuming at saved difficulty: ${pastAttempt.lastDifficulty}`);
-              setCurrentDifficulty(pastAttempt.lastDifficulty);
-            }
-          }
         }
 
         const quizData = await getQuiz(quizID);
