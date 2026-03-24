@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import StartPage from './pages/StartPage';
 import StudentDashboard from './pages/StudentDashboard';
+import ReviewPage from './pages/ReviewPage';
 import SubjectPage from './pages/SubjectPage';
 import TestPage from './pages/TestPage';
 import QuizPage from './pages/QuizPage';
@@ -23,23 +24,25 @@ function App() {
       <Route path="/" element={<StartPage />} />
       {/* Channel 2: The Home Page (Dashboard) */}
       <Route path="/sd" element={<ProtectedRoute><StudentDashboard user={user} /></ProtectedRoute>} />
-      {/* Channel 3: The Subject Page */}
+      {/* Channel 3: The Review Page */}
+      <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
+      {/* Channel 4: The Subject Page */}
       <Route path="/subject/:subjectID" element={<ProtectedRoute><SubjectPage /></ProtectedRoute>} />
-      {/* Channel 4: The Test Page */}
+      {/* Channel 5: The Test Page */}
       <Route path="/test" element={<ProtectedRoute><TestPage /></ProtectedRoute>} />
-      {/* Channel 5: The Quiz Page */}
+      {/* Channel 6: The Quiz Page */}
       <Route path="/quiz/:subjectID/:quizID" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
-      {/* Channel 6: The Shop Page */}
+      {/* Channel 7: The Shop Page */}
       <Route path="/shop" element={<ProtectedRoute><ShopPage /></ProtectedRoute>} />
-      {/* Channel 7: The Shelf Page */}
+      {/* Channel 8: The Shelf Page */}
       <Route path="/shelf" element={<ProtectedRoute><ShelfPage /></ProtectedRoute>} />
-      {/* Channel 8: The Parent Dashboard */}
+      {/* Channel 9: The Parent Dashboard */}
       <Route path="/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
-      {/* Channel 9: The Login Page */}
+      {/* Channel 10: The Login Page */}
       <Route path="/login" element={<LoginPage setUser={setUser} />} />
-      {/* Channel 10: The Register Page */}
+      {/* Channel 11: The Register Page */}
       <Route path="/register" element={<RegisterPage />} />
-      {/* Channel 11: The Exam Page */}
+      {/* Channel 12: The Exam Page */}
       <Route path="/test/:subjectID/:examID" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
     </Routes>
   );

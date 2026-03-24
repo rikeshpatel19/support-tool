@@ -33,7 +33,7 @@ const ParentDashboard = () => {
             totalCorrect += res.score;
             // Adds up all the questions answered across the quizzes
             totalAnswered += res.questionsAnswered;
-            // If the subject has not been seen in yet in the subjectBreakdown
+            // If the subject has not been seen yet in the subjectBreakdown
             if (!subjectBreakdown[res.subjectID]) {
                 // Creates a new entry for that subject
                 subjectBreakdown[res.subjectID] = { correct: 0, attempted: 0, quizAttempts: 0 };

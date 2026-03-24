@@ -12,8 +12,7 @@ const QuizCompletionOverlay = ({ isFinished, totalQuestions, currentScore, curre
     const getBadgeTier = () => {
         if (totalQuestions === 0) return 'none'; // Safety check
         const percentage = (currentScore / totalQuestions) * 100;
-
-        // Return tier string based on thresholds
+        // Boundaries that determine what tier Badge is earnt
         if (percentage >= 70) return 'gold';
         if (percentage >= 50) return 'silver';
         if (percentage >= 40) return 'bronze';

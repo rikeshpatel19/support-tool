@@ -12,7 +12,7 @@ const subjectData = [
             { id: 'm3', name: "Multiplication" }
         ],
         challenges: [
-            { id: 'mc1', name: "Speed Math" },
+            { id: 'mc1', name: "Fractions" },
             { id: 'mc2', name: "Mental Math" },
             { id: 'mc3', name: "Word Problems" }
         ],

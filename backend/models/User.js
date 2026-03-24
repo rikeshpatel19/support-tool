@@ -22,7 +22,9 @@ const UserSchema = new mongoose.Schema({
     quizID: { type: String },
     subjectID: { type: String },
     bestPercentage: { type: Number, default: 0 },
-    lastDifficulty: { type: Number, default: 3 } // Used to adjust difficulty for the next attempt 
+    latestPercentage: { type: Number, default: 0 }, // Used for Spaced Retrieval System
+    lastDifficulty: { type: Number, default: 3 }, // Used to adjust difficulty for the next attempt 
+    completedAt: { type: Date, default: Date.now } // Date and time of completion 
   }],
   // Avatar that the user can customise
   avatar: { type: String, default: 'Cat' },

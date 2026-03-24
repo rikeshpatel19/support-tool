@@ -89,7 +89,7 @@ const StudentDashboard = () => {
                         <div className="bg-red-500 text-white px-4 py-1.5 rounded-full text-sm font-bold mb-4 shadow-sm">
                             Questions to revisit: 5
                         </div>
-                        <Button>Start Review</Button>
+                        <Button onClick={() => navigate('/review')}>Start Review</Button>
                     </Card>
                 </div>
 

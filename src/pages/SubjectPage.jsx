@@ -17,8 +17,6 @@ const SubjectPage = () => {
   const theme = getSubjectTheme(subjectID);
 
   useEffect(() => {
-    // Used to deal with React Strict Mode's double invoke
-    let ignore = false;
     const loadAllData = async () => {
       setLoading(true);
       try {
@@ -29,42 +27,36 @@ const SubjectPage = () => {
           getUser(storedID),
           getSubjectProgress(storedID, subjectID) // Fetches progress records belonging to a specific subject
         ]);
-        if (!ignore) {
-          setCurrentSubject(subjectData);
-          setUser(userData);
-          // Combines topics and challenges into a single list
-          const allQuizzes = [...subjectData.topics, ...subjectData.challenges];
-          // Converts the progressData into a Map in the following format { quizID: progressObject }
-          const progressLookup = {};
-          progressData.forEach(p => {
-            progressLookup[p.quizID] = p;
-          });
-          // Used to map all topics/challenges to their current percentage 
-          const progressMap = {};
-          allQuizzes.forEach(quiz => {
-            // Check if a progress record exists for this quiz
-            const data = progressLookup[quiz.id];
-            if (data) {
-              // Use the saved percentage from the database
-              progressMap[quiz.id] = data.progressPercent;
-            } else {
-              // Default to 0% (user has no progress)
-              progressMap[quiz.id] = 0;
-            }
-          });
-          // Updates the state with the mapped progress values
-          setTopicProgressMap(progressMap);
-        }
+        setCurrentSubject(subjectData);
+        setUser(userData);
+        // Combines topics and challenges into a single list
+        const allQuizzes = [...subjectData.topics, ...subjectData.challenges];
+        // Converts the progressData into a Map in the following format { quizID: progressObject }
+        const progressLookup = {};
+        progressData.forEach(p => {
+          progressLookup[p.quizID] = p;
+        });
+        // Used to map all topics/challenges to their current percentage 
+        const progressMap = {};
+        allQuizzes.forEach(quiz => {
+          // Check if a progress record exists for this quiz
+          const data = progressLookup[quiz.id];
+          if (data) {
+            // Use the saved percentage from the database
+            progressMap[quiz.id] = data.progressPercent;
+          } else {
+            // Default to 0% (user has no progress)
+            progressMap[quiz.id] = 0;
+          }
+        });
+        // Updates the state with the mapped progress values
+        setTopicProgressMap(progressMap);
       } catch (error) {
-        if (!ignore) console.error("Error loading Subject Page:", error);
+        console.error("Error loading Subject Page:", error);
       }
-      if (!ignore) setLoading(false);
+      setLoading(false);
     };
     loadAllData();
-
-    return () => {
-      ignore = true;
-    };
   }, [subjectID]);
 
   const getBadgeStatus = (quizID) => {
@@ -107,7 +99,7 @@ const SubjectPage = () => {
 
         {/* Section 1: Choose a Topic */}
         <section>
-          <h2 className="text-xl font-bold mb-4">Choose a Topic</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Choose a Topic</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {currentSubject.topics.map((topic) => (
               <TopicCard
@@ -124,7 +116,7 @@ const SubjectPage = () => {
 
         {/* Section 2: Challenges */}
         <section>
-          <h2 className="text-xl font-bold mb-4">Challenges</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Challenges</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {currentSubject.challenges.map((challenge) => (
               <TopicCard

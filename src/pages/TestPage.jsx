@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import { getSubjects } from '../services/api';
@@ -37,12 +37,12 @@ const TestPage = () => {
           const theme = getSubjectTheme(subject.subjectID);
           return (
             <section key={subject._id}>
-              <h2 className="text-xl font-bold mb-4">GL Assessment {subject.title}</h2>
+              <h2 className="text-xl text-gray-800 font-bold mb-4">GL Assessment {subject.title}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {subject.exams.map((exam) => (
                   <button
-                  key={exam.id}  
-                  onClick={() => navigate(`/test/${subject.subjectID}/${exam.id}`)}
+                    key={exam.id}
+                    onClick={() => navigate(`/test/${subject.subjectID}/${exam.id}`)}
                     style={{
                       backgroundColor: theme.secondary,
                       borderColor: theme.primary,
@@ -59,7 +59,7 @@ const TestPage = () => {
           );
         })}
       </div>
-      {/* --- BOTTOM NAVIGATION --- */}
+      {/* Bottom Navigation */}
       <BottomNav activePage="test" />
     </div>
   );

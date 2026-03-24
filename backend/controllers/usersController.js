@@ -14,12 +14,6 @@ const getUser = asyncHandler(async (request, response) => {
     response.json(user);
 });
 
-// @desc Delete user
-// @route DELETE /users
-const deleteUser = asyncHandler(async (request, response) => {
-
-});
-
 // @desc Login user
 // @route POST /users/login
 const loginUser = asyncHandler(async (request, response) => {
@@ -143,7 +137,11 @@ const completeQuiz = asyncHandler(async (request, response) => {
         },
         {
             // $ used to update the specific array element that was matched above
-            $set: { "completedQuizzes.$.lastDifficulty": lastDifficulty } // Difficulty updated
+            $set: { 
+                "completedQuizzes.$.lastDifficulty": lastDifficulty, // Difficulty updated
+                "completedQuizzes.$.latestPercentage": percentage, // Latest percentage updated
+                "completedQuizzes.$.completedAt": Date.now() // Date of completion updated
+            } 
         },
         { new: true } // Return the document after the update is applied
     );
@@ -151,9 +149,10 @@ const completeQuiz = asyncHandler(async (request, response) => {
     if (updatedUser) {
         // Finds the specific object that was just updated in the users completedQuizzes
         const quizIndex = updatedUser.completedQuizzes.findIndex(q => q.quizID === quizID);
-        
+        const existingRecord = updatedUser.completedQuizzes[quizIndex];
+
         // Only update if existing score < new score
-        if (percentage > updatedUser.completedQuizzes[quizIndex].bestPercentage) {
+        if (percentage > existingRecord.bestPercentage) {
             updatedUser.completedQuizzes[quizIndex].bestPercentage = percentage;
             await updatedUser.save(); // Saves changes
         }
@@ -162,7 +161,17 @@ const completeQuiz = asyncHandler(async (request, response) => {
         await User.updateOne(
             { _id: userID },
             // Adds a new object to the array, $addToSet ensures the same topic is not added twice
-            { $addToSet: { completedQuizzes: { quizID, subjectID, bestPercentage: percentage, lastDifficulty: lastDifficulty } }}
+            {
+                $addToSet: {
+                    completedQuizzes: {
+                        quizID, subjectID,
+                        bestPercentage: percentage,
+                        latestPercentage: percentage,
+                        lastDifficulty: lastDifficulty,
+                        completedAt: Date.now()
+                    }
+                }
+            }
         );
     }
 
@@ -197,7 +206,6 @@ const purchaseItem = asyncHandler(async (request, response) => {
 
 module.exports = {
     getUser,
-    deleteUser,
     loginUser,
     registerUser,
     updateProfile,
