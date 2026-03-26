@@ -1,20 +1,96 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import { getUser } from '../services/api';
+import ReviewCard from '../components/ReviewCard';
+import { getUser, getSubjects } from '../services/api';
+import { getSubjectTheme } from '../constants/subjectThemes';
 
 const ReviewPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [reviewSections, setReviewSectons] = useState({ today: [], upcoming: [] });
+
+    const getDaysTillReview = (percentage) => {
+        // Score that is lower than 40%: Review in 1 day 
+        if (percentage < 40) return 1;
+        // Score that is between 40% and 59%: Review in 3 days 
+        if (percentage <= 59) return 3;
+        // Score that is between 60% and 80%: Review in 7 days 
+        if (percentage <= 80) return 6;
+        // Score that is higher than 80%: Review in 14 days 
+        return 14;
+    }
 
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
             try {
                 const storedID = localStorage.getItem("userID");
-                const userData = await getUser(storedID);
+                const [userData, subjectData] = await Promise.all([
+                    getUser(storedID),
+                    getSubjects()
+                ]);
                 setUser(userData);
+
+                // Array that will contain all quizzes with their subject IDs
+                const allQuizzes = [];
+                subjectData.forEach(subject => {
+                    // Combines topics + challenges for each subject
+                    const subjectQuizzes = [...subject.topics, ...subject.challenges];
+                    // Adds the quizzes along with the subject ID to allQuizzes
+                    subjectQuizzes.forEach(quiz => {
+                        allQuizzes.push({ ...quiz, subjectID: subject.subjectID });
+                    })
+                })
+
+                // Array that contains all the quizzes across all the subjects that the user has completed
+                const userReviewData = allQuizzes.map(quiz => {
+                    // Checks if the user has completed the quiz
+                    const matchingRecord = userData.completedQuizzes.find(q => q.quizID === quiz.id);
+                    // If a match was found
+                    if (matchingRecord) {
+                        // Quiz along with latestPercentage and completedAt are added
+                        return { ...quiz, latestPercentage: matchingRecord.latestPercentage, completedAt: matchingRecord.completedAt };
+                    }
+                    return null;
+                }).filter(item => item !== null); // Ensures that quizzes that are not done are removed
+
+                const currentDate = new Date();
+
+                // Array that contains the quizzes alogn with their review date and days remaining
+                const scheduledQuizzes = userReviewData.map(quiz => {
+                    const daysTillReview = getDaysTillReview(quiz.latestPercentage);
+                    const latestCompletion = new Date(quiz.completedAt);
+                    // Initally set to the date of quiz completion 
+                    const nextReviewDate = new Date(latestCompletion);
+                    // Updated using days till review
+                    nextReviewDate.setDate(nextReviewDate.getDate() + daysTillReview);
+                    // Used to calculate difference in days, stored in milliseconds
+                    const timeDifference = nextReviewDate.getTime() - currentDate.getTime();
+                    // milliseconds to seconds (1000), seconds to minutes (60), minutes to hours (60), hours to days (24)
+                    // Math.ceil used so if there is 1.2 days left for example, the student will see 2 days
+                    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                    // Quiz along with nextReviewDate and daysRemaining are added
+                    return { ...quiz, nextReviewDate, daysRemaining: daysDifference };
+                });
+
+                const todayList = [];
+                const upcomingList = [];
+
+                scheduledQuizzes.forEach(quiz => {
+                    // If the quiz is due today or overdue
+                    if (quiz.daysRemaining <= 0) {
+                        todayList.push(quiz);
+                    } else {
+                        // Quiz is due in the future
+                        upcomingList.push(quiz);
+                    }
+                });
+
+                // Sorts upcoming so the quizzes are in order of when they are due
+                upcomingList.sort((a, b) => a.daysRemaining - b.daysRemaining);
+                setReviewSectons({ today: todayList, upcoming: upcomingList });
             } catch (error) {
                 console.error("Error loading Review Page:", error);
             }
@@ -34,7 +110,15 @@ const ReviewPage = () => {
                 <section>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Today's Review</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <p className="text-gray-500 italic">Quizzes that need to be revisited today</p>
+                        {reviewSections.today.map((quiz) => (
+                            <ReviewCard
+                                key={quiz.id}
+                                name={quiz.name}
+                                theme={getSubjectTheme(quiz.subjectID)}
+                                daysRemaining={quiz.daysRemaining}
+                                onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
+                            />
+                        ))}
                     </div>
                 </section>
 
@@ -42,7 +126,15 @@ const ReviewPage = () => {
                 <section>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Upcoming</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <p className="text-gray-500 italic">Quizzes to be reviewed at a later date</p>
+                        {reviewSections.upcoming.map((quiz) => (
+                            <ReviewCard
+                                key={quiz.id}
+                                name={quiz.name}
+                                theme={getSubjectTheme(quiz.subjectID)}
+                                daysRemaining={quiz.daysRemaining}
+                                onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
+                            />
+                        ))}
                     </div>
                 </section>
             </div>

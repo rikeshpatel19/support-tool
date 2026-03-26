@@ -91,7 +91,7 @@ export const getSubjects = async () => {
   try {
     const response = await fetch(`${API_URL}/subjects`);
     if (!response.ok) throw new Error("Failed to fetch subjects");
-    return await response.json(); // Returns an array of subjectIDs
+    return await response.json(); // Returns an array of all the subjects
   } catch (error) {
     console.error("Error:", error);
     return []; // Return empty array on error
@@ -213,6 +213,3 @@ export const getAllCollectibles = async () => {
   const response = await fetch(`${API_URL}/collectibles`);
   return await response.json();
 };
-
-
-

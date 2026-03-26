@@ -4,10 +4,10 @@ import Button from './Button';
 import Badge from './Badge';
 
 const QuizCompletionOverlay = ({ isFinished, totalQuestions, currentScore, currentPoints }) => {
+    const navigate = useNavigate();
+
     if (!isFinished) return null;
 
-    const navigate = useNavigate();
-    
     // Logic to determine which Badge to award based on score percentage
     const getBadgeTier = () => {
         if (totalQuestions === 0) return 'none'; // Safety check

@@ -167,7 +167,7 @@ const RegisterPage = ({ setUser }) => {
             </div>
 
             <p className="text-center text-gray-500 text-sm font-medium mt-4">
-              Already have an account? <span onClick={() => navigate('/login')} className="text-black underline cursor-pointer hover:text-blue-600">Log in here</span>
+              Already have an account? <span onClick={() => navigate('/login')} className="text-black cursor-pointer hover:text-blue-600 hover:underline">Log in here</span>
             </p>
 
           </form>

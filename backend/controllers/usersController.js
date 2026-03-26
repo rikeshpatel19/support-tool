@@ -137,11 +137,11 @@ const completeQuiz = asyncHandler(async (request, response) => {
         },
         {
             // $ used to update the specific array element that was matched above
-            $set: { 
+            $set: {
                 "completedQuizzes.$.lastDifficulty": lastDifficulty, // Difficulty updated
                 "completedQuizzes.$.latestPercentage": percentage, // Latest percentage updated
                 "completedQuizzes.$.completedAt": Date.now() // Date of completion updated
-            } 
+            }
         },
         { new: true } // Return the document after the update is applied
     );

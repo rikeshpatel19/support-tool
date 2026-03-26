@@ -34,10 +34,10 @@ const saveQuizProgress = asyncHandler(async (request, response) => {
     const progress = await Progress.findOneAndUpdate(
         { userID, quizID }, // Finds a record matching both the userID and quizID
         updatedData, // Updates it with the new data
-        { 
+        {
             upsert: true, // Creates record if missing
             new: true // Ensures the updated record is returned, not the old one
-        } 
+        }
     );
     response.json(progress);
 });

@@ -14,7 +14,7 @@ const Header = ({ label, points }) => {
                     <ArrowLeft size={28} />
                 </button>
                 {/* Dynamic Title */}
-                <h1 className="text-3xl font-black italic tracking-tighter">{label}</h1>
+                <h1 className="text-3xl text-gray-900 font-bold tracking-tighter">{label}</h1>
                 {/* Conditional Coin Display */}
                 {isShopPage ? (
                     <div className="flex items-center group animate-in fade-in zoom-in duration-300">

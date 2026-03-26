@@ -9,7 +9,7 @@ const getQuiz = asyncHandler(async (request, response) => {
     const quiz = await Quiz.findOne({ quizID: request.params.quizID }).populate('fixedQuestions');
     // If it cannot find one send a 404 Not Found error message
     if (!quiz) {
-      return response.status(404).json({ message: "Quiz not found" });
+        return response.status(404).json({ message: "Quiz not found" });
     }
     // If found send the quiz data to the frontend
     response.json(quiz);
@@ -22,11 +22,13 @@ const getDynamicQuestions = asyncHandler(async (request, response) => {
 
     // Looks for questions that match the quiz, subject and requested difficulty
     const questions = await Question.aggregate([
-        { $match: { 
-            quizID: quizID,
-            subjectID: subjectID,
-            difficulty: Number(difficulty)
-        }},
+        {
+            $match: {
+                quizID: quizID,
+                subjectID: subjectID,
+                difficulty: Number(difficulty)
+            }
+        },
         { $sample: { size: 5 } } // $sample grabs 5 random questions from the list of matched questions
     ]);
     // If it cannot find any questions
