@@ -3,7 +3,7 @@ import Card from './Card';
 import Button from './Button';
 import Badge from './Badge';
 
-const QuizCompletionOverlay = ({ isFinished, totalQuestions, currentScore, currentPoints }) => {
+const QuizCompletionOverlay = ({ isFinished, totalQuestions, currentScore, currentPoints, subjectID }) => {
     const navigate = useNavigate();
 
     if (!isFinished) return null;
@@ -47,7 +47,7 @@ const QuizCompletionOverlay = ({ isFinished, totalQuestions, currentScore, curre
                 </div>
 
                 {/* Back Button */}
-                <Button variant="black" onClick={() => navigate(-1)} className="w-full justify-center mt-2 p-2">
+                <Button variant="black" onClick={() => navigate(`/subject/${subjectID}`)} className="w-full justify-center mt-2 p-2">
                     Back to Topics
                 </Button>
             </Card>

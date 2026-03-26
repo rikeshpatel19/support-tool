@@ -288,11 +288,11 @@ const ParentDashboard = () => {
                             })
                         ) : (
                             // Message if the student has not done any quizzes
-                            <Card className="col-span-full p-8 text-center">
-                                <p className="text-gray-500 italic">
+                            <div className="col-span-full bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
+                                <p className="text-sm text-gray-500 italic">
                                     No mastery data available yet. Have {user.firstName} complete some quizzes to see progress!
                                 </p>
-                            </Card>
+                            </div>
                         )}
                     </div>
                 </div>

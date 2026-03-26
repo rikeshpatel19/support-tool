@@ -8,7 +8,7 @@ const PassageModal = ({ isOpen, onClose, title, author, synopsis, text }) => {
       <div className="bg-white w-full max-w-2xl max-h-[80vh] rounded-3xl border-4 border-black flex flex-col overflow-hidden shadow-hard">
         {/* Header */}
         <div className="p-4 border-b-4 border-black flex justify-between items-center bg-gray-50">
-          <h2 className="font-black uppercase text-xl">Reading Passage</h2>
+          <h2 className="text-xl font-bold">Reading Passage</h2>
           {/* X (Close) Button */}
           <button
             onClick={onClose}

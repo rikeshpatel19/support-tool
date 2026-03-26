@@ -110,15 +110,24 @@ const ReviewPage = () => {
                 <section>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Today's Review</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {reviewSections.today.map((quiz) => (
-                            <ReviewCard
-                                key={quiz.id}
-                                name={quiz.name}
-                                theme={getSubjectTheme(quiz.subjectID)}
-                                daysRemaining={quiz.daysRemaining}
-                                onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
-                            />
-                        ))}
+                        {reviewSections.today.length > 0 ? (
+                            reviewSections.today.map((quiz) => {
+                                <ReviewCard
+                                    key={quiz.id}
+                                    name={quiz.name}
+                                    theme={getSubjectTheme(quiz.subjectID)}
+                                    daysRemaining={quiz.daysRemaining}
+                                    onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
+                                />
+                            })
+                        ) : (
+                            // Message if they have no quizzes to review today
+                            <div className="col-span-full bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
+                                <p className="text-xs text-gray-500 italic">
+                                    You are all caught up for today. Well Done!
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </section>
 
@@ -126,15 +135,24 @@ const ReviewPage = () => {
                 <section>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Upcoming</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {reviewSections.upcoming.map((quiz) => (
-                            <ReviewCard
-                                key={quiz.id}
-                                name={quiz.name}
-                                theme={getSubjectTheme(quiz.subjectID)}
-                                daysRemaining={quiz.daysRemaining}
-                                onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
-                            />
-                        ))}
+                        {reviewSections.upcoming.length > 0 ? (
+                            reviewSections.upcoming.map((quiz) => {
+                                <ReviewCard
+                                    key={quiz.id}
+                                    name={quiz.name}
+                                    theme={getSubjectTheme(quiz.subjectID)}
+                                    daysRemaining={quiz.daysRemaining}
+                                    onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
+                                />
+                            })
+                        ) : (
+                            // Message if they have no upcoming quizzes to review
+                            <div className="col-span-full bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
+                                <p className="text-xs text-gray-500 italic">
+                                    Keep completing Quizzes!
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </section>
             </div>

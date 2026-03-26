@@ -287,11 +287,12 @@ const QuizPage = () => {
       />
 
       {/* Quiz Completion Overlay */}
-      <QuizCompletionOverlay
+      <QuizCompletionOverlay 
         isFinished={isFinished}
         totalQuestions={totalQuestions}
         currentScore={currentScore}
         currentPoints={currentPoints}
+        subjectID={subjectID}
       />
 
       {/* Quiz Header */}
