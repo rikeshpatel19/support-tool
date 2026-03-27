@@ -97,7 +97,7 @@ const LoginPage = ({ setUser }) => {
 
                   {/* Log In Button */}
                   <div className="pt-2">
-                     <Button variant="grey" className="w-full justify-center text-lg h-12" onClick={handleSubmit}>Log In</Button>
+                     <Button variant="primary" className="w-full justify-center text-lg h-12" onClick={handleSubmit}>Log In</Button>
                   </div>
 
                   <p className="text-center text-gray-500 text-sm font-medium mt-6">
