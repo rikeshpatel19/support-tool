@@ -15,7 +15,7 @@ const RegisterPage = ({ setUser }) => {
   const [showPassword, setShowPassword] = useState(false);
   // State to determine if confirm password is showing 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  // State to store data from input fields
   const [formData, setFormData] = useState({
     studentName: '',
     parentName: '',
@@ -25,12 +25,15 @@ const RegisterPage = ({ setUser }) => {
     confirmPassword: ''
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Updates formData whenever anything is typed in the input fields
+  const handleChange = (event) => {
+    // Only the field that changed is overwritten
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    // Prevents default form behaviour (refreshing the page)
+    event.preventDefault();
     // Clear previous errors
     setError("");
 
@@ -63,9 +66,8 @@ const RegisterPage = ({ setUser }) => {
   return (
     <div className="min-h-screen bg-amber-50 flex items-center justify-center p-6 pb-20">
       <div className="max-w-md w-full">
-
+        {/* Main Card */}
         <Card className="p-8">
-
           {/* Header */}
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-200 border-2 border-black rounded-full mb-4 shadow-medium">
@@ -75,6 +77,7 @@ const RegisterPage = ({ setUser }) => {
             <p className="text-gray-500 mt-2 font-medium">Create your student account below.</p>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               {/* Student Name */}
@@ -102,6 +105,7 @@ const RegisterPage = ({ setUser }) => {
               name="username"
               icon={User}
               onChange={handleChange}
+              autoComplete="username"
               placeholder="Choose a username"
             />
 
@@ -112,6 +116,7 @@ const RegisterPage = ({ setUser }) => {
               type="email"
               name="email"
               onChange={handleChange}
+              autoComplete="email"
               placeholder="rikesh@example.com"
             />
 
@@ -123,6 +128,7 @@ const RegisterPage = ({ setUser }) => {
                 type={showPassword ? "text" : "password"} // Switches between text and password
                 name="password"
                 onChange={handleChange}
+                autoComplete="new-password"
                 placeholder="••••••••"
               />
 
@@ -148,6 +154,7 @@ const RegisterPage = ({ setUser }) => {
                 type={showConfirmPassword ? "text" : "password"} // Switches between text and password
                 name="confirmPassword"
                 onChange={handleChange}
+                autoComplete="new-password"
                 placeholder="Re-enter Password"
               />
 

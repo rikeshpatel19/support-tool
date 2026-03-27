@@ -13,15 +13,18 @@ const LoginPage = ({ setUser }) => {
    const [error, setError] = useState("");
    // State to determine if password is showing 
    const [showPassword, setShowPassword] = useState(false);
-   // Requires Commenting
+   // State to store data from input fields
    const [formData, setFormData] = useState({ username: '', password: '' });
 
-   const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+   // Updates formData whenever anything is typed in the input fields
+   const handleChange = (event) => {
+      // Only the field that changed (username or password) is overwritten
+      setFormData({ ...formData, [event.target.name]: event.target.value });
    };
 
-   const handleSubmit = async (e) => {
-      e.preventDefault();
+   const handleSubmit = async (event) => {
+      // Prevents default form behaviour (refreshing the page)
+      event.preventDefault();
       // Clear previous errors
       setError("");
       try {
@@ -59,6 +62,7 @@ const LoginPage = ({ setUser }) => {
                      value={formData.username}
                      icon={User}
                      onChange={handleChange}
+                     autoComplete="username"
                      placeholder="Enter your username"
                   />
 
@@ -71,6 +75,7 @@ const LoginPage = ({ setUser }) => {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
+                        autoComplete="current-password"
                         placeholder="••••••••"
                      />
 
