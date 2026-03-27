@@ -3,18 +3,18 @@ const Collectible = require('../models/Collectible');
 require('dotenv').config();
 
 const collectibleData = [
-  { id: "robot_figure", name: "Classic Robot", icon: "🤖" },
-  { id: "wizard_figure", name: "Wizard", icon: "🧙‍♂️" },
-  { id: "cat_figure", name: "Super Cat", icon: "😼" },
-  { id: "alien_figure", name: "Alien", icon: "👽" },
-  { id: "ghost_figure", name: "Ghost", icon: "👻" },
-  { id: "dragon_figure", name: "Dragon", icon: "🐉" },
-  { id: "ninja_figure", name: "Ninja", icon: "🥷" },
-  { id: "rockstar_figure", name: "Rockstar", icon: "🎸" },
-  { id: "detective_figure", name: "Detective", icon: "🕵️‍♀️" },
-  { id: "dino_figure", name: "T-Rex", icon: "🦖" },
-  { id: "astro_figure", name: "Astronaut", icon: "👨‍🚀" },
-  { id: "superhero_figure", name: "Superhero", icon: "🦸" },
+  { id: "robot_figure", name: "Classic Robot", icon: "🤖", rarity: "Common", price: 500 },
+  { id: "wizard_figure", name: "Wizard", icon: "🧙‍♂️", rarity: "Common", price: 500 },
+  { id: "cat_figure", name: "Super Cat", icon: "😼", rarity: "Common", price: 500 },
+  { id: "alien_figure", name: "Alien", icon: "👽", rarity: "Rare", price: 1000 },
+  { id: "ghost_figure", name: "Ghost", icon: "👻", rarity: "Rare", price: 1000 },
+  { id: "dragon_figure", name: "Dragon", icon: "🐉", rarity: "Rare", price: 1000 },
+  { id: "ninja_figure", name: "Ninja", icon: "🥷", rarity: "Epic", price: 1500 },
+  { id: "rockstar_figure", name: "Rockstar", icon: "🎸", rarity: "Epic", price: 1500 },
+  { id: "detective_figure", name: "Detective", icon: "🕵️‍♀️", rarity: "Epic", price: 1500 },
+  { id: "dino_figure", name: "T-Rex", icon: "🦖", rarity: "Legendary", price: 2000 },
+  { id: "astro_figure", name: "Astronaut", icon: "👨‍🚀", rarity: "Legendary", price: 2000 },
+  { id: "superhero_figure", name: "Superhero", icon: "🦸", rarity: "Legendary", price: 2000 },
 ];
 
 const seedCollectibles = async () => {

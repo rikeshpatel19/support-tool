@@ -51,10 +51,10 @@ const loginUser = asyncHandler(async (request, response) => {
 // @route POST /users/register
 const registerUser = asyncHandler(async (request, response) => {
     // Destructure the data sent from the Register form
-    const { firstName, surname, parentFirstName, parentSurname, username, email, password } = request.body;
+    const { studentName, parentName, username, email, password } = request.body;
 
     // Confirm that all required fields have data
-    if (!firstName || !surname || !parentFirstName || !parentSurname || !username || !email || !password) {
+    if (!studentName || !parentName || !username || !email || !password) {
         return response.status(400).json({ message: "Whoops! It looks like some boxes are still empty. Can you fill them in?" });
     }
 
@@ -75,7 +75,7 @@ const registerUser = asyncHandler(async (request, response) => {
     const hashedPassword = await bcrypt.hash(password, 10); // 10 Salt rounds
 
     const userObject = {
-        firstName, surname, parentFirstName, parentSurname, username, email, "password": hashedPassword,
+        studentName, parentName, username, email, "password": hashedPassword,
         points: 0, // New students start with zero points
         completedQuizzes: [],
         avatar: 'Cat', // Default starter avatar

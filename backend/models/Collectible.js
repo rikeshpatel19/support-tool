@@ -7,8 +7,10 @@ const CollectibleSchema = new mongoose.Schema({
   name: { type: String, required: true },
   // Icon for each collectible
   icon: { type: String, required: true },
+  // Rarity for each collectible
+  rarity: { type: String, required: true },
   // Price for each collectible
-  price: { type: Number, default: 500 }
+  price: { type: Number, required: true, default: 500 }
 });
 
 module.exports = mongoose.model('Collectible', CollectibleSchema);

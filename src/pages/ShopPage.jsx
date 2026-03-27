@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Coins, ShoppingBag, CheckCircle } from 'lucide-react';
+import { CirclePoundSterling, ShoppingBag, CheckCircle } from 'lucide-react';
 import { getUser, getAllCollectibles, purchaseItem } from '../services/api';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
@@ -12,7 +12,6 @@ const ShopPage = () => {
   // State to hold shop items
   const [shopItems, setShopItems] = useState([]);
 
-  // Requires Commenting
   useEffect(() => {
     const loadData = async () => {
       const storedID = localStorage.getItem("userID");
@@ -24,16 +23,16 @@ const ShopPage = () => {
         ]);
         // Store the items from MongoDB
         setUser(userData);
-        setShopItems(collectiblesData); 
+        setShopItems(collectiblesData);
       }
     };
     loadData();
   }, []);
-  
+
   // Requires Commenting
   const handlePurchase = async (item) => {
     const storedID = localStorage.getItem("userID");
-    const price = item.price; 
+    const price = item.price;
     if (user.points < price) {
       alert("You need more points! Try doing more quizzes.");
       return;
@@ -47,6 +46,20 @@ const ShopPage = () => {
         inventory: data.inventory
       });
     }
+  };
+
+  // Determine the text colour based on the rarity of the item
+  const getTextStyle = (rarity) => {
+    console.log(rarity);
+    // Common: Grey
+    if (rarity == "Common") return "text-gray-600";
+    // Rare: Blue
+    if (rarity == "Rare") return "text-blue-500";
+    // Epic: Purple
+    if (rarity == "Epic") return "text-purple-600";
+    // Legendary: Gold
+    if (rarity == "Legendary") return "text-amber-500";
+    return "";
   };
 
   return (
@@ -74,7 +87,7 @@ const ShopPage = () => {
               // Individual Card component for each collectible
               <Card
                 key={item.id}
-                className={`flex flex-col items-center justify-between text-center group transition-all duration-300 ${isPurchased ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                className={`flex flex-col items-center justify-between text-center ${isPurchased ? 'opacity-60 grayscale-75' : ''}`}
               >
                 {/* Item Icon Container */}
                 <div className={`w-24 h-24 rounded-2xl flex items-center justify-center mb-4 transition-colors ${isPurchased ? 'bg-gray-200 border-gray-400' : 'bg-gray-100 border-2 border-gray-300'}`}>
@@ -84,9 +97,9 @@ const ShopPage = () => {
 
                 {/* Item Details */}
                 <div className="mb-4">
-                  <h3 className="font-black text-lg uppercase leading-tight">{item.name.replace('_', ' ')}</h3>
-                  <p className="text-xs text-gray-500 font-bold">
-                    {isPurchased ? 'IN COLLECTION' : 'LIMITED EDITION'}
+                  <h3 className="font-black text-lg uppercase leading-tight">{item.name}</h3>
+                  <p className={`text-xs font-bold uppercase ${isPurchased ? "text-gray-500" : getTextStyle(item.rarity)}`}>
+                    {isPurchased ? 'In Collection' : item.rarity}
                   </p>
                 </div>
 
@@ -108,8 +121,8 @@ const ShopPage = () => {
                     </>
                   ) : (
                     <>
-                      <Coins size={16} />
-                      <span>500</span>
+                      <CirclePoundSterling size={16} />
+                      <span>{item.price}</span>
                     </>
                   )}
                 </Button>

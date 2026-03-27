@@ -159,13 +159,13 @@ const ParentDashboard = () => {
 
             {/* Main Content */}
             <main className="max-w-4xl mx-auto p-6 space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800">Welcome back, {user.parentFirstName}!</h2>
+                <h2 className="text-2xl font-bold text-gray-800">Welcome back, {user.parentName}!</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     {/* Greeting Card */}
                     <Card className="md:col-span-2 flex items-center gap-6">
                         <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
                         {/* Feel like an accent colour for the name would be nice, not sure if I want this to be the final colour */}
-                        <p className="text-2xl font-semibold text-gray-900">Viewing progress for <span className="font-bold text-indigo-600">{user.firstName}</span></p>
+                        <p className="text-2xl font-semibold text-gray-900">Viewing progress for <span className="font-bold text-indigo-600">{user.studentName}</span></p>
                     </Card>
 
                     {/* Summary */}
@@ -247,7 +247,7 @@ const ParentDashboard = () => {
                             <div>
                                 {/* Total Correct Answers / Total Questions Attempted as a percentage */}
                                 <div className="flex items-end gap-2 mb-4">
-                                    <span className="text-5xl font-semibold text-indigo-600">{((stats.totalCorrect / stats.totalAnswered) * 100).toFixed(2)}</span>
+                                    <span className="text-5xl font-semibold text-indigo-600">{(stats.totalCorrect != 0 && stats.totalAnswered != 0) ? (((stats.totalCorrect / stats.totalAnswered) * 100).toFixed(2)) : 0}</span>
                                     <span className="text-2xl text-gray-700 mb-1">% accuracy</span>
                                 </div>
                                 {/* Subject Specific Total Correct Answers / Total Questions Attempted as a percentage */}
@@ -323,7 +323,7 @@ const ParentDashboard = () => {
                             // Message if the student has not done any quizzes
                             <div className="col-span-full bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
                                 <p className="text-sm text-gray-500 italic">
-                                    No mastery data available yet. Have {user.firstName} complete some quizzes to see progress!
+                                    No mastery data available yet. Have {user.studentName} complete some quizzes to see progress!
                                 </p>
                             </div>
                         )}

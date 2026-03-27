@@ -12,10 +12,8 @@ const RegisterPage = ({ setUser }) => {
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    surname: '',
-    parentFirstName: '',
-    parentSurname: '',
+    studentName: '',
+    parentName: '',
     username: '',
     email: '',
     password: '',
@@ -39,10 +37,8 @@ const RegisterPage = ({ setUser }) => {
 
     try {
       const userData = {
-        firstName: formData.firstName,
-        surname: formData.surname,
-        parentFirstName: formData.parentFirstName,
-        parentSurname: formData.parentSurname,
+        studentName: formData.studentName,
+        parentName: formData.parentName,
         username: formData.username,
         email: formData.email,
         password: formData.password
@@ -76,42 +72,22 @@ const RegisterPage = ({ setUser }) => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              {/* First Name */}
+              {/* Student Name */}
               <Input
-                label="First Name"
-                name="firstName"
+                label="Student Name"
+                name="studentName"
                 icon={Smile}
                 onChange={handleChange}
-                placeholder="e.g. John"
+                placeholder="e.g. Rikesh"
               />
 
-              {/* Surname */}
+              {/* Parent Name */}
               <Input
-                label="Surname"
-                name="surname"
+                label="Parent Name"
+                name="parentName"
                 icon={Smile}
                 onChange={handleChange}
-                placeholder="e.g. Doe"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {/* Parent First Name */}
-              <Input
-                label="Parent First Name"
-                name="parentFirstName"
-                icon={Smile}
-                onChange={handleChange}
-                placeholder="e.g. John"
-              />
-
-              {/* Parent Surname */}
-              <Input
-                label="Parent Surname"
-                name="parentSurname"
-                icon={Smile}
-                onChange={handleChange}
-                placeholder="e.g. Doe"
+                placeholder="e.g. Ghita"
               />
             </div>
 
@@ -131,7 +107,7 @@ const RegisterPage = ({ setUser }) => {
               type="email"
               name="email"
               onChange={handleChange}
-              placeholder="alex@example.com"
+              placeholder="rikesh@example.com"
             />
 
             {/* Password */}

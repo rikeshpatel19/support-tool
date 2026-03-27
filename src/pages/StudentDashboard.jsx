@@ -81,7 +81,7 @@ const StudentDashboard = () => {
                             <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.firstName}!</h1>
+                            <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.studentName}!</h1>
                             <p className="text-gray-500 mt-1">Ready to learn something new?</p>
                         </div>
                     </Card>
