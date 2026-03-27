@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, UserPlus, Smile, Mail } from 'lucide-react';
+import { Eye, EyeSlash } from 'phosphor-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import Input from '../components/Input';
@@ -10,6 +11,10 @@ const RegisterPage = ({ setUser }) => {
   const navigate = useNavigate();
   // State for the error message
   const [error, setError] = useState("");
+  // State to determine if password is showing 
+  const [showPassword, setShowPassword] = useState(false);
+  // State to determine if confirm password is showing 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     studentName: '',
@@ -110,25 +115,55 @@ const RegisterPage = ({ setUser }) => {
               placeholder="rikesh@example.com"
             />
 
-            {/* Password */}
-            <Input
-              label="Password"
-              icon={Lock}
-              type="password"
-              name="password"
-              onChange={handleChange}
-              placeholder="••••••••"
-            />
+            <div className="relative flex items-center">
+              {/* Password */}
+              <Input
+                label="Password"
+                icon={Lock}
+                type={showPassword ? "text" : "password"} // Switches between text and password
+                name="password"
+                onChange={handleChange}
+                placeholder="••••••••"
+              />
 
-            {/* Confirm Password */}
-            <Input
-              label="Confirm Password"
-              icon={Lock}
-              type="password"
-              name="confirmPassword"
-              onChange={handleChange}
-              placeholder="Confirm Password"
-            />
+              {/* Visibility Button */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 bottom-4.5 text-gray-500 hover:text-purple-500"
+              >
+                {showPassword ? (
+                  <Eye size={20} weight="bold" /> // Icon when visible
+                ) : (
+                  <EyeSlash size={20} weight="bold" /> // Icon when hidden
+                )}
+              </button>
+            </div>
+
+            <div className="relative flex items-center">
+              {/* Confirm Password */}
+              <Input
+                label="Confirm Password"
+                icon={Lock}
+                type={showConfirmPassword ? "text" : "password"} // Switches between text and password
+                name="confirmPassword"
+                onChange={handleChange}
+                placeholder="Re-enter Password"
+              />
+
+              {/* Visibility Button */}
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 bottom-4.5 text-gray-500 hover:text-purple-500"
+              >
+                {showConfirmPassword ? (
+                  <Eye size={20} weight="bold" /> // Icon when visible
+                ) : (
+                  <EyeSlash size={20} weight="bold" /> // Icon when hidden
+                )}
+              </button>
+            </div>
 
             {/* Display Error Message */}
             {error && (
@@ -145,7 +180,6 @@ const RegisterPage = ({ setUser }) => {
             <p className="text-center text-gray-500 text-sm font-medium mt-4">
               Already have an account? <span onClick={() => navigate('/login')} className="text-black cursor-pointer hover:text-blue-600 hover:underline">Log in here</span>
             </p>
-
           </form>
         </Card>
       </div>

@@ -365,7 +365,7 @@ const QuizPage = () => {
                 key={index}
                 onClick={() => handleOptionClick(option)}
                 disabled={!!selectedOption} // Disable after clicking once
-                variant='option_txt'
+                variant="option_txt"
                 className={getOptionStyle(option)}>
                 {/* The A/B/C/D/E Label Square */}
                 <span className={`flex h-8 w-8 items-center justify-center rounded-lg border-2 border-(--primary) bg-(--secondary) font-bold text-(--primary) ${getLabelStyle(option)}`}>{label}</span>

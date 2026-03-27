@@ -110,7 +110,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                             {/* Edit Account Details Button */}
                             <Button
                                 onClick={() => setView('edit')}
-                                variant="primary"
+                                variant="grey"
                                 className="w-75 justify-between h-14 text-lg"
                             >
                                 Edit Account Details
@@ -191,7 +191,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                                 {/* Reset Button */}
                                 <Button
                                     onClick={handleReset}
-                                    variant="primary"
+                                    variant="grey"
                                     className="flex-1 justify-center"
                                 >
                                     Reset Changes
@@ -199,7 +199,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                                 {/* Save Button */}
                                 <Button
                                     onClick={handleUpdate}
-                                    variant="primary"
+                                    variant="grey"
                                     className="flex-1 justify-center"
                                 >
                                     Save Changes
@@ -211,7 +211,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                                     handleReset();
                                     setView('menu');
                                 }}
-                                variant="primary"
+                                variant="grey"
                                 className="flex-1 justify-center"
                             >
                                 Back

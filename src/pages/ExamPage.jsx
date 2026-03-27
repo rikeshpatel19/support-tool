@@ -280,7 +280,7 @@ const ExamPage = () => {
               <Button
                 key={index}
                 onClick={() => handleOptionClick(option)}
-                variant='option_txt'
+                variant="option_txt"
                 className={getOptionStyle(option)}>
                 {/* The A/B/C/D/E Label Square */}
                 <span className={`flex h-8 w-8 items-center justify-center rounded-lg border-2 border-purple-400 bg-purple-100 font-bold text-purple-400 ${getLabelStyle(option)}`}>{label}</span>
@@ -298,7 +298,7 @@ const ExamPage = () => {
         <Button
           onClick={handlePrevious}
           disabled={currentQuestionIndex === 0}
-          variant='purple'
+          variant="purple"
           className={`${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-500'}`}
         >
           Previous
@@ -329,7 +329,7 @@ const ExamPage = () => {
                 return (
                   <Button
                     key={actualIndex}
-                    variant='q_select'
+                    variant="q_select"
                     // Jump directly to this specific question when the number is clicked
                     onClick={() => handleJumpToQuestion(actualIndex)}
                     className={`hover:bg-purple-300 ${isCurrent
@@ -364,7 +364,7 @@ const ExamPage = () => {
         {/* Right: Next Button */}
         <Button
           onClick={handleNext}
-          variant='purple'
+          variant="purple"
           className='hover:bg-purple-500'
         >
           {currentQuestionIndex + 1 === questions.length ? "Finish" : "Next"}

@@ -105,7 +105,7 @@ const ShopPage = () => {
 
                 {/* Purchased / Purchase Button */}
                 <Button
-                  variant={"primary"}
+                  variant="grey"
                   // Apply green background if available, show "not-allowed" cursor if purchased
                   className={`w-full ${!isPurchased ? 'bg-green-500 hover:bg-green-600' : 'cursor-not-allowed'}`}
                   // Disable the button entirely if the item is already purchased

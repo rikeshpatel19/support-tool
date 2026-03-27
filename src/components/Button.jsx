@@ -1,12 +1,12 @@
 const Button = ({ children, onClick, variant = 'primary', className = '' }) => {
 
-  const baseStyle = "border-black border-2 flex items-center justify-center gap-2 shadow-sm transition-all duration-200";
+  const baseStyle = "border-black border-2 flex items-center justify-center gap-2 transition-all duration-200";
   
   const variants = {
-    primary: "bg-gray-400 text-white px-4 py-2 font-bold rounded-lg w-full shadow-medium hover:bg-gray-500 hover:-translate-y-px active:scale-95",
-    secondary: "bg-white px-4 py-2 text-gray-700 border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 active:scale-95",
-    black: "bg-black text-white rounded-lg hover:bg-gray-800 shadow-medium active:shadow-none active:translate-y-1",
-    grey: "bg-gray-400 text-white font-bold py-3 px-6 rounded-xl shadow-hard active:translate-y-1 active:shadow-none",
+    primary: "bg-purple-400 text-white px-4 py-2 font-bold rounded-lg w-full shadow-medium hover:bg-purple-500 hover:-translate-y-px active:scale-95",
+    secondary: "bg-white text-gray-700 px-4 py-2 font-bold rounded-lg w-full hover:bg-gray-50 hover:-translate-y-px active:scale-95",
+    black: "bg-black text-white px-4 py-2 font-bold rounded-lg w-full shadow-medium hover:bg-gray-500 hover:-translate-y-px active:scale-95",
+    grey: "bg-gray-400 text-white px-4 py-2 font-bold rounded-lg w-full shadow-medium hover:bg-gray-500 hover:-translate-y-px active:scale-95",
     red: "bg-red-100 border-red-500 px-4 py-2 text-red-600 rounded-md hover:bg-red-200 hover:-translate-y-px active:scale-95",
     purple: "bg-purple-400 text-white font-bold py-3 px-6 rounded-xl shadow-hard active:translate-y-1 active:shadow-none",
     ghost: "bg-transparent border-transparent px-4 py-2 text-gray-500 rounded-md hover:bg-gray-100 hover:text-gray-700",

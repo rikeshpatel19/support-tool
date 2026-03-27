@@ -133,7 +133,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
             <Button
                 onClick={handlePrevious}
                 disabled={currentQuestionIndex === 0}
-                variant='themed'
+                variant="themed"
                 className={`${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-(--hover)'}`}
             >
                 Previous
@@ -160,7 +160,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
             {/* Right: Next Button */}
             <Button
                 onClick={handleNext}
-                variant='themed'
+                variant="themed"
                 className='hover:bg-(--hover)'
             >
                 {currentQuestionIndex + 1 === totalQuestions ? "Finish" : "Next"}

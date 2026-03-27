@@ -51,7 +51,7 @@ const NumberStrip = ({ totalQuestions, currentQuestionIndex, userAnswers, quizTy
                     return (
                         <Button
                             key={actualIndex}
-                            variant='q_select'
+                            variant="q_select"
                             // Jump directly to this specific question when the number is clicked
                             onClick={() => handleJumpToQuestion(actualIndex)}
                             className={`${isCurrent
