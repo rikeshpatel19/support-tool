@@ -225,7 +225,7 @@ const ParentDashboard = () => {
                                                 <div key={subjectID} className="flex justify-between items-center text-sm">
                                                     {/* Displays subject */}
                                                     <span style={{ color: theme.primary }} className="font-bold">{theme.label}</span>
-                                                    {/* Correct / Attempted for specfic subject  */}
+                                                    {/* Correct / Attempted for specfic subject */}
                                                     <span className="text-gray-700">{data.correct} / {data.attempted}</span>
                                                 </div>
                                             );
@@ -238,10 +238,43 @@ const ParentDashboard = () => {
                         )}
                     </Card>
 
-                    {/* Time Spent */}
-                    {/* Debating whether to move this somewhere else or remove it entirely */}
+                    {/* Question Accuracy (Percentage) */}
                     <Card className="p-6">
-                        {/* <h3 className="text-xl font-bold text-gray-800 mb-4">Time Spent</h3> */}
+                        <h3 className="text-xl font-bold text-gray-800 mb-4">Accuracy</h3>
+                        {!stats ? (
+                            <p>Loading</p>
+                        ) : (
+                            <div>
+                                {/* Total Correct Answers / Total Questions Attempted as a percentage */}
+                                <div className="flex items-end gap-2 mb-4">
+                                    <span className="text-5xl font-semibold text-indigo-600">{((stats.totalCorrect / stats.totalAnswered) * 100).toFixed(2)}</span>
+                                    <span className="text-2xl text-gray-700 mb-1">% accuracy</span>
+                                </div>
+                                {/* Subject Specific Total Correct Answers / Total Questions Attempted as a percentage */}
+                                <div className="space-y-3 border-t pt-4">
+                                    <h4 className="text-sm font-semibold text-gray-800 uppercase">By Subject</h4>
+                                    {/* If stats is not null and subjectBreakdown actually contains subjects */}
+                                    {stats && Object.entries(stats.subjectBreakdown).length > 0 ? (
+                                        // Converts subjectBreakdown into an array then loops through each subject
+                                        // Example Entry for Maths: ["maths", {correct: 3, attempted: 3}]
+                                        // Destructuring used to seperate the subjectID from the object (data)
+                                        Object.entries(stats.subjectBreakdown).map(([subjectID, data]) => {
+                                            const theme = getSubjectTheme(subjectID); // Used to get labal and colour
+                                            return (
+                                                <div key={subjectID} className="flex justify-between items-center text-sm">
+                                                    {/* Displays subject */}
+                                                    <span style={{ color: theme.primary }} className="font-bold">{theme.label}</span>
+                                                    {/* Correct / Attempted as a percentage for specfic subject */}
+                                                    <span className="text-gray-700">{((data.correct / data.attempted) * 100).toFixed(2)}%</span>
+                                                </div>
+                                            );
+                                        })
+                                    ) : (
+                                        <p className="text-sm text-gray-600 italic">No questions completed this week.</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </Card>
                 </div>
 

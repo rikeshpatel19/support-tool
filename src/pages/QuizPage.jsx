@@ -205,6 +205,7 @@ const QuizPage = () => {
     setIsPaused(false);
   };
 
+  // How far the user has gotten in the quiz in the form of a percentage based on questions answered
   const progress = ((Object.keys(userAnswers).length) / totalQuestions) * 100;
 
   // "Save progress" and navigate back to the previous page
@@ -262,7 +263,7 @@ const QuizPage = () => {
     return "text-black";
   };
 
-  // Helper for the square label (A, B, C...)
+  // Helper for the square label (A, B, C, D, E)
   const getLabelStyle = (option) => {
     // Only apply changes if THIS option was clicked
     if (selectedOption === option) {
@@ -341,7 +342,7 @@ const QuizPage = () => {
 
           {/* Conditional Image Area */}
           {question.question_image && (
-            <div className="w-full flex justify-center mt-2 transition-all duration-300">
+            <div className="w-full flex justify-center mt-2">
               <div className="p-2 max-w-70 md:max-w-xs">
                 <img
                   src={question.question_image}
@@ -356,7 +357,7 @@ const QuizPage = () => {
         {/* Options Row */}
         <div className="flex flex-wrap justify-center gap-4">
           {question.options.map((option, index) => {
-            // Convert index 0->A, 1->B, etc.
+            // Converts index to letters (65 + 0 = A, 65 + 1 = B, etc)
             const label = String.fromCharCode(65 + index);
 
             return (

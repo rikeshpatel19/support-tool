@@ -197,7 +197,7 @@ export const getResultsByUser = async (userID) => {
 // --- EXAMS ---
 
 // Get a specific exam by examID
-export const getExamQuestions = async (examID) => {
+export const getExam = async (examID) => {
   const response = await fetch(`${API_URL}/exams/${examID}`);
   if (!response.ok) {
     const error = await response.json();

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { getExamQuestions } = require('../controllers/examsController');
+const { getExam } = require('../controllers/examsController');
 
-router.route('/:examID').get(getExamQuestions);
+router.route('/:examID').get(getExam);
 
 module.exports = router;

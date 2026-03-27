@@ -14,12 +14,12 @@ const ReviewPage = () => {
     const getDaysTillReview = (percentage) => {
         // Score that is lower than 40%: Review in 1 day 
         if (percentage < 40) return 1;
-        // Score that is between 40% and 59%: Review in 3 days 
-        if (percentage <= 59) return 3;
-        // Score that is between 60% and 80%: Review in 7 days 
-        if (percentage <= 80) return 6;
-        // Score that is higher than 80%: Review in 14 days 
-        return 14;
+        // Score that is between 40% and 59%: Review in 2 days 
+        if (percentage <= 59) return 2;
+        // Score that is between 60% and 80%: Review in 3 days 
+        if (percentage <= 80) return 3;
+        // Score that is higher than 80%: Review in 5 days 
+        return 5;
     }
 
     useEffect(() => {
@@ -102,7 +102,7 @@ const ReviewPage = () => {
     if (loading) return <div className="p-10 text-center font-bold">Loading Review...</div>;
 
     return (
-        <div className="min-h-screen bg-white font-sans pb-24">
+        <div className="min-h-screen bg-gray-50 font-sans pb-24">
             <Header label="Review" />
 
             <div className="max-w-4xl mx-auto p-6 space-y-8">
@@ -110,8 +110,9 @@ const ReviewPage = () => {
                 <section>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Today's Review</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {console.log(reviewSections.today)}
                         {reviewSections.today.length > 0 ? (
-                            reviewSections.today.map((quiz) => {
+                            reviewSections.today.map((quiz) => (
                                 <ReviewCard
                                     key={quiz.id}
                                     name={quiz.name}
@@ -119,7 +120,7 @@ const ReviewPage = () => {
                                     daysRemaining={quiz.daysRemaining}
                                     onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
                                 />
-                            })
+                            ))
                         ) : (
                             // Message if they have no quizzes to review today
                             <div className="col-span-full bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">
@@ -135,8 +136,9 @@ const ReviewPage = () => {
                 <section>
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Upcoming</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {console.log(reviewSections.upcoming)}
                         {reviewSections.upcoming.length > 0 ? (
-                            reviewSections.upcoming.map((quiz) => {
+                            reviewSections.upcoming.map((quiz) => (
                                 <ReviewCard
                                     key={quiz.id}
                                     name={quiz.name}
@@ -144,7 +146,7 @@ const ReviewPage = () => {
                                     daysRemaining={quiz.daysRemaining}
                                     onClick={() => navigate(`/quiz/${quiz.subjectID}/${quiz.id}`)}
                                 />
-                            })
+                            ))
                         ) : (
                             // Message if they have no upcoming quizzes to review
                             <div className="col-span-full bg-gray-100 rounded-lg p-3 text-center border border-dashed border-gray-300">

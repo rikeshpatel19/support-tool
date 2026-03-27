@@ -25,7 +25,7 @@ const TestPage = () => {
   if (loading) return <div className="p-10 text-center font-bold">Loading exams...</div>;
 
   return (
-    <div className="min-h-screen bg-white font-sans pb-24">
+    <div className="min-h-screen bg-gray-50 font-sans pb-24">
 
       {/* Header */}
       <Header label="Mock Exams" />

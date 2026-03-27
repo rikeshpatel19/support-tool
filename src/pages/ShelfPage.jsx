@@ -35,7 +35,7 @@ const ShelfPage = () => {
     shelves.push(allCollectibles.slice(i, i + 3));
   }
   return (
-    <div className="min-h-screen bg-white font-sans pb-24">
+    <div className="min-h-screen bg-gray-50 font-sans pb-24">
 
       {/* Header */}
       <Header label="My Shelf" />

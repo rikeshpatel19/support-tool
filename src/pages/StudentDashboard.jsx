@@ -30,7 +30,13 @@ const StudentDashboard = () => {
     }, []);
 
     if (!user) {
-        return <div>Loading your profile... (Make sure you are logged in)</div>;
+        return (
+            <div className="p-10 text-center">
+                <h2 className="text-xl">Loading your profile...</h2>
+                <p className="text-gray-500">Make sure you are logged in</p>
+                <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/login")}>Return to Login Page</span>
+            </div>
+        );
     }
 
     return (
@@ -82,13 +88,18 @@ const StudentDashboard = () => {
 
                     {/* Daily Brain Boost Card */}
                     <Card className="flex flex-col items-center text-center">
-                        <div className="flex items-center gap-2 mb-4">
+                        {/* <div className="flex items-center gap-2 mb-4">
                             <Brain size={24} />
                             <h2 className="font-bold">Daily Brain Boost</h2>
                         </div>
                         <div className="bg-red-500 text-white px-4 py-1.5 rounded-full text-sm font-bold mb-4 shadow-sm">
                             Questions to revisit: 5
+                        </div> */}
+                        <div className="flex items-center gap-2 mb-4">
+                            <Brain size={30} />
+                            <h2 className="font-bold text-xl">Daily Brain Boost</h2>
                         </div>
+                        <p className="text-gray-500 px-4 py-1.5 text-sm font-bold mb-4">Strengthen your Brain!</p>
                         <Button onClick={() => navigate('/review')}>Start Review</Button>
                     </Card>
                 </div>

@@ -7,7 +7,7 @@ const NumberStrip = ({ totalQuestions, currentQuestionIndex, userAnswers, quizTy
     const startIndex = questionPage * perPage;
     // Calculates the total number of pages needed by dividing total questions by the limit and rounding up
     const totalPages = Math.ceil(totalQuestions / perPage);
-    // Placeholder array used to map the correct number of buttons for the current page
+    // Placeholder array (filled with "undefined" rather than empty spaces) used to map the correct number of buttons for the current page
     const visibleQuestions = Array.from({ length: perPage });
 
     // Handle clicking a specific number in the number strip

@@ -7,7 +7,7 @@ const QuizHeader = ({ handlePause, theme, currentSubject, displayTopic, progress
         {/* Left: Pause & Display Subject and Topic */}
         <div className="flex items-center gap-4">
           <button onClick={handlePause} className="hover:opacity-70">
-            <PauseCircle size={32} strokeWidth={2} />
+            <PauseCircle size={32} />
           </button>
           <span className="font-bold text-xl capitalize">
             <span style={{ color: theme.primary }}>{currentSubject.title}:</span> {displayTopic}

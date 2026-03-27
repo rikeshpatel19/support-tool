@@ -69,10 +69,13 @@ const SubjectPage = () => {
     // Best percentage that was stored in the object 
     const percentage = record.bestPercentage;
     // Boundaries that determine what tier Badge is earnt
-    if (percentage >= 70) return 'gold';
-    if (percentage >= 50) return 'silver';
-    if (percentage >= 40) return 'bronze';
-
+    // 80% or higher: Gold
+    if (percentage >= 80) return 'gold';
+    // 70% or higher: Silver
+    if (percentage >= 70) return 'silver';
+    // 60% or higher: Bronze
+    if (percentage >= 60) return 'bronze';
+    // 59% or lower: None
     return 'none';
   };
 
@@ -90,7 +93,7 @@ const SubjectPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white font-sans pb-24">
+    <div className="min-h-screen bg-gray-50 font-sans pb-24">
 
       {/* Header */}
       <Header label={currentSubject.title} />
