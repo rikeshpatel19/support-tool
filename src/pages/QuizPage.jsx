@@ -30,7 +30,7 @@ const QuizPage = () => {
   const [quizType, setQuizType] = useState("");
   // State to show current topic
   const [displayTopic, setDisplayTopic] = useState("");
-  // State to store the array of questions fetched from the API
+  // State to store the array of questions fetched from the Backend
   const [questions, setQuestions] = useState([]);
   // State to store total number of questions
   const [totalQuestions, setTotalQuestions] = useState();

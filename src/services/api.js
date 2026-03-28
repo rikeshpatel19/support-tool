@@ -25,6 +25,8 @@ export const loginUser = async (credentials) => {
   });
 
   if (!response.ok) {
+    // If the username cannot be found, the backend sends a 400 error
+    // An error is also sent if there are missing fields
     const error = await response.json();
     throw new Error(error.message);
   }
@@ -41,7 +43,8 @@ export const registerUser = async (userData) => {
   });
 
   if (!response.ok) {
-    // If the username is taken, the backend sends a 400 error
+    // If the username or email is taken, the backend sends a 400 error
+    // An error is also sent if there are missing fields
     const errorData = await response.json();
     throw new Error(errorData.message || 'Registration failed');
   }
