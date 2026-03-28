@@ -50,11 +50,11 @@ const ShelfPage = () => {
             <div className="flex justify-around items-end px-4 mb-1 relative z-10">
               {shelfItems.map((item) => {
                 // Check if the current item's ID exists in the user's inventory
-                const isUnlocked = user.inventory.includes(item.id);
+                const isUnlocked = user.inventory.includes(item.collectibleID);
 
                 return (
                   // Individual item slot container
-                  <div key={item.id} className="flex flex-col items-center gap-2 w-24">
+                  <div key={item.collectibleID} className="flex flex-col items-center gap-2 w-24">
 
                     {/* The Slot Box */}
                     <div className={`h-24 w-20 border-2 border-b-0 rounded-t-xl -mb-1 flex items-center justify-center text-4xl

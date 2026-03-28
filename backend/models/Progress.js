@@ -23,7 +23,7 @@ const ProgressSchema = new mongoose.Schema({
   lastUpdated: { type: Date, default: Date.now }
 });
 
-// Ensure a user only has one progress record per topic
+// Ensure a user only has one progress record per quiz
 ProgressSchema.index({ userID: 1, quizID: 1 }, { unique: true });
 
 module.exports = mongoose.model('Progress', ProgressSchema);

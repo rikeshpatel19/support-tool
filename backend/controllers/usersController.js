@@ -183,7 +183,7 @@ const completeQuiz = asyncHandler(async (request, response) => {
 // @route POST /users/:id/purchase
 const purchaseItem = asyncHandler(async (request, response) => {
     // Destructures the results sent from the Shop page
-    const { itemID, price } = request.body;
+    const { collectibleID, price } = request.body;
     // Looks for student in MongoDB using the ID from the URL
     const user = await User.findById(request.params.id);
 
@@ -195,8 +195,8 @@ const purchaseItem = asyncHandler(async (request, response) => {
     // Deduct points
     user.points -= price;
     // Adds item to their inventory, ensures the same item is not added twice
-    if (!user.inventory.includes(itemID)) {
-        user.inventory.push(itemID);
+    if (!user.inventory.includes(collectibleID)) {
+        user.inventory.push(collectibleID);
     }
     // Saves all changes to the database
     await user.save();

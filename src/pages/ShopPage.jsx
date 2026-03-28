@@ -37,7 +37,7 @@ const ShopPage = () => {
       alert("You need more points! Try doing more quizzes.");
       return;
     }
-    const data = await purchaseItem(storedID, item.id, price);
+    const data = await purchaseItem(storedID, item.collectibleID, price);
     if (data.message === "Purchase successful!") {
       // Update local state so the UI changes instantly
       setUser({
@@ -81,12 +81,12 @@ const ShopPage = () => {
           {/* Map through the collection of all items to generate item cards */}
           {shopItems.map((item) => {
             // Check if item is already owned
-            const isPurchased = user.inventory?.includes(item.id);
+            const isPurchased = user.inventory?.includes(item.collectibleID);
 
             return (
               // Individual Card component for each collectible
               <Card
-                key={item.id}
+                key={item.collectibleID}
                 className={`flex flex-col items-center justify-between text-center ${isPurchased ? 'opacity-60 grayscale-75' : ''}`}
               >
                 {/* Item Icon Container */}

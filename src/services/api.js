@@ -78,11 +78,11 @@ export const completeQuiz = async (userID, quizID, subjectID, points, percentage
 };
 
 // Purchase shop item
-export const purchaseItem = async (userID, itemID, price) => {
+export const purchaseItem = async (userID, collectibleID, price) => {
   const response = await fetch(`${API_URL}/users/${userID}/purchase`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ itemID, price })
+    body: JSON.stringify({ collectibleID, price })
   });
   return await response.json();
 };
