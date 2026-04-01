@@ -9,12 +9,12 @@ import { registerUser } from '../services/api';
 
 const RegisterPage = ({ setUser }) => {
   const navigate = useNavigate();
-  // State for the error message
-  const [error, setError] = useState("");
   // State to determine if password is showing 
   const [showPassword, setShowPassword] = useState(false);
   // State to determine if confirm password is showing 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // State for the error message
+  const [errorMessage, setErrorMessage] = useState("");
   // State to store data from input fields
   const [formData, setFormData] = useState({
     studentName: '',
@@ -29,38 +29,40 @@ const RegisterPage = ({ setUser }) => {
   const handleChange = (event) => {
     // Only the field that changed is overwritten
     setFormData({ ...formData, [event.target.name]: event.target.value });
+    if (errorMessage) setErrorMessage(""); // Clear previous errors
   };
 
   const handleSubmit = async (event) => {
     // Prevents default form behaviour (refreshing the page)
     event.preventDefault();
     // Clear previous errors
-    setError("");
+    setErrorMessage("");
 
     // Client-side Validation: Check if passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError("Oops! Those passwords do not match! Please try again.");
+      setErrorMessage("Oops! Those passwords do not match! Please try again.");
       return; // Stop the function here
     }
 
-    try {
-      const userData = {
-        studentName: formData.studentName,
-        parentName: formData.parentName,
-        username: formData.username,
-        email: formData.email,
-        password: formData.password
-      };
-      const newUser = await registerUser(userData);
-      // Log the user in automatically by saving their ID
-      localStorage.setItem("userID", newUser._id);
-      // This updates the state in App.jsx
-      if (setUser) setUser(newUser);
-      // Send them to the dashboard
-      navigate('/sd');
-    } catch (error) {
-      setError(error.message);
+    const userData = {
+      studentName: formData.studentName,
+      parentName: formData.parentName,
+      username: formData.username,
+      email: formData.email,
+      password: formData.password
+    };
+    const userResponse = await registerUser(userData);
+    const newUser = userResponse.data;
+    if (userResponse.error) {
+      setErrorMessage(userResponse.error);
+      return;
     }
+    // Log the user in automatically by saving their ID
+    localStorage.setItem("userID", newUser._id);
+    // This updates the state in App.jsx
+    if (setUser) setUser(newUser);
+    // Send them to the dashboard
+    navigate('/sd');
   };
 
   return (
@@ -173,9 +175,9 @@ const RegisterPage = ({ setUser }) => {
             </div>
 
             {/* Display Error Message */}
-            {error && (
+            {errorMessage && (
               <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
-                {error}
+                {errorMessage}
               </p>
             )}
 

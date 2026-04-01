@@ -11,6 +11,8 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
     const navigate = useNavigate();
     // Stores the text input values for the form
     const [formData, setFormData] = useState({ username: '', email: '', avatar: '' });
+    // State for the error message
+    const [errorMessage, setErrorMessage] = useState("");
     // Tracks which icon is currently selected
     const [selectedAvatar, setSelectedAvatar] = useState('Cat');
     // Controls which screen is visible, "menu" or "edit"
@@ -43,28 +45,31 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
     ];
 
     // Updates formData whenever a student changes anything
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (event) => {
+        // Only the field that changed (username or email) is overwritten
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+        if (errorMessage) setErrorMessage(""); // Clear previous errors
     };
 
     // Handles the "Save Changes" button click
     const handleUpdate = async () => {
-        try {
-            const userID = localStorage.getItem("userID");
-            // Gets all the data required to update the database
-            const updatedData = { ...formData, avatar: selectedAvatar };
-            // Sends PATCH request to backend through the api
-            const response = await updateProfile(userID, updatedData);
-            // Call the parent update function to refresh UI globally
-            if (onUserUpdate) onUserUpdate(response);
-            // Success message
-            console.log("Profile and Avatar updated successfully!");
-            // Close the modal
-            onClose();
-        } catch (error) {
-            // Flags any errors to the console
-            console.error("Update failed", error);
+        // Clear previous errors
+        setErrorMessage("");
+        const userID = localStorage.getItem("userID");
+        // Gets all the data required to update the database
+        const updatedData = { ...formData, avatar: selectedAvatar };
+        // Sends PATCH request to backend through the api
+        const updateResponse = await updateProfile(userID, updatedData);
+        if (updateResponse.error) {
+            setErrorMessage(updateResponse.error);
+            return;
         }
+        // Call the parent update function to refresh UI globally
+        if (onUserUpdate) onUserUpdate(updateResponse.data);
+        // Success message
+        console.log("Profile and Avatar updated successfully!");
+        // Close the modal
+        onClose();
     };
 
     // Restores the form fields to match current database values
@@ -77,6 +82,7 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
             });
             // Reset the avatar selection
             setSelectedAvatar(user.avatar || 'Cat');
+            if (errorMessage) setErrorMessage(""); // Clear previous errors
         }
     };
 
@@ -185,6 +191,13 @@ const AccountModal = ({ user, isOpen, onClose, onUserUpdate }) => {
                                     placeholder="Email"
                                 />
                             </div>
+
+                            {/* Display Error Message */}
+                            {errorMessage && (
+                                <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
+                                    {errorMessage}
+                                </p>
+                            )}
 
                             {/* Action Buttons */}
                             <div className="flex gap-4 pt-4">

@@ -10,7 +10,7 @@ import { loginUser } from '../services/api';
 const LoginPage = ({ setUser }) => {
    const navigate = useNavigate();
    // State for the error message
-   const [error, setError] = useState("");
+   const [errorMessage, setErrorMessage] = useState("");
    // State to determine if password is showing 
    const [showPassword, setShowPassword] = useState(false);
    // State to store data from input fields
@@ -20,23 +20,24 @@ const LoginPage = ({ setUser }) => {
    const handleChange = (event) => {
       // Only the field that changed (username or password) is overwritten
       setFormData({ ...formData, [event.target.name]: event.target.value });
+      if (errorMessage) setErrorMessage(""); // Clear previous errors
    };
 
    const handleSubmit = async (event) => {
       // Prevents default form behaviour (refreshing the page)
       event.preventDefault();
       // Clear previous errors
-      setError("");
-      try {
-         const userData = await loginUser({ username: formData.username, password: formData.password });
-         localStorage.setItem("userID", userData._id);
-         setUser(userData);
-         navigate('/sd');
-         console.log("Logged in as:", userData.username);
-      } catch (error) {
-         console.error(error);
-         setError(error.message);
+      setErrorMessage("");
+      const userResponse = await loginUser({ username: formData.username, password: formData.password });
+      const userData = userResponse.data;
+      if (userResponse.error) {
+         setErrorMessage(userResponse.error);
+         return;
       }
+      localStorage.setItem("userID", userData._id);
+      setUser(userData);
+      navigate('/sd');
+      console.log("Logged in as:", userData.username);
    };
 
    return (
@@ -94,9 +95,9 @@ const LoginPage = ({ setUser }) => {
                   </div>
 
                   {/* Display Error Message */}
-                  {error && (
+                  {errorMessage && (
                      <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
-                        {error}
+                        {errorMessage}
                      </p>
                   )}
 

@@ -11,29 +11,54 @@ const TestPage = () => {
   const [subjects, setSubjects] = useState([]);
   // State to check status of loading
   const [loading, setLoading] = useState(true);
-
+  // State for the error message
+  const [errorMessage, setErrorMessage] = useState("");
+  
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const data = await getSubjects();
-      setSubjects(data);
+      const subjectResponse = await getSubjects();
+      const subjectData = subjectResponse.data;
+
+      if (subjectResponse.error) {
+        setErrorMessage(subjectResponse.error);
+        return;
+      }
+      setSubjects(subjectData);
       setLoading(false);
     };
     loadData();
   }, []);
 
-  if (loading) return <div className="p-10 text-center font-bold">Loading exams...</div>;
+  if (errorMessage) {
+    return (
+      <div className="p-10 text-center">
+        <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+          <p><span className="font-bold">Error: </span>{errorMessage}</p>
+        </div>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+      </div>
+    );
+  }
+
+  if (loading || !subjects) {
+    return (
+      <div className="p-10 text-center">
+        <h2 className="text-xl">Loading exams...</h2>
+        <p className="text-gray-500">Please be patient while the exams load.</p>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-24">
-
       {/* Header */}
       <Header label="Mock Exams" />
-
       <div className="max-w-4xl mx-auto p-6 space-y-8">
         {subjects.map((subject) => {
           if (!subject.exams || subject.exams.length === 0) return null;
-          // Get the theme based on the URL ID
+          // Get the theme based on the subject ID
           const theme = getSubjectTheme(subject.subjectID);
           return (
             <section key={subject._id}>

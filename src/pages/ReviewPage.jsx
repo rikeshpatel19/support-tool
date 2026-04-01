@@ -7,8 +7,12 @@ import { getSubjectTheme } from '../constants/subjectThemes';
 
 const ReviewPage = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    // State to check status of loading
+    const [loading, setLoading] = useState(true);
+    // State for the error message
+    const [errorMessage, setErrorMessage] = useState("");
+    // State to store the "today" and "upcoming" sections
     const [reviewSections, setReviewSectons] = useState({ today: [], upcoming: [] });
 
     const getDaysTillReview = (percentage) => {
@@ -25,81 +29,104 @@ const ReviewPage = () => {
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
-            try {
-                const storedID = localStorage.getItem("userID");
-                const [userData, subjectData] = await Promise.all([
-                    getUser(storedID),
-                    getSubjects()
-                ]);
-                setUser(userData);
+            const storedID = localStorage.getItem("userID");
+            const [userResponse, subjectResponse] = await Promise.all([
+                getUser(storedID),
+                getSubjects()
+            ]);
 
-                // Array that will contain all quizzes with their subject IDs
-                const allQuizzes = [];
-                subjectData.forEach(subject => {
-                    // Combines topics + challenges for each subject
-                    const subjectQuizzes = [...subject.topics, ...subject.challenges];
-                    // Adds the quizzes along with the subject ID to allQuizzes
-                    subjectQuizzes.forEach(quiz => {
-                        allQuizzes.push({ ...quiz, subjectID: subject.subjectID });
-                    })
-                })
+            const userData = userResponse.data;
+            const subjectData = subjectResponse.data;
 
-                // Array that contains all the quizzes across all the subjects that the user has completed
-                const userReviewData = allQuizzes.map(quiz => {
-                    // Checks if the user has completed the quiz
-                    const matchingRecord = userData.completedQuizzes.find(q => q.quizID === quiz.id);
-                    // If a match was found
-                    if (matchingRecord) {
-                        // Quiz along with latestPercentage and completedAt are added
-                        return { ...quiz, latestPercentage: matchingRecord.latestPercentage, completedAt: matchingRecord.completedAt };
-                    }
-                    return null;
-                }).filter(item => item !== null); // Ensures that quizzes that are not done are removed
-
-                const currentDate = new Date();
-
-                // Array that contains the quizzes alogn with their review date and days remaining
-                const scheduledQuizzes = userReviewData.map(quiz => {
-                    const daysTillReview = getDaysTillReview(quiz.latestPercentage);
-                    const latestCompletion = new Date(quiz.completedAt);
-                    // Initally set to the date of quiz completion 
-                    const nextReviewDate = new Date(latestCompletion);
-                    // Updated using days till review
-                    nextReviewDate.setDate(nextReviewDate.getDate() + daysTillReview);
-                    // Used to calculate difference in days, stored in milliseconds
-                    const timeDifference = nextReviewDate.getTime() - currentDate.getTime();
-                    // milliseconds to seconds (1000), seconds to minutes (60), minutes to hours (60), hours to days (24)
-                    // Math.ceil used so if there is 1.2 days left for example, the student will see 2 days
-                    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-                    // Quiz along with nextReviewDate and daysRemaining are added
-                    return { ...quiz, nextReviewDate, daysRemaining: daysDifference };
-                });
-
-                const todayList = [];
-                const upcomingList = [];
-
-                scheduledQuizzes.forEach(quiz => {
-                    // If the quiz is due today or overdue
-                    if (quiz.daysRemaining <= 0) {
-                        todayList.push(quiz);
-                    } else {
-                        // Quiz is due in the future
-                        upcomingList.push(quiz);
-                    }
-                });
-
-                // Sorts upcoming so the quizzes are in order of when they are due
-                upcomingList.sort((a, b) => a.daysRemaining - b.daysRemaining);
-                setReviewSectons({ today: todayList, upcoming: upcomingList });
-            } catch (error) {
-                console.error("Error loading Review Page:", error);
+            if (userResponse.error || subjectResponse.error) {
+                setErrorMessage(userResponse.error || subjectResponse.error);
+                return;
             }
+            setUser(userData);
+
+            // Array that will contain all quizzes with their subject IDs
+            const allQuizzes = [];
+            subjectData.forEach(subject => {
+                // Combines topics + challenges for each subject
+                const subjectQuizzes = [...subject.topics, ...subject.challenges];
+                // Adds the quizzes along with the subject ID to allQuizzes
+                subjectQuizzes.forEach(quiz => {
+                    allQuizzes.push({ ...quiz, subjectID: subject.subjectID });
+                })
+            })
+
+            // Array that contains all the quizzes across all the subjects that the user has completed
+            const userReviewData = allQuizzes.map(quiz => {
+                // Checks if the user has completed the quiz
+                const matchingRecord = userData.completedQuizzes.find(q => q.quizID === quiz.id);
+                // If a match was found
+                if (matchingRecord) {
+                    // Quiz along with latestPercentage and completedAt are added
+                    return { ...quiz, latestPercentage: matchingRecord.latestPercentage, completedAt: matchingRecord.completedAt };
+                }
+                return null;
+            }).filter(item => item !== null); // Ensures that quizzes that are not done are removed
+
+            const currentDate = new Date();
+
+            // Array that contains the quizzes alogn with their review date and days remaining
+            const scheduledQuizzes = userReviewData.map(quiz => {
+                const daysTillReview = getDaysTillReview(quiz.latestPercentage);
+                const latestCompletion = new Date(quiz.completedAt);
+                // Initally set to the date of quiz completion 
+                const nextReviewDate = new Date(latestCompletion);
+                // Updated using days till review
+                nextReviewDate.setDate(nextReviewDate.getDate() + daysTillReview);
+                // Used to calculate difference in days, stored in milliseconds
+                const timeDifference = nextReviewDate.getTime() - currentDate.getTime();
+                // milliseconds to seconds (1000), seconds to minutes (60), minutes to hours (60), hours to days (24)
+                // Math.ceil used so if there is 1.2 days left for example, the student will see 2 days
+                const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+                // Quiz along with nextReviewDate and daysRemaining are added
+                return { ...quiz, nextReviewDate, daysRemaining: daysDifference };
+            });
+
+            const todayList = [];
+            const upcomingList = [];
+
+            scheduledQuizzes.forEach(quiz => {
+                // If the quiz is due today or overdue
+                if (quiz.daysRemaining <= 0) {
+                    todayList.push(quiz);
+                } else {
+                    // Quiz is due in the future
+                    upcomingList.push(quiz);
+                }
+            });
+
+            // Sorts upcoming so the quizzes are in order of when they are due
+            upcomingList.sort((a, b) => a.daysRemaining - b.daysRemaining);
+            setReviewSectons({ today: todayList, upcoming: upcomingList });
             setLoading(false);
         };
         loadData();
     }, []);
 
-    if (loading) return <div className="p-10 text-center font-bold">Loading Review...</div>;
+    if (errorMessage) {
+        return (
+            <div className="p-10 text-center">
+                <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+                    <p><span className="font-bold">Error: </span>{errorMessage}</p>
+                </div>
+                <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+            </div>
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className="p-10 text-center">
+                <h2 className="text-xl">Loading Review...</h2>
+                <p className="text-gray-500">Please be patient while the review data loads.</p>
+                <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans pb-24">

@@ -2,8 +2,11 @@ import Button from '../components/Button';
 import NumberStrip from '../components/NumberStrip';
 import { getDynamicQuestions, completeQuiz, finaliseQuizResults } from '../services/api';
 
-const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQuestionIndex, questions, totalQuestions, userAnswers, quizType, setCurrentQuestionIndex,
-    questionPage, setQuestionPage, perPage, setIsFinished, setQuestions, setDynamicQuestionIDs, batchScore, currentDifficulty, subjectID, setCurrentDifficulty, setBatchScore }) => {
+const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
+    currentQuestionIndex, questions, totalQuestions, userAnswers, quizType,
+    setCurrentQuestionIndex, questionPage, setQuestionPage, perPage, setIsFinished,
+    setQuestions, setDynamicQuestionIDs, batchScore, currentDifficulty, subjectID,
+    setCurrentDifficulty, setBatchScore, setErrorMessage }) => {
 
     // Calculates the current page based on current quiz type
     const getPage = (index) => {
@@ -16,6 +19,8 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
 
     // Handle clicking the "Next" button + saving points earned
     const handleNext = async () => {
+        // Clear previous errors
+        setErrorMessage("");
         // User needs to answer question before moving on to the next question
         if (quizType === 'dynamic' && !userAnswers[currentQuestionIndex]) {
             alert("Please answer this question before moving on!");
@@ -29,45 +34,52 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
         if (quizEnd) {
             const storedID = localStorage.getItem("userID");
             if (storedID) {
-                try {
-                    const questionsAnswered = Object.keys(userAnswers).length;
-                    console.log("Questions Answered: ", questionsAnswered);
+                const questionsAnswered = Object.keys(userAnswers).length;
+                console.log("Questions Answered: ", questionsAnswered);
 
-                    let nextDifficulty = currentDifficulty;
+                let nextDifficulty = currentDifficulty;
 
-                    if (quizType === 'dynamic') {
-                        console.log("Last Difficulty Calculation");
-                        // Determine new difficulty based on performance of the last 5 questions (Q16-20)
-                        nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
-                    }
-                    
-                    const quizResults = {
-                        score: currentScore,
-                        questionsAnswered: questionsAnswered,
-                        totalQuestions: totalQuestions,
-                        percentage: percentage,
-                    };
-
-                    console.log("Percentage: ", percentage);
-                    console.log("Difficulty: ", nextDifficulty);
-
-                    // Updates the users completedQuizzes array and their total points
-                    await Promise.all([
-                        completeQuiz(storedID, quizID, subjectID, currentPoints, percentage, nextDifficulty),
-                        finaliseQuizResults(storedID, subjectID, quizID, quizResults)
-                    ])
-
-                    console.log("Result saved and progress cleared");
-                } catch (error) {
-                    console.error(error.message);
+                if (quizType === 'dynamic') {
+                    console.log("Last Difficulty Calculation");
+                    // Determine new difficulty based on performance of the last 5 questions (Q16-20)
+                    nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
                 }
+
+                const quizResults = {
+                    score: currentScore,
+                    questionsAnswered: questionsAnswered,
+                    totalQuestions: totalQuestions,
+                    percentage: percentage,
+                };
+
+                console.log("Percentage: ", percentage);
+                console.log("Difficulty: ", nextDifficulty);
+
+                // Updates the users completedQuizzes array and their total points
+
+                const [completeResponse, finaliseResponse] = await Promise.all([
+                    completeQuiz(storedID, quizID, subjectID, currentPoints, percentage, nextDifficulty),
+                    finaliseQuizResults(storedID, subjectID, quizID, quizResults)
+                ])
+
+                if (completeResponse.error || finaliseResponse.error) {
+                    setErrorMessage(completeResponse.error || finaliseResponse.error);
+                    return;
+                }
+
+                console.log("Result saved and progress cleared");
             }
             setIsFinished(true);
         } else if (quizType === 'dynamic' && (currentQuestionIndex + 1) === questions.length && batchEnd && !quizEnd) {
             // Determine new difficulty based on performance of the 5 questions (Q1-5, Q6-10 etc)
             const nextDifficulty = calculateNextDifficulty(batchScore, currentDifficulty);
             // Fetch the next batch
-            const nextBatch = await getDynamicQuestions(quizID, subjectID, nextDifficulty);
+            const dynamicResponse = await getDynamicQuestions(quizID, subjectID, nextDifficulty);
+            const nextBatch = dynamicResponse.data;
+            if (dynamicResponse.error) {
+                setErrorMessage(dynamicResponse.error);
+                return;
+            }
 
             if (nextBatch && nextBatch.length > 0) {
                 // Takes existing questions (prev) and adds the 5 new questions (nextBatch) to the end 
@@ -93,6 +105,8 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle, currentQu
 
     // Handle clicking the "Previous" button
     const handlePrevious = () => {
+        // Clear previous errors
+        setErrorMessage("");
         if (currentQuestionIndex > 0) {
             const prevIndex = currentQuestionIndex - 1;
             setCurrentQuestionIndex(prevIndex);

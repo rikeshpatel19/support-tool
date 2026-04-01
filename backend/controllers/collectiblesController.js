@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 
 // @desc Get all collectibles
 // @route GET /collectibles
-const getAllCollectibles = asyncHandler(async (request, response) => {
+const getCollectibles = asyncHandler(async (request, response) => {
     const collectibles = await Collectible.find();
     response.json(collectibles);
 });
@@ -17,5 +17,5 @@ const getCollectible = asyncHandler(async (request, response) => {
 
 module.exports = {
     getCollectible,
-    getAllCollectibles
+    getCollectibles
 }

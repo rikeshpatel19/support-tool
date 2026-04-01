@@ -4,6 +4,6 @@ const { getQuiz, getDynamicQuestions, getQuestionsByIDs } = require('../controll
 
 router.route('/quiz/:quizID').get(getQuiz);
 router.route('/dynamic').get(getDynamicQuestions);
-router.route('/fetchQuestions').post(getQuestionsByIDs);
+router.route('/questions').post(getQuestionsByIDs);
 
 module.exports = router;

@@ -1,29 +1,45 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CirclePoundSterling, ShoppingBag, CheckCircle } from 'lucide-react';
-import { getUser, getAllCollectibles, purchaseItem } from '../services/api';
+import { getUser, getCollectibles, purchaseItem } from '../services/api';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import Card from '../components/Card';
 import Button from '../components/Button';
 
 const ShopPage = () => {
+  const navigate = useNavigate();
   // State to hold user data
   const [user, setUser] = useState({ points: 0, inventory: [] });
+  // State to check status of loading
+  const [loading, setLoading] = useState(true);
+  // State for the error message
+  const [errorMessage, setErrorMessage] = useState("");
   // State to hold shop items
   const [shopItems, setShopItems] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true);
       const storedID = localStorage.getItem("userID");
       if (storedID) {
         // Fetch both user data and collectible data
-        const [userData, collectiblesData] = await Promise.all([
+        const [userResponse, collectiblesResponse] = await Promise.all([
           getUser(storedID),
-          getAllCollectibles()
+          getCollectibles()
         ]);
+
+        const userData = userResponse.data;
+        const collectiblesData = collectiblesResponse.data;
+
+        if (userResponse.error || collectiblesResponse.error) {
+          setErrorMessage(userResponse.error || collectiblesResponse.error);
+          return;
+        }
         // Store the items from MongoDB
         setUser(userData);
         setShopItems(collectiblesData);
+        setLoading(false);
       }
     };
     loadData();
@@ -37,7 +53,8 @@ const ShopPage = () => {
       alert("You need more points! Try doing more quizzes.");
       return;
     }
-    const data = await purchaseItem(storedID, item.collectibleID, price);
+    const purchaseResponse = await purchaseItem(storedID, item.collectibleID, price);
+    const data = purchaseResponse.data;
     if (data.message === "Purchase successful!") {
       // Update local state so the UI changes instantly
       setUser({
@@ -62,11 +79,32 @@ const ShopPage = () => {
     return "";
   };
 
+  if (errorMessage) {
+    return (
+      <div className="p-10 text-center">
+        <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+          <p><span className="font-bold">Error: </span>{errorMessage}</p>
+        </div>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+      </div>
+    );
+  }
+
+  // If user data or collectibles have not loaded yet, display a simple loading message
+  if (loading || !user || shopItems.length === 0) {
+    return (
+      <div className="p-10 text-center">
+        <h2 className="text-xl">Loading Shop...</h2>
+        <p className="text-gray-500">Please be patient while the shop loads.</p>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 pb-32">
       {/* Header */}
       <Header label="THE SHOP" points={user.points.toLocaleString()} />
-
       <div className="max-w-4xl mx-auto p-6">
         {/* Banner Section */}
         <div className="mb-8 bg-purple-300 border-4 border-black rounded-3xl p-6 text-black shadow-medium flex justify-between items-center">

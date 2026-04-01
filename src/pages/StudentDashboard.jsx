@@ -13,23 +13,41 @@ import { subjectThemes } from '../constants/subjectThemes';
 const StudentDashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    // State to check status of loading
+    const [loading, setLoading] = useState(true);
+    // State for the error message
+    const [errorMessage, setErrorMessage] = useState("");
     const [isAccountOpen, setIsAccountOpen] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
+            setLoading(true);
             const storedID = localStorage.getItem("userID");
-
-            try {
-                const userData = await getUser(storedID);
-                setUser(userData);
-            } catch (error) {
-                console.error("Error fetching user:", error);
+            const userResponse = await getUser(storedID);
+            const userData = userResponse.data;
+            const userError = userResponse.error;
+            if (userError) {
+                setErrorMessage(userError);
+                return;
             }
+            setUser(userData);
+            setLoading(false);
         };
         loadData();
     }, []);
 
-    if (!user) {
+    if (errorMessage) {
+        return (
+            <div className="p-10 text-center">
+                <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+                    <p><span className="font-bold">Error: </span>{errorMessage}</p>
+                </div>
+                <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/login")}>Return to Login Page</span>
+            </div>
+        );
+    }
+
+    if (loading || !user) {
         return (
             <div className="p-10 text-center">
                 <h2 className="text-xl">Loading your profile...</h2>

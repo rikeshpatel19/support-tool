@@ -1,32 +1,45 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
-import { getUser, getAllCollectibles } from '../services/api';
+import { getUser, getCollectibles } from '../services/api';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 
 const ShelfPage = () => {
+  const navigate = useNavigate();
   // State to hold user data
   const [user, setUser] = useState(null);
+  // State to check status of loading
+  const [loading, setLoading] = useState(true);
+  // State for the error message
+  const [errorMessage, setErrorMessage] = useState("");
   // State to hold all collectibles
   const [allCollectibles, setAllCollectibles] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true);
       const storedID = localStorage.getItem("userID");
       if (storedID) {
-        const [userData, collectiblesData] = await Promise.all([
+        const [userResponse, collectiblesResponse] = await Promise.all([
           getUser(storedID),
-          getAllCollectibles()
+          getCollectibles()
         ]);
+
+        const userData = userResponse.data;
+        const collectiblesData = collectiblesResponse.data;
+
+        if (userResponse.error || collectiblesResponse.error) {
+          setErrorMessage(userResponse.error || collectiblesResponse.error);
+          return;
+        }
         setUser(userData);
         setAllCollectibles(collectiblesData);
       }
+      setLoading(false);
     };
     loadData();
   }, []); // The empty array ensures this only runs once
-
-  // If user data or collectibles have not loaded yet, display a simple loading message
-  if (!user || allCollectibles.length === 0) return <div className="p-10 text-center font-bold">Loading Shelf...</div>;
 
   // Split the 12 items into chunks of 3 (for 4 shelves)
   const shelves = [];
@@ -34,14 +47,34 @@ const ShelfPage = () => {
     // Create a "shelf" by slicing out 3 items and pushing them to the shelves array
     shelves.push(allCollectibles.slice(i, i + 3));
   }
+
+  if (errorMessage) {
+    return (
+      <div className="p-10 text-center">
+        <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+          <p><span className="font-bold">Error: </span>{errorMessage}</p>
+        </div>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+      </div>
+    );
+  }
+
+  // If user data or collectibles have not loaded yet, display a simple loading message
+  if (loading || !user || allCollectibles.length === 0) {
+    return (
+      <div className="p-10 text-center">
+        <h2 className="text-xl">Loading Shelf...</h2>
+        <p className="text-gray-500">Please be patient while the shelves load.</p>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-24">
-
       {/* Header */}
       <Header label="My Shelf" />
-
       <div className="max-w-4xl mx-auto p-6 space-y-12 mt-4">
-
         {/* Render each Shelf (Row) */}
         {shelves.map((shelfItems, index) => (
           // Container for a single shelf row
@@ -79,11 +112,9 @@ const ShelfPage = () => {
                 backgroundImage: "repeating-linear-gradient(-45deg, #e5e7eb, #e5e7eb 5px, #d1d5db 5px, #d1d5db 10px)"
               }}
             />
-
           </div>
         ))}
       </div>
-
       {/* Bottom Navigation */}
       <BottomNav activePage="shelf" />
     </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserCircle, CirclePoundSterling } from 'lucide-react';
 import { getUser, getResultsByUser } from '../services/api';
 import Card from '../components/Card';
@@ -8,10 +9,15 @@ import AccountModal from '../components/AccountModal';
 import { getSubjectTheme } from '../constants/subjectThemes';
 
 const ParentDashboard = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
     // State to store the filtered user results
     const [stats, setStats] = useState(null);
+    // State to check status of loading
+    const [loading, setLoading] = useState(true);
+    // State for the error message
+    const [errorMessage, setErrorMessage] = useState("");
 
     const calculateWeeklyStats = (results, userData) => {
         // Initially starts of at todays date 
@@ -105,25 +111,51 @@ const ParentDashboard = () => {
 
     useEffect(() => {
         const loadData = async () => {
+            setLoading(true);
             const storedID = localStorage.getItem("userID");
 
-            try {
-                const userData = await getUser(storedID);
-                setUser(userData);
-                const allResults = await getResultsByUser(storedID);
-                const filteredStats = calculateWeeklyStats(allResults, userData);
-                setStats(filteredStats);
-            } catch (error) {
-                console.error("Error fetching user:", error);
+            const [userResponse, resultsResponse] = await Promise.all([
+                getUser(storedID),
+                getResultsByUser(storedID)
+            ])
+
+            const userData = userResponse.data;
+            const allResults = resultsResponse.data;
+
+            if (userResponse.error || resultsResponse.error) {
+                setErrorMessage(userResponse.error || resultsResponse.error);
+                return;
             }
+
+            setUser(userData);
+            const filteredStats = calculateWeeklyStats(allResults, userData);
+            setStats(filteredStats);
+            setLoading(false);
         };
         loadData();
     }, []);
 
-    if (!user) {
-        return <div>Loading your profile... (Make sure you are logged in)</div>;
+    if (errorMessage) {
+        return (
+            <div className="p-10 text-center">
+                <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+                    <p><span className="font-bold">Error: </span>{errorMessage}</p>
+                </div>
+                <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+            </div>
+        );
     }
 
+    if (loading || !user) {
+        return (
+            <div className="p-10 text-center">
+                <h2 className="text-xl">Loading your profile...</h2>
+                <p className="text-gray-500">Please be patient while your profile loads.</p>
+                <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate("/sd")}>Return to Student Dashboard</span>
+            </div>
+        );
+    }
+    
     return (
         <div className="min-h-screen bg-gray-50 font-sans pb-24">
             {/* Header */}
@@ -247,7 +279,7 @@ const ParentDashboard = () => {
                             <div>
                                 {/* Total Correct Answers / Total Questions Attempted as a percentage */}
                                 <div className="flex items-end gap-2 mb-4">
-                                    <span className="text-5xl font-semibold text-indigo-600">{(stats.totalCorrect != 0 && stats.totalAnswered != 0) ? (((stats.totalCorrect / stats.totalAnswered) * 100).toFixed(2)) : 0}</span>
+                                    <span className="text-5xl font-semibold text-indigo-600">{(stats.totalCorrect != 0 && stats.totalAnswered != 0) ? Number(((stats.totalCorrect / stats.totalAnswered) * 100).toFixed(2)) : 0}</span>
                                     <span className="text-2xl text-gray-700 mb-1">% accuracy</span>
                                 </div>
                                 {/* Subject Specific Total Correct Answers / Total Questions Attempted as a percentage */}
@@ -265,7 +297,7 @@ const ParentDashboard = () => {
                                                     {/* Displays subject */}
                                                     <span style={{ color: theme.primary }} className="font-bold">{theme.label}</span>
                                                     {/* Correct / Attempted as a percentage for specfic subject */}
-                                                    <span className="text-gray-700">{((data.correct / data.attempted) * 100).toFixed(2)}%</span>
+                                                    <span className="text-gray-700">{Number(((data.correct / data.attempted) * 100).toFixed(2))}%</span>
                                                 </div>
                                             );
                                         })

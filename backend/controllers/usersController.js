@@ -99,9 +99,26 @@ const registerUser = asyncHandler(async (request, response) => {
 const updateProfile = asyncHandler(async (request, response) => {
     // Destructures the results sent from the Account Modal
     const { username, email, avatar } = request.body;
+    // The ID extracted from the URL
+    const userID = request.params.id
+
+    // Check if a user with that username and a different _id using not equal to ($ne) already exists to prevent duplicates
+    const existingUser = await User.findOne({ username, _id: { $ne: userID } });
+
+    if (existingUser) {
+        return response.status(400).json({ message: "Somebody is already using that awesome username! Can you pick a different one?" });
+    }
+
+    // Check if a user with that email already exists to prevent duplicates
+    const existingEmail = await User.findOne({ email, _id: { $ne: userID } });
+
+    if (existingEmail) {
+        return response.status(400).json({ message: "Somebody is already using this email, can you use a different one?" });
+    }
+
     // Searches the database for the user by ID and applies the new data fields
     const updatedUser = await User.findByIdAndUpdate(
-        request.params.id, // The ID extracted from the URL
+        userID,
         { username, email, avatar }, // The new values to be saved in the database
         {
             new: true, // Returns the updated document

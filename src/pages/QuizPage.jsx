@@ -13,6 +13,8 @@ import { getSubjectTheme } from '../constants/subjectThemes';
 const QuizPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  // State for the error message
+  const [errorMessage, setErrorMessage] = useState("");
   // Extract subjectID and quizID from the URL
   const { subjectID, quizID } = useParams();
   // Get the theme based on the URL ID
@@ -66,98 +68,123 @@ const QuizPage = () => {
     const load = async () => {
       setLoading(true);
       const storedID = localStorage.getItem("userID");
-      try {
-        const [userData, subjectData] = await Promise.all([
-          getUser(storedID),
-          getSubjectByID(subjectID)
-        ]);
+      const [userResponse, subjectResponse, quizResponse] = await Promise.all([
+        getUser(storedID),
+        getSubjectByID(subjectID),
+        getQuiz(quizID)
+      ]);
 
-        if (userData && subjectData) {
-          setUser(userData);
-          setCurrentSubject(subjectData);
-        }
+      const userData = userResponse.data;
+      const subjectData = subjectResponse.data;
+      const quizData = quizResponse.data;
 
-        const quizData = await getQuiz(quizID);
-        // 10 Questions shown for Static, 5 Questions shown for Dynamic
-        const perPage = quizData.type === 'dynamic' ? 5 : 10;
-        setPerPage(perPage);
-        const validQuiz = quizData && !quizData.message;
-
-        if (validQuiz) {
-          setDisplayTopic(quizData.name); // This sets the name
-          if (quizData.passage) {
-            setPassage(quizData.passage);
-          }
-          setTotalQuestions(quizData.totalQuestions);
-          console.log("Total Questions: ");
-          console.log(quizData.totalQuestions);
-          setQuizType(quizData.type); // Static or Dynamic
-
-          const savedProgress = await getQuizProgress(storedID, quizID);
-          const validProgress = savedProgress && !savedProgress.message;
-
-          // If the student has saved progress, restore their spot
-          if (validProgress) {
-            console.log("Progress Found");
-            const restoredIndex = savedProgress.currentQuestionIndex || 0;
-            setUserAnswers(savedProgress.userAnswers || {});
-            setCurrentQuestionIndex(restoredIndex);
-            console.log("Restored Index:", restoredIndex);
-            // Move the pagination strip to the correct page
-            setQuestionPage(Math.floor(restoredIndex / perPage));
-          } else {
-            console.log(savedProgress.message);
-          }
-
-          if (quizData.type === 'static') {
-            console.log("Static Quiz");
-            setQuestions(quizData.fixedQuestions);
-          } else if (quizData.type === 'dynamic') {
-            console.log("Dynamic Quiz");
-            if (validProgress && (savedProgress.dynamicQuestionIDs).length > 0) {
-              // Ensures the student is presented with the same questions as before for dynamic quizzes
-              const existingQuestions = await getQuestionsByIDs(savedProgress.dynamicQuestionIDs);
-              console.log("Fetched Existing Questions: ");
-              console.log(existingQuestions);
-              setQuestions(existingQuestions);
-              setBatchScore(savedProgress.batchScore);
-              console.log("Previous Batch Score: ", savedProgress.batchScore);
-              setDynamicQuestionIDs(savedProgress.dynamicQuestionIDs);
-              // Carries on at correct difficulty
-              setCurrentDifficulty(savedProgress.currentDifficulty || 3);
-            } else {
-              // Start of with Normal questions if it is there first time
-              let difficulty = 3;
-              if (userData.completedQuizzes) {
-                // Finds the specific object with the same quizID in completedQuizzes
-                const pastAttempt = userData.completedQuizzes.find(q => q.quizID === quizID);
-                if (pastAttempt && pastAttempt.lastDifficulty) {
-                  // Resume using difficulty calculated in the previous attempt 
-                  difficulty = pastAttempt.lastDifficulty;
-                  console.log("Resuming at saved difficulty: ", difficulty);
-                }
-              }
-              const initialQuestions = await getDynamicQuestions(quizID, subjectID, difficulty);
-              console.log("Fetched Initial Questions: ", initialQuestions);
-              setQuestions(initialQuestions);
-              // Stores the question IDs for the inital 5 questions
-              setDynamicQuestionIDs(initialQuestions.map(q => q._id));
-              setCurrentDifficulty(difficulty);
-            }
-          }
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Error loading quiz:", error);
-        setLoading(false);
+      if (userResponse.error || subjectResponse.error || quizResponse.error) {
+        setErrorMessage(userResponse.error || subjectResponse.error || quizResponse.error);
+        return;
       }
+
+      if (userData && subjectData) {
+        setUser(userData);
+        setCurrentSubject(subjectData);
+      }
+
+      // 10 Questions shown for Static, 5 Questions shown for Dynamic
+      const perPage = quizData.type === 'dynamic' ? 5 : 10;
+      setPerPage(perPage);
+      const validQuiz = quizData && !quizData.message;
+
+      if (validQuiz) {
+        setDisplayTopic(quizData.name); // This sets the name
+        if (quizData.passage) {
+          setPassage(quizData.passage);
+        }
+        setTotalQuestions(quizData.totalQuestions);
+        setQuizType(quizData.type); // Static or Dynamic
+
+        const progressResponse = await getQuizProgress(storedID, quizID);
+        const savedProgress = progressResponse.data;
+        if (progressResponse.error) {
+          setErrorMessage(progressResponse.error);
+          return;
+        }
+        const validProgress = savedProgress && !savedProgress.message;
+
+        // If the student has saved progress, restore their spot
+        if (validProgress) {
+          console.log("Progress Found");
+          const restoredIndex = savedProgress.currentQuestionIndex || 0;
+          setUserAnswers(savedProgress.userAnswers || {});
+          setCurrentQuestionIndex(restoredIndex);
+          console.log("Restored Index:", restoredIndex);
+          // Move the pagination strip to the correct page
+          setQuestionPage(Math.floor(restoredIndex / perPage));
+        } else {
+          console.log(savedProgress.message);
+        }
+
+        if (quizData.type === 'static') {
+          console.log("Static Quiz");
+          setQuestions(quizData.fixedQuestions);
+        } else if (quizData.type === 'dynamic') {
+          console.log("Dynamic Quiz");
+          if (validProgress && (savedProgress.dynamicQuestionIDs).length > 0) {
+            // Ensures the student is presented with the same questions as before for dynamic quizzes
+            const questionsResponse = await getQuestionsByIDs(savedProgress.dynamicQuestionIDs);
+            const existingQuestions = questionsResponse.data;
+            if (questionsResponse.error) {
+              setErrorMessage(questionsResponse.error);
+              return;
+            }
+            console.log("Fetched Existing Questions:", existingQuestions);
+            setQuestions(existingQuestions);
+            setBatchScore(savedProgress.batchScore);
+            console.log("Previous Batch Score:", savedProgress.batchScore);
+            setDynamicQuestionIDs(savedProgress.dynamicQuestionIDs);
+            // Carries on at correct difficulty
+            setCurrentDifficulty(savedProgress.currentDifficulty || 3);
+          } else {
+            // Start of with Normal questions if it is there first time
+            let difficulty = 3;
+            if (userData.completedQuizzes) {
+              // Finds the specific object with the same quizID in completedQuizzes
+              const pastAttempt = userData.completedQuizzes.find(q => q.quizID === quizID);
+              if (pastAttempt && pastAttempt.lastDifficulty) {
+                // Resume using difficulty calculated in the previous attempt 
+                difficulty = pastAttempt.lastDifficulty;
+                console.log("Resuming at saved difficulty:", difficulty);
+              }
+            }
+            const dynamicResponse = await getDynamicQuestions(quizID, subjectID, difficulty);
+            const initialQuestions = dynamicResponse.data;
+            if (dynamicResponse.error) {
+              setErrorMessage(dynamicResponse.error);
+              return;
+            }
+            console.log("Fetched Initial Questions:", initialQuestions);
+            setQuestions(initialQuestions);
+            // Stores the question IDs for the inital 5 questions
+            setDynamicQuestionIDs(initialQuestions.map(q => q._id));
+            setCurrentDifficulty(difficulty);
+          }
+        }
+      }
+      setLoading(false);
     };
     load();
   }, [subjectID, quizID]);
 
-  if (loading) return <div className="p-10 text-center font-bold">Loading quizzes...</div>;
+  if (errorMessage) {
+    return (
+      <div className="p-10 text-center">
+        <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+          <p><span className="font-bold">Error: </span>{errorMessage}</p>
+        </div>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate(`/subject/${subjectID}`)}>Return to Subject Page</span>
+      </div>
+    );
+  }
 
-  if (questions.length === 0) {
+  if (loading || questions.length === 0) {
     return (
       <div className="p-10 text-center">
         <h2 className="text-xl">Waiting for quiz data...</h2>
@@ -220,24 +247,25 @@ const QuizPage = () => {
       return;
     }
 
-    try {
-      const progressData = {
-        subjectID,
-        progressPercent: progress,
-        userAnswers,
-        currentQuestionIndex
-      };
-      if (quizType === 'dynamic') {
-        progressData.batchScore = batchScore;
-        progressData.dynamicQuestionIDs = dynamicQuestionIDs;
-        progressData.currentDifficulty = currentDifficulty;
-      }
-      console.log(progressData);
-      await saveQuizProgress(storedID, quizID, progressData);
-      navigate(-1);
-    } catch (error) {
-      console.error("Save error:", error);
+    const progressData = {
+      subjectID,
+      progressPercent: progress,
+      userAnswers,
+      currentQuestionIndex
+    };
+
+    if (quizType === 'dynamic') {
+      progressData.batchScore = batchScore;
+      progressData.dynamicQuestionIDs = dynamicQuestionIDs;
+      progressData.currentDifficulty = currentDifficulty;
     }
+
+    console.log(progressData);
+    const saveResponse = await saveQuizProgress(storedID, quizID, progressData);
+    if (saveResponse.error) {
+      setErrorMessage(saveResponse.error);
+    }
+    navigate(-1);
   };
 
   // Determine the background colour of the answer button (Green/Red/Default)
@@ -288,7 +316,7 @@ const QuizPage = () => {
       />
 
       {/* Quiz Completion Overlay */}
-      <QuizCompletionOverlay 
+      <QuizCompletionOverlay
         isFinished={isFinished}
         totalQuestions={totalQuestions}
         currentScore={currentScore}
@@ -354,6 +382,13 @@ const QuizPage = () => {
           )}
         </div>
 
+        {/* Display Error Message */}
+        {errorMessage && (
+          <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
+            {errorMessage}
+          </p>
+        )}
+
         {/* Options Row */}
         <div className="flex flex-wrap justify-center gap-4">
           {question.options.map((option, index) => {
@@ -407,6 +442,7 @@ const QuizPage = () => {
         subjectID={subjectID}
         setCurrentDifficulty={setCurrentDifficulty}
         setBatchScore={setBatchScore}
+        setErrorMessage={setErrorMessage}
       />
 
       {/* Only renders the component if the passage object exists and is open */}

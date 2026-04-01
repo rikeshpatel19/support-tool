@@ -9,9 +9,13 @@ const ExamPage = () => {
   const navigate = useNavigate();
   // Extract subjectID and examID from the URL
   const { subjectID, examID } = useParams();
+  // State for the error message
+  const [errorMessage, setErrorMessage] = useState("");
 
   // State to store the title of the exam
   const [examTitle, setExamTitle] = useState("");
+    // State to store the time limit in seconds (3000 seconds --> 50 minutes)
+  const [timeLimit, setTimeLimit] = useState(3000);
   // State to store the time remaining in seconds (3000 seconds --> 50 minutes)
   const [timeLeft, setTimeLeft] = useState(3000);
   // State to store the array of questions fetched from the API
@@ -33,16 +37,19 @@ const ExamPage = () => {
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      try {
-        const examData = await getExam(examID); // Fetch exam
-        if (examData && examData.questions) {
-          setExamTitle(examData.title);
-          setQuestions(examData.questions);
-          setTimeLeft(examData.timeLimit);
-        }
+      const examResponse = await getExam(examID); // Fetch exam
+      const examData = examResponse.data;
+      if (examResponse.error) {
+        setErrorMessage(examResponse.error);
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching exam:", error);
+        return;
+      }
+      if (examData && examData.questions) {
+        setExamTitle(examData.title);
+        setQuestions(examData.questions);
+        setTimeLimit(examData.timeLimit);
+        setTimeLeft(examData.timeLimit);
+        setLoading(false);
       }
     };
     loadData();
@@ -50,6 +57,8 @@ const ExamPage = () => {
 
   // Timer Logic
   useEffect(() => {
+    // Stop the timer if the exam is finished
+    if (isFinished) return;
     // If the user has run out of time but never clicked "Finish" 
     if (!isFinished && timeLeft === 0) {
       // Auto submits the results
@@ -71,7 +80,18 @@ const ExamPage = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (questions.length === 0) {
+  if (errorMessage) {
+    return (
+      <div className="p-10 text-center">
+        <div className="bg-red-100 border border-red-500 text-red-600 px-4 py-3 rounded mb-4">
+          <p><span className="font-bold">Error: </span>{errorMessage}</p>
+        </div>
+        <span className="text-black underline cursor-pointer hover:text-blue-600" onClick={() => navigate(-1)}>Return to Exam Page</span>
+      </div>
+    );
+  }
+
+  if (loading || questions.length === 0) {
     return (
       <div className="p-10 text-center">
         <h2 className="text-xl">Waiting for exam data...</h2>
@@ -119,20 +139,22 @@ const ExamPage = () => {
   const handleAutoSubmit = async () => {
     const storedID = localStorage.getItem("userID");
     if (storedID) {
-      try {
-        const questionsAnswered = Object.keys(userAnswers).length;
-        console.log("Questions Answered: ", questionsAnswered);
+      const questionsAnswered = Object.keys(userAnswers).length;
+      console.log("Questions Answered: ", questionsAnswered);
 
-        await finaliseQuizResults(storedID, subjectID, examID, {
-          score: score,
-          questionsAnswered: questionsAnswered,
-          totalQuestions: questions.length,
-          percentage: percentage,
-        });
-        console.log("Exam result saved!");
-      } catch (error) {
-        console.error("Failed to finalize results:", error);
+      const finaliseResponse = await finaliseQuizResults(storedID, subjectID, examID, {
+        score: score,
+        questionsAnswered: questionsAnswered,
+        totalQuestions: questions.length,
+        percentage: percentage,
+      });
+
+      if (finaliseResponse.error) {
+        setErrorMessage(finaliseResponse.error);
+        return;
       }
+
+      console.log("Exam result saved!");
       setIsFinished(true);
     }
   };
@@ -216,7 +238,7 @@ const ExamPage = () => {
       <ExamResults
         questions={questions}
         userAnswers={userAnswers}
-        timeTaken={formatTime(3000 - timeLeft)}
+        timeTaken={formatTime(timeLimit - timeLeft)}
       />
     );
   }

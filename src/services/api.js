@@ -1,218 +1,139 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+// Standardised wrapper for all API calls to ensure consistent data/error handling
+// "endpoint" is the URL path (e.g. /users/login)
+// "options" is the fetch configuration (method, body, custom headers)
+const apiRequest = async (endpoint, options = {}) => {
+  try {
+    // Request uses the global API URL and the specfic endpoint
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      // Spreads options (method, body, custom headers)
+      ...options,
+      // Merges default JSON content type with any custom headers passed in from options
+      headers: { 'Content-Type': 'application/json', ...options.headers }
+    });
+    // Stores response from server
+    const payload = await response.json();
+    // Checks if the server responded with an error code
+    if (!response.ok) {
+      // Consistent error message 
+      return { data: null, error: payload.message || "An unexpected error occurred" };
+    }
+    // If succesful, returns payload and sets error to null
+    return { data: payload, error: null };
+  } catch (error) {
+    // Catches network failure or server being offline
+    console.error(`Error at [${endpoint}]:`, error);
+    return { data: null, error: "Network error. Please check your connection or try again later." };
+  }
+};
+
 // --- USERS ---
 
 // Get user by ID
-export const getUser = async (userID) => {
-  try {
-    const response = await fetch(`${API_URL}/users/${userID}`);
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching user:", error);
+export const getUser = (userID) => {
+  if (!userID) {
+    return { data: null, error: "No User ID provided" };
   }
-};
+  return apiRequest(`/users/${userID}`);
+}
 
 // Login user
-export const loginUser = async (credentials) => {
-  const response = await fetch(`${API_URL}/users/login`, {
+export const loginUser = (credentials) =>
+  apiRequest('/users/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials)
   });
 
-  if (!response.ok) {
-    // If the username cannot be found, the backend sends a 400 error
-    // An error is also sent if there are missing fields
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-
-  return await response.json();
-};
-
 // Register new user
-export const registerUser = async (userData) => {
-  const response = await fetch(`${API_URL}/users/register`, {
+export const registerUser = (userData) =>
+  apiRequest('/users/register', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
   });
 
-  if (!response.ok) {
-    // If the username or email is taken, the backend sends a 400 error
-    // An error is also sent if there are missing fields
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Registration failed');
-  }
-
-  return await response.json();
-};
-
 // Update Account Details
-export const updateProfile = async (userID, userData) => {
-  const response = await fetch(`${API_URL}/users/${userID}/update-profile`, {
+export const updateProfile = (userID, userData) =>
+  apiRequest(`/users/${userID}/update-profile`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userData),
+    body: JSON.stringify(userData)
   });
-  // Checks if the server responded with an error code
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Failed to update profile');
-  }
-  return response.json();
-};
 
 // Add points and record completed quiz
-export const completeQuiz = async (userID, quizID, subjectID, points, percentage, nextDifficulty) => {
-  const response = await fetch(`${API_URL}/users/${userID}/complete-quiz`, {
+export const completeQuiz = (userID, quizID, subjectID, points, percentage, nextDifficulty) =>
+  apiRequest(`/users/${userID}/complete-quiz`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ quizID, subjectID, pointsEarned: points, percentage: percentage, lastDifficulty: nextDifficulty })
+    body: JSON.stringify({
+      quizID,
+      subjectID,
+      pointsEarned: points,
+      percentage,
+      lastDifficulty: nextDifficulty
+    })
   });
-  return await response.json();
-};
 
 // Purchase shop item
-export const purchaseItem = async (userID, collectibleID, price) => {
-  const response = await fetch(`${API_URL}/users/${userID}/purchase`, {
+export const purchaseItem = (userID, collectibleID, price) =>
+  apiRequest(`/users/${userID}/purchase`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ collectibleID, price })
   });
-  return await response.json();
-};
 
 // --- SUBJECTS ---
 
 // Get all subjects
-export const getSubjects = async () => {
-  try {
-    const response = await fetch(`${API_URL}/subjects`);
-    if (!response.ok) throw new Error("Failed to fetch subjects");
-    return await response.json(); // Returns an array of all the subjects
-  } catch (error) {
-    console.error("Error:", error);
-    return []; // Return empty array on error
-  }
-};
+export const getSubjects = () => apiRequest(`/subjects`);
 
-// Get specfic subject by ID
-export const getSubjectByID = async (subjectID) => {
-  const response = await fetch(`${API_URL}/subjects/${subjectID}`);
-  return await response.json();
-};
+// Add result for a completed quiz and clear progress 
+export const getSubjectByID = (subjectID) => apiRequest(`/subjects/${subjectID}`);
 
 // --- QUIZZES ---
 
 // Get quiz along with questions (empty if dynamic) using quizID
-export const getQuiz = async (quizID) => {
-  const response = await fetch(`${API_URL}/quizzes/quiz/${quizID}`);
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-  return await response.json();
-};
+export const getQuiz = (quizID) => apiRequest(`/quizzes/quiz/${quizID}`);
 
 // Get dynamic questions using quizID, subjectID and difficulty
-export const getDynamicQuestions = async (quizID, subjectID, difficulty) => {
-  try {
-    const response = await fetch(`${API_URL}/quizzes/dynamic?quizID=${quizID}&subjectID=${subjectID}&difficulty=${difficulty}`);
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching dynamic quiz:", error);
-    return null;
-  }
-};
+export const getDynamicQuestions = (quizID, subjectID, difficulty) =>
+  apiRequest(`/quizzes/dynamic?quizID=${quizID}&subjectID=${subjectID}&difficulty=${difficulty}`);
 
 // Get questions using an array of question IDs
-export const getQuestionsByIDs = async (questionIDs) => {
-  try {
-    const response = await fetch(`${API_URL}/quizzes/fetchQuestions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ questionIDs })
-    });
-    if (!response.ok) throw new Error("Failed to fetch questions by IDs");
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching specific questions:", error);
-    return [];
-  }
-};
+export const getQuestionsByIDs = (questionIDs) =>
+  apiRequest('/quizzes/questions', {
+    method: 'POST',
+    body: JSON.stringify({ questionIDs })
+  });
 
 // --- PROGRESSES ---
 
 // Saves partial progress for a quiz
-export const saveQuizProgress = async (userID, quizID, data) => {
-  const response = await fetch(`${API_URL}/progresses/${userID}/progress/${quizID}`, {
+export const saveQuizProgress = (userID, quizID, data) => 
+  apiRequest(`/progresses/${userID}/progress/${quizID}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-};
-
-// Retrieve partial progress for a quiz
-export const getQuizProgress = async (userID, quizID) => {
-  const response = await fetch(`${API_URL}/progresses/${userID}/progress/${quizID}`);
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-  return await response.json();
-};
-
-// Retrieve all saved progress assosciated with a user for a specfic subject
-export const getSubjectProgress = async (userID, subjectID) => {
-  try {
-    const response = await fetch(`${API_URL}/progresses/${userID}/progress/subject/${subjectID}`);
-    if (!response.ok) return []; // Returns an empty array if no progress exists
-    return await response.json(); // Returns an array of progress objects
-  } catch (error) {
-    console.error("Error fetching all progress for subject:", error);
-    return [];
-  }
-};
-
-// Add result for a completed quiz and clear progress 
-export const finaliseQuizResults = async (userID, subjectID, quizID, data) => {
-  const response = await fetch(`${API_URL}/progresses/${userID}/results/${subjectID}/${quizID}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
-  return response.json();
-};
 
-// Retrieve all saved progress assosciated with a user
-export const getResultsByUser = async (userID) => {
-  const response = await fetch(`${API_URL}/progresses/${userID}/results`);
-  if (!response.ok) return [];
-  return await response.json();
-};
+// Retrieve partial progress for a quiz
+export const getQuizProgress = (userID, quizID) => apiRequest(`/progresses/${userID}/progress/${quizID}`);
+
+// Retrieve all saved progress associated with a user for a specific subject
+export const getSubjectProgress = (userID, subjectID) => apiRequest(`/progresses/${userID}/progress/subject/${subjectID}`);
+
+// Add result for a completed quiz and clear progress 
+export const finaliseQuizResults = (userID, subjectID, quizID, data) => 
+  apiRequest(`/progresses/${userID}/results/${subjectID}/${quizID}`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+
+// Retrieve all saved results associated with a user
+export const getResultsByUser = (userID) => apiRequest(`/progresses/${userID}/results`);
 
 // --- EXAMS ---
 
 // Get a specific exam by examID
-export const getExam = async (examID) => {
-  const response = await fetch(`${API_URL}/exams/${examID}`);
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-  return await response.json();
-};
+export const getExam = (examID) => apiRequest(`/exams/${examID}`);
 
 // --- COLLECTIBLES ---
 
 // Get all collectibles
-export const getAllCollectibles = async () => {
-  const response = await fetch(`${API_URL}/collectibles`);
-  return await response.json();
-};
+export const getCollectibles = () => apiRequest(`/collectibles`);
