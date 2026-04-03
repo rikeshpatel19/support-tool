@@ -20,7 +20,7 @@ const ParentDashboard = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const calculateWeeklyStats = (results, userData) => {
-        // Initially starts of at todays date 
+        // Initially starts off at todays date 
         const lastWeek = new Date();
         // Sets it to todays date - 7 days 
         lastWeek.setDate(lastWeek.getDate() - 7);

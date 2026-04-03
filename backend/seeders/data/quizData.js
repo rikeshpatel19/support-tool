@@ -3491,129 +3491,124 @@ const quizData = [
     questions: [
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (metal though)",
+        options: ["m", "e", "t", "a", "l"],
+        correct_option: "t"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (liner bother)",
+        options: ["l", "i", "n", "e", "r"],
+        correct_option: "r"
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (biased pant)",
+        options: ["b", "i", "a", "s", "d"],
+        correct_option: "i"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (chomp tea)",
+        options: ["c", "h", "o", "m", "p"],
+        correct_option: "m"
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (player fight)",
+        options: ["p", "l", "a", "y", "r"],
+        correct_option: "l"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (metal though)",
+        options: ["m", "e", "t", "a", "l"],
+        correct_option: "t"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (liner bother)",
+        options: ["l", "i", "n", "e", "r"],
+        correct_option: "r"
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (biased pant)",
+        options: ["b", "i", "a", "s", "d"],
+        correct_option: "i"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (chomp tea)",
+        options: ["c", "h", "o", "m", "p"],
+        correct_option: "m"
       },
       {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (player fight)",
+        options: ["p", "l", "a", "y", "r"],
+        correct_option: "l"
       },
       {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
-      }
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (metal though)",
+        options: ["m", "e", "t", "a", "l"],
+        correct_option: "t"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (liner bother)",
+        options: ["l", "i", "n", "e", "r"],
+        correct_option: "r"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (biased pant)",
+        options: ["b", "i", "a", "s", "d"],
+        correct_option: "i"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (chomp tea)",
+        options: ["c", "h", "o", "m", "p"],
+        correct_option: "m"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (player fight)",
+        options: ["p", "l", "a", "y", "r"],
+        correct_option: "l"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (metal though)",
+        options: ["m", "e", "t", "a", "l"],
+        correct_option: "t"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (liner bother)",
+        options: ["l", "i", "n", "e", "r"],
+        correct_option: "r"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (biased pant)",
+        options: ["b", "i", "a", "s", "d"],
+        correct_option: "i"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (chomp tea)",
+        options: ["c", "h", "o", "m", "p"],
+        correct_option: "m"
+      },
+      {
+        difficulty: 1,
+        question_text: "In this question, one letter can be moved from the first word to the second word to make two new words. (player fight)",
+        options: ["p", "l", "a", "y", "r"],
+        correct_option: "l"
+      },
     ]
   },
   {
@@ -4820,129 +4815,144 @@ const quizData = [
     questions: [
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q1.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q2.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q3.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q4.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q5.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q1.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q2.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
+      },
+      {
+        difficulty: 2,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q3.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
+      },
+      {
+        difficulty: 2,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q4.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q5.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
-      },
-      {
-        difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q1.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q2.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
+      },
+      {
+        difficulty: 2,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q3.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
+      },
+      {
+        difficulty: 2,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q4.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q5.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
+      },
+      {
+        difficulty: 1,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q1.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
+      },
+      {
+        difficulty: 1,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q2.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q3.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
-      }
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q4.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "B"
+      },
+      {
+        difficulty: 1,
+        question_text: "Answer the Question below:",
+        question_image: "/images/NVR_C1_Q5.png",
+        options: ["A", "B", "C", "D", "E"],
+        correct_option: "D"
+      },
     ]
   },
   {
