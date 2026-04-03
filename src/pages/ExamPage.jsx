@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Clock, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import Button from '../components/Button';
+import ExitMenu from '../components/ExitMenu';
 import ExamResults from '../components/ExamResults';
 import { getExam, markExam, finaliseQuizResults } from '../services/api';
 
@@ -37,6 +38,8 @@ const ExamPage = () => {
   const [serverResults, setServerResults] = useState(null);
   // State to check if the exam is being submitted 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // State to check if the student clicked Exit
+  const [showExit, setShowExit] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -120,11 +123,19 @@ const ExamPage = () => {
   const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   // Handle when a user clicks the exit button
-  const handleQuitRequest = () => {
-    if (window.confirm("Are you sure? The timer will NOT stop, and your progress will be lost.")) {
-      navigate(-1);
-    }
-  };
+  const handleExitClick = () => {
+    setShowExit(true);
+  }
+
+  // User cancelled the Exit
+  const cancelExit = () => {
+    setShowExit(false);
+  }
+
+  // User confirmed the Exit
+  const confirmExit = () => {
+    navigate(-1);
+  }
 
   // Handle when a user clicks an answer option (A, B, C, D, E)
   const handleOptionClick = (option) => {
@@ -257,11 +268,18 @@ const ExamPage = () => {
 
   return (
     <div className="min-h-screen bg-purple-100 font-sans flex flex-col">
+      {/* Exit Menu Overlay */}
+      <ExitMenu
+        showExit={showExit}
+        cancelExit={cancelExit}
+        confirmExit={confirmExit}
+      />
+
       {/* Header */}
       <header className="border-b-2 border-black p-4 flex items-center justify-between bg-white sticky top-0 z-10">
         {/* Left: Exit & Display Exam Title */}
         <div className="flex items-center gap-4">
-          <button onClick={handleQuitRequest} className="hover:opacity-70 hover:text-red-500 transition-colors">
+          <button onClick={handleExitClick} className="hover:opacity-70 hover:text-red-500 transition-colors">
             <LogOut size={32} />
           </button>
           <span className="font-bold text-xl capitalize">{examTitle}</span>
