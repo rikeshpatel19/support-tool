@@ -35,6 +35,8 @@ const ExamPage = () => {
   const questionsPerPage = 10;
   // State to store the final results calculated on the server-side + answers
   const [serverResults, setServerResults] = useState(null);
+  // State to check if the exam is being submitted 
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -51,8 +53,8 @@ const ExamPage = () => {
         setQuestions(examData.questions);
         setTimeLimit(examData.timeLimit);
         setTimeLeft(examData.timeLimit);
-        setLoading(false);
       }
+      setLoading(false);
     };
     loadData();
   }, [examID]);
@@ -132,8 +134,11 @@ const ExamPage = () => {
 
   // Handle when the timer hits 00:00
   const handleAutoSubmit = async () => {
+    // Used to prevent double submits
+    if (isSubmitting) return;
     const storedID = localStorage.getItem("userID");
     if (storedID) {
+      setIsSubmitting(true);
       const questionsAnswered = Object.keys(userAnswers).length;
       console.log("Questions Answered: ", questionsAnswered);
       const markingData = { examID, userAnswers }
@@ -141,10 +146,12 @@ const ExamPage = () => {
 
       if (markingResponse.error) {
         setErrorMessage("Failed to mark exam");
+        setIsSubmitting(false);
         return;
       } else {
         setServerResults(markingResponse.data);
       }
+
       const finaliseResponse = await finaliseQuizResults(storedID, subjectID, examID, {
         score: markingResponse.data.score,
         questionsAnswered: questionsAnswered,
@@ -156,7 +163,6 @@ const ExamPage = () => {
         setErrorMessage(finaliseResponse.error);
         return;
       }
-
       console.log("Exam result saved!");
       setIsFinished(true);
     }
@@ -236,7 +242,7 @@ const ExamPage = () => {
     return ""; // Otherwise keep default (Grey box, Black text)
   };
 
-  if (isFinished) {
+  if (isFinished && serverResults) {
     return (
       <ExamResults
         questions={questions}
@@ -394,6 +400,7 @@ const ExamPage = () => {
           onClick={handleNext}
           variant="purple"
           className='hover:bg-purple-500'
+          disabled={isSubmitting}
         >
           {currentQuestionIndex + 1 === questions.length ? "Finish" : "Next"}
         </Button>

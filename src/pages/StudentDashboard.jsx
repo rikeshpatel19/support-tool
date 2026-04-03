@@ -10,6 +10,18 @@ import Avatar from '../components/Avatar';
 import AccountModal from '../components/AccountModal';
 import { subjectThemes } from '../constants/subjectThemes';
 
+const getGreeting = () => {
+    const hour = new Date().getHours();
+
+    if (hour < 12) {
+        return "Good morning";
+    } else if (hour < 18) {
+        return "Good afternoon";
+    } else {
+        return "Good evening";
+    }
+}
+
 const StudentDashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
@@ -99,7 +111,7 @@ const StudentDashboard = () => {
                             <Avatar avatarName={user.avatar} className='fill-amber-400' size={128} strokeWidth={1.5} />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Good morning, {user.studentName}!</h1>
+                            <h1 className="text-2xl font-bold text-gray-900">{getGreeting()}, {user.studentName}!</h1>
                             <p className="text-gray-500 mt-1">Ready to learn something new?</p>
                         </div>
                     </Card>

@@ -150,16 +150,15 @@ const completeQuiz = asyncHandler(async (request, response) => {
     // Get the users unique ID from the URL parameters
     const userID = request.params.id;
 
-    // Increments the total points by the pointsEarned
-    await User.findByIdAndUpdate(userID, { $inc: { points: pointsEarned } });
-
-    // Finds the specfic quiz matching the quizID
-    const updatedUser = await User.findOneAndUpdate(
+    // Attempts to update an exisiting quiz record and increment points
+    let updatedUser = await User.findOneAndUpdate(
         {
             _id: userID,
             "completedQuizzes.quizID": quizID // Match the specific quiz inside the array
         },
         {
+            // Increments the total points by the pointsEarned
+            $inc: { points: pointsEarned },
             // $ used to update the specific array element that was matched above
             $set: {
                 "completedQuizzes.$.lastDifficulty": lastDifficulty, // Difficulty updated
@@ -170,23 +169,14 @@ const completeQuiz = asyncHandler(async (request, response) => {
         { new: true } // Return the document after the update is applied
     );
 
-    if (updatedUser) {
-        // Finds the specific object that was just updated in the users completedQuizzes
-        const quizIndex = updatedUser.completedQuizzes.findIndex(q => q.quizID === quizID);
-        const existingRecord = updatedUser.completedQuizzes[quizIndex];
-
-        // Only update if existing score < new score
-        if (percentage > existingRecord.bestPercentage) {
-            updatedUser.completedQuizzes[quizIndex].bestPercentage = percentage;
-            await updatedUser.save(); // Saves changes
-        }
-    } else {
-        // If the quizID was not found, it must be the users first attempt
-        await User.updateOne(
-            { _id: userID },
-            // Adds a new object to the array, $addToSet ensures the same topic is not added twice
+    // If no record of the quiz was found, add a new record and increment points
+    if (!updatedUser) {
+        updatedUser = await User.findByIdAndUpdate(userID,
             {
-                $addToSet: {
+                // Increments the total points by the pointsEarned
+                $inc: { points: pointsEarned },
+                // Adds a new object to the array, $push used because the quiz is new
+                $push: {
                     completedQuizzes: {
                         quizID, subjectID,
                         bestPercentage: percentage,
@@ -195,8 +185,19 @@ const completeQuiz = asyncHandler(async (request, response) => {
                         completedAt: Date.now()
                     }
                 }
-            }
+            },
+            { new: true } // Return the document after the update is applied
         );
+    }
+
+    // Finds the specific object that was just updated in the users completedQuizzes
+    const quizIndex = updatedUser.completedQuizzes.findIndex(q => q.quizID === quizID);
+    const existingRecord = updatedUser.completedQuizzes[quizIndex];
+
+    // Only update if existing score < new score
+    if (percentage > existingRecord.bestPercentage) {
+        updatedUser.completedQuizzes[quizIndex].bestPercentage = percentage;
+        await updatedUser.save(); // Saves changes
     }
 
     // Return a success message to the frontend
