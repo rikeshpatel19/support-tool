@@ -3,14 +3,8 @@ import { CheckCircle, XCircle, CircleMinus, Trophy } from 'lucide-react';
 import Button from '../components/Button';
 import Card from '../components/Card';
 
-const ExamResults = ({ questions, userAnswers, timeTaken }) => {
+const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPercentage, answers }) => {
   const navigate = useNavigate();
-  // Calculate score based on all answers
-  const score = questions.reduce((totalScore, currentQuestion, qIndex) => 
-    userAnswers[qIndex] === currentQuestion.correct_option ? totalScore + 1 : totalScore, 0
-  );
-  // Calculate total percentage to determine grade
-  const percentage = Math.round((score / questions.length) * 100);
   // Determine Grade, not sure about what grades actually look like 
   const getGrade = (p) => {
     if (p >= 80) return { label: "Distinction", color: "text-green-500" };
@@ -18,7 +12,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken }) => {
     return { label: "Try Again", color: "text-red-500" };
   };
   // Grabs Grade achieved along with assosciated colour
-  const grade = getGrade(percentage);
+  const grade = getGrade(serverPercentage);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -27,17 +21,17 @@ const ExamResults = ({ questions, userAnswers, timeTaken }) => {
         <Card className="p-8 mb-8 text-center border-4 border-black shadow-medium">
           <Trophy size={112} className="mx-auto mb-4 text-amber-500" />
           <h1 className="text-4xl font-black uppercase mb-2">Exam Completed!</h1>
-          <p className={`text-6xl font-black mb-4 text-black`}>{percentage}%</p>
+          <p className={`text-6xl font-black mb-4 text-black`}>{serverPercentage}%</p>
           <p className="text-2xl font-bold text-gray-500 mb-6">Grade: {grade.label}</p>
           
           <div className="grid grid-cols-3 gap-4 border-t-2 border-gray-200 pt-6">
             <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Correct</p>
-              <p className="text-2xl font-black text-green-500">{score}</p>
+              <p className="text-2xl font-black text-green-500">{serverScore}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Incorrect</p>
-              <p className="text-2xl font-black text-red-500">{questions.length - score}</p>
+              <p className="text-2xl font-black text-red-500">{questions.length - serverScore}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Time Taken</p>
@@ -50,7 +44,8 @@ const ExamResults = ({ questions, userAnswers, timeTaken }) => {
         <h2 className="text-2xl font-black uppercase mb-4">Question Review</h2>
         <div className="space-y-4">
           {questions.map((q, idx) => {
-            const isCorrect = userAnswers[idx] === q.correct_option;
+            const answer = answers[idx];
+            const isCorrect = userAnswers[idx] === answer.correct_option;
             const isSkipped = userAnswers[idx] === undefined;
             return (
               <div key={idx} className={`p-6 rounded-xl border-2 bg-white ${
@@ -80,7 +75,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken }) => {
                   {!isCorrect && (
                     <div className="p-3 rounded-lg bg-blue-50 border border-blue-200">
                       <p className="font-bold uppercase text-[10px] text-blue-500">Correct Answer</p>
-                      <p className="font-bold">{q.correct_option}</p>
+                      <p className="font-bold">{answer.correct_option}</p>
                     </div>
                   )}
                 </div>
@@ -88,7 +83,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken }) => {
                 {/* Explanation */}
                 <div className="mt-4 p-4 bg-gray-100 rounded-lg italic text-gray-700 border-l-4 border-gray-300">
                   <span className="font-bold not-italic">Explanation: </span> 
-                  {q.explanation}
+                  {answer.explanation}
                 </div>
               </div>
             );

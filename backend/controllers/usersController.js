@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt');
 // @route GET /users/:id
 const getUser = asyncHandler(async (request, response) => {
     // Search the database for a user matching the provided ID
-    const user = await User.findById(request.params.id);
+    // -password ensures that the password is excluded
+    const user = await User.findById(request.params.id).select("-password");
     // Return a 404 error if the user isn't found or the ID is invalid
     if (!user) {
         response.status(404).json({ message: "User not found" });
@@ -37,8 +38,11 @@ const loginUser = asyncHandler(async (request, response) => {
         const isMatch = await bcrypt.compare(password, user.password);
         // If the passwords match
         if (isMatch) {
+            const userResponse = user.toObject();
+            // Removes password before sending the user data to the frontend
+            delete userResponse.password;
             // If successful, send the user data back to the frontend
-            response.json(user);
+            response.json(userResponse);
         }
         else {
             // Send a 401 error if the passwords do not match
@@ -86,8 +90,11 @@ const registerUser = asyncHandler(async (request, response) => {
     const newUser = await User.create(userObject);
 
     if (newUser) {
+        const userResponse = newUser.toObject();
+        // Removes password before sending the user data to the front end
+        delete userResponse.password;
         // Send back the new user data so the frontend can log them in immediately
-        response.status(201).json(newUser);
+        response.status(201).json(userResponse);
     }
     else {
         response.status(400).json({ message: "Registration failed" });

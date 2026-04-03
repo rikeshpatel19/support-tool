@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Clock, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import Button from '../components/Button';
 import ExamResults from '../components/ExamResults';
-import { getExam, finaliseQuizResults } from '../services/api';
+import { getExam, markExam, finaliseQuizResults } from '../services/api';
 
 const ExamPage = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const ExamPage = () => {
 
   // State to store the title of the exam
   const [examTitle, setExamTitle] = useState("");
-    // State to store the time limit in seconds (3000 seconds --> 50 minutes)
+  // State to store the time limit in seconds (3000 seconds --> 50 minutes)
   const [timeLimit, setTimeLimit] = useState(3000);
   // State to store the time remaining in seconds (3000 seconds --> 50 minutes)
   const [timeLeft, setTimeLeft] = useState(3000);
@@ -33,6 +33,8 @@ const ExamPage = () => {
   const [questionPage, setQuestionPage] = useState(0);
   // Fixed limit of 10 question numbers to display at one time
   const questionsPerPage = 10;
+  // State to store the final results calculated on the server-side + answers
+  const [serverResults, setServerResults] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -115,13 +117,6 @@ const ExamPage = () => {
   // Calculate the percentage for the progress bar width
   const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
 
-  // Calculate score based on all answers
-  const score = questions.reduce((totalScore, currentQuestion, qIndex) =>
-    userAnswers[qIndex] === currentQuestion.correct_option ? totalScore + 1 : totalScore, 0
-  );
-  // Calculate total percentage to determine grade
-  const percentage = Math.round((score / questions.length) * 100);
-
   // Handle when a user clicks the exit button
   const handleQuitRequest = () => {
     if (window.confirm("Are you sure? The timer will NOT stop, and your progress will be lost.")) {
@@ -141,12 +136,20 @@ const ExamPage = () => {
     if (storedID) {
       const questionsAnswered = Object.keys(userAnswers).length;
       console.log("Questions Answered: ", questionsAnswered);
+      const markingData = { examID, userAnswers }
+      const markingResponse = await markExam(markingData);
 
+      if (markingResponse.error) {
+        setErrorMessage("Failed to mark exam");
+        return;
+      } else {
+        setServerResults(markingResponse.data);
+      }
       const finaliseResponse = await finaliseQuizResults(storedID, subjectID, examID, {
-        score: score,
+        score: markingResponse.data.score,
         questionsAnswered: questionsAnswered,
         totalQuestions: questions.length,
-        percentage: percentage,
+        percentage: markingResponse.data.percentage,
       });
 
       if (finaliseResponse.error) {
@@ -239,6 +242,9 @@ const ExamPage = () => {
         questions={questions}
         userAnswers={userAnswers}
         timeTaken={formatTime(timeLimit - timeLeft)}
+        serverScore={serverResults.score}
+        serverPercentage={serverResults.percentage}
+        answers={serverResults.answers}
       />
     );
   }

@@ -106,7 +106,7 @@ export const getQuestionsByIDs = (questionIDs) =>
 // --- PROGRESSES ---
 
 // Saves partial progress for a quiz
-export const saveQuizProgress = (userID, quizID, data) => 
+export const saveQuizProgress = (userID, quizID, data) =>
   apiRequest(`/progresses/${userID}/progress/${quizID}`, {
     method: 'PATCH',
     body: JSON.stringify(data)
@@ -119,7 +119,7 @@ export const getQuizProgress = (userID, quizID) => apiRequest(`/progresses/${use
 export const getSubjectProgress = (userID, subjectID) => apiRequest(`/progresses/${userID}/progress/subject/${subjectID}`);
 
 // Add result for a completed quiz and clear progress 
-export const finaliseQuizResults = (userID, subjectID, quizID, data) => 
+export const finaliseQuizResults = (userID, subjectID, quizID, data) =>
   apiRequest(`/progresses/${userID}/results/${subjectID}/${quizID}`, {
     method: 'POST',
     body: JSON.stringify(data)
@@ -132,6 +132,13 @@ export const getResultsByUser = (userID) => apiRequest(`/progresses/${userID}/re
 
 // Get a specific exam by examID
 export const getExam = (examID) => apiRequest(`/exams/${examID}`);
+
+// Marks an exam, returns a final score and percentage + answers
+export const markExam = (data) =>
+  apiRequest(`/exams/${data.examID}/mark`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 
 // --- COLLECTIBLES ---
 
