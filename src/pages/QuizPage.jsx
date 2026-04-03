@@ -15,6 +15,8 @@ const QuizPage = () => {
   const [user, setUser] = useState(null);
   // State for the error message
   const [errorMessage, setErrorMessage] = useState("");
+  // State for the caution message
+  const [cautionMessage, setCautionMessage] = useState("");
   // Extract subjectID and quizID from the URL
   const { subjectID, quizID } = useParams();
   // Get the theme based on the URL ID
@@ -212,6 +214,9 @@ const QuizPage = () => {
 
   // Handle when a user clicks an answer option (A, B, C, D, E)
   const handleOptionClick = (option) => {
+    // Clear previous messages
+    setErrorMessage("");
+    setCautionMessage("");
     // Prevent changing answer if already selected for this specific question
     if (userAnswers[currentQuestionIndex]) return;
     // Increment batchScore if correct (only for dynamic quizzes)
@@ -243,7 +248,7 @@ const QuizPage = () => {
 
     if (answeredCount === 0) {
       console.log("No answers to save yet.");
-      navigate(-1);
+      navigate(`/subject/${subjectID}`);
       return;
     }
 
@@ -265,7 +270,7 @@ const QuizPage = () => {
     if (saveResponse.error) {
       setErrorMessage(saveResponse.error);
     }
-    navigate(-1);
+    navigate(`/subject/${subjectID}`);
   };
 
   // Determine the background colour of the answer button (Green/Red/Default)
@@ -382,10 +387,10 @@ const QuizPage = () => {
           )}
         </div>
 
-        {/* Display Error Message */}
-        {errorMessage && (
+        {/* Display Caution Message */}
+        {cautionMessage && (
           <p className="text-purple-400 font-bold text-sm text-center bg-purple-50 p-2 rounded-lg border border-purple-300">
-            {errorMessage}
+            {cautionMessage}
           </p>
         )}
 
@@ -443,6 +448,7 @@ const QuizPage = () => {
         setCurrentDifficulty={setCurrentDifficulty}
         setBatchScore={setBatchScore}
         setErrorMessage={setErrorMessage}
+        setCautionMessage={setCautionMessage}
       />
 
       {/* Only renders the component if the passage object exists and is open */}

@@ -6,7 +6,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
     currentQuestionIndex, questions, totalQuestions, userAnswers, quizType,
     setCurrentQuestionIndex, questionPage, setQuestionPage, perPage, setIsFinished,
     setQuestions, setDynamicQuestionIDs, batchScore, currentDifficulty, subjectID,
-    setCurrentDifficulty, setBatchScore, setErrorMessage }) => {
+    setCurrentDifficulty, setBatchScore, setErrorMessage, setCautionMessage }) => {
 
     // Calculates the current page based on current quiz type
     const getPage = (index) => {
@@ -19,11 +19,12 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
 
     // Handle clicking the "Next" button + saving points earned
     const handleNext = async () => {
-        // Clear previous errors
+        // Clear previous messages
         setErrorMessage("");
+        setCautionMessage("");
         // User needs to answer question before moving on to the next question
         if (quizType === 'dynamic' && !userAnswers[currentQuestionIndex]) {
-            alert("Please answer this question before moving on!");
+            setCautionMessage("Please answer this question before moving on!");
             return;
         }
 
@@ -105,8 +106,9 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
 
     // Handle clicking the "Previous" button
     const handlePrevious = () => {
-        // Clear previous errors
+        // Clear previous messages
         setErrorMessage("");
+        setCautionMessage("");
         if (currentQuestionIndex > 0) {
             const prevIndex = currentQuestionIndex - 1;
             setCurrentQuestionIndex(prevIndex);
@@ -165,6 +167,8 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
                     questionPage={questionPage}
                     setQuestionPage={setQuestionPage}
                     perPage={perPage}
+                    setErrorMessage={setErrorMessage}
+                    setCautionMessage={setCautionMessage}
                 />
                 {/* Question X out of Y */}
                 <span className="font-bold text-black text-sm">
