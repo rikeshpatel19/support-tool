@@ -155,7 +155,7 @@ const ParentDashboard = () => {
             </div>
         );
     }
-    
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans pb-24">
             {/* Header */}
@@ -217,8 +217,8 @@ const ParentDashboard = () => {
                                 {/* Worst Subject */}
                                 <div className="w-full border-t border-gray-300 pt-3">
                                     <p className="text-xs text-gray-400 font-bold">Subject to Work On</p>
-                                    <p className="font-bold text-lg" style={{ color: getSubjectTheme(stats.worstSubject).primary }}>
-                                        {getSubjectTheme(stats.worstSubject).label}
+                                    <p className="font-bold text-lg" style={{ color: stats.bestSubject === stats.worstSubject ? "#6a7282" : getSubjectTheme(stats.worstSubject).primary }}>
+                                        {stats.bestSubject === stats.worstSubject ? "N/A" : getSubjectTheme(stats.worstSubject).label}
                                     </p>
                                 </div>
                             </>

@@ -15,6 +15,8 @@ const LoginPage = ({ setUser }) => {
    const [showPassword, setShowPassword] = useState(false);
    // State to store data from input fields
    const [formData, setFormData] = useState({ username: '', password: '' });
+   // State to check if the user has submitted the form data
+   const [isSubmitting, setIsSubmitting] = useState(false);
 
    // Updates formData whenever anything is typed in the input fields
    const handleChange = (event) => {
@@ -24,6 +26,9 @@ const LoginPage = ({ setUser }) => {
    };
 
    const handleSubmit = async (event) => {
+      // Used to prevent double submits
+      if (isSubmitting) return;
+      setIsSubmitting(true);
       // Prevents default form behaviour (refreshing the page)
       event.preventDefault();
       // Clear previous errors
@@ -32,6 +37,7 @@ const LoginPage = ({ setUser }) => {
       const userData = userResponse.data;
       if (userResponse.error) {
          setErrorMessage(userResponse.error);
+         setIsSubmitting(false);
          return;
       }
       localStorage.setItem("userID", userData._id);
@@ -103,7 +109,7 @@ const LoginPage = ({ setUser }) => {
 
                   {/* Log In Button */}
                   <div className="pt-2">
-                     <Button variant="primary" className="w-full justify-center text-lg h-12" onClick={handleSubmit}>Log In</Button>
+                     <Button variant="primary" className="w-full justify-center text-lg h-12" onClick={handleSubmit} disabled={isSubmitting}>{isSubmitting ? "Loading" : "Log In"} </Button>
                   </div>
 
                   <p className="text-center text-gray-500 text-sm font-medium mt-6">
