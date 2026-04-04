@@ -420,7 +420,7 @@ const ExamPage = () => {
           className='hover:bg-purple-500'
           disabled={isSubmitting}
         >
-          {currentQuestionIndex + 1 === questions.length ? "Finish" : "Next"}
+          {isSubmitting ? "Submitting" : (currentQuestionIndex + 1 === questions.length ? "Finish" : "Next")}
         </Button>
       </footer>
     </div>

@@ -49,6 +49,8 @@ const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
   // State to track if the Pause Menu is open
   const [isPaused, setIsPaused] = useState(false);
+  // State to check if the quiz is being submitted 
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // State to track which "page" of question numbers is currently visible in the navigation bar
   const [questionPage, setQuestionPage] = useState(0);
@@ -451,6 +453,8 @@ const QuizPage = () => {
         setBatchScore={setBatchScore}
         setErrorMessage={setErrorMessage}
         setCautionMessage={setCautionMessage}
+        isSubmitting={isSubmitting}
+        setIsSubmitting={setIsSubmitting}
       />
 
       {/* Only renders the component if the passage object exists and is open */}

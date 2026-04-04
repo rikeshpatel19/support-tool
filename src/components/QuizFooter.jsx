@@ -6,7 +6,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
     currentQuestionIndex, questions, totalQuestions, userAnswers, quizType,
     setCurrentQuestionIndex, questionPage, setQuestionPage, perPage, setIsFinished,
     setQuestions, setDynamicQuestionIDs, batchScore, currentDifficulty, subjectID,
-    setCurrentDifficulty, setBatchScore, setErrorMessage, setCautionMessage }) => {
+    setCurrentDifficulty, setBatchScore, setErrorMessage, setCautionMessage, isSubmitting, setIsSubmitting }) => {
 
     // Calculates the current page based on current quiz type
     const getPage = (index) => {
@@ -19,6 +19,8 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
 
     // Handle clicking the "Next" button + saving points earned
     const handleNext = async () => {
+        // Used to prevent double submits
+        if (isSubmitting) return;
         // Clear previous messages
         setErrorMessage("");
         setCautionMessage("");
@@ -35,6 +37,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
         if (quizEnd) {
             const storedID = localStorage.getItem("userID");
             if (storedID) {
+                setIsSubmitting(true);
                 const questionsAnswered = Object.keys(userAnswers).length;
                 console.log("Questions Answered: ", questionsAnswered);
 
@@ -65,6 +68,7 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
 
                 if (completeResponse.error || finaliseResponse.error) {
                     setErrorMessage(completeResponse.error || finaliseResponse.error);
+                    setIsSubmitting(false);
                     return;
                 }
 
@@ -180,8 +184,9 @@ const QuizFooter = ({ quizID, currentPoints, currentScore, themeStyle,
                 onClick={handleNext}
                 variant="themed"
                 className='hover:bg-(--hover)'
+                disabled={isSubmitting}
             >
-                {currentQuestionIndex + 1 === totalQuestions ? "Finish" : "Next"}
+                {isSubmitting ? "Submitting" : (currentQuestionIndex + 1 === totalQuestions ? "Finish" : "Next")}
             </Button>
         </footer>
     );
