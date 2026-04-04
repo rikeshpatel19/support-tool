@@ -24,6 +24,8 @@ const RegisterPage = ({ setUser }) => {
     password: '',
     confirmPassword: ''
   });
+  // State to check if the user has submitted the form data
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Updates formData whenever anything is typed in the input fields
   const handleChange = (event) => {
@@ -33,6 +35,9 @@ const RegisterPage = ({ setUser }) => {
   };
 
   const handleSubmit = async (event) => {
+    // Used to prevent double submits
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     // Prevents default form behaviour (refreshing the page)
     event.preventDefault();
     // Clear previous errors
@@ -41,6 +46,7 @@ const RegisterPage = ({ setUser }) => {
     // Client-side Validation: Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setErrorMessage("Oops! Those passwords do not match! Please try again.");
+      setIsSubmitting(false);
       return; // Stop the function here
     }
 
@@ -55,6 +61,7 @@ const RegisterPage = ({ setUser }) => {
     const newUser = userResponse.data;
     if (userResponse.error) {
       setErrorMessage(userResponse.error);
+      setIsSubmitting(false);
       return;
     }
     // Log the user in automatically by saving their ID
@@ -183,7 +190,7 @@ const RegisterPage = ({ setUser }) => {
 
             {/* Submit Button */}
             <div className="pt-4">
-              <Button className="text-lg h-12 bg-green-500 hover:bg-green-600" onClick={handleSubmit}>Create Account</Button>
+              <Button className="text-lg h-12 bg-green-500 hover:bg-green-600" disabled={isSubmitting}>Create Account</Button>
             </div>
 
             <p className="text-center text-gray-500 text-sm font-medium mt-4">
