@@ -6,10 +6,12 @@ const asyncHandler = require('express-async-handler');
 // @route PATCH /progresses/:userID/progress/:quizID
 const saveQuizProgress = asyncHandler(async (request, response) => {
     const { userID, quizID } = request.params;
-    const { subjectID, progressPercent, userAnswers, currentQuestionIndex, batchScore, dynamicQuestionIDs, currentDifficulty } = request.body;
+    const { subjectID, score, questionsAnswered, progressPercent, userAnswers, currentQuestionIndex, batchScore, dynamicQuestionIDs, currentDifficulty } = request.body;
 
     const updatedData = {
         subjectID,
+        score,
+        questionsAnswered,
         progressPercent,
         userAnswers,
         currentQuestionIndex,
@@ -89,8 +91,15 @@ const finaliseQuizResults = asyncHandler(async (request, response) => {
 // @desc Retrieve all saved progress assosciated with a user
 // @route GET /progresses/:userID/results
 const getResultsByUser = asyncHandler(async (request, response) => {
-    const results = await Result.find({ userID: request.params.userID });
-    response.json(results);
+    const userID = request.params.userID;
+    const [results, progresses] = await Promise.all([
+        Result.find({ userID }),
+        Progress.find({ userID })
+    ]);
+    // Progresses is formatted so it matches the Results structure
+    const normalisedProgress = progresses.map(progress => ({ ...progress.toObject(), completedAt: progress.lastUpdated }))
+    const combined = [...results, ...normalisedProgress];
+    response.json(combined);
 });
 
 module.exports = {

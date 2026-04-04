@@ -9,6 +9,10 @@ const ProgressSchema = new mongoose.Schema({
   subjectID: { type: String, required: true }, 
   // Stores an array of question IDs for dynamic quizzes
   dynamicQuestionIDs: [String], 
+  // Stores numerical score currently achieved in the specfic quiz 
+  score: { type: Number, required: true },
+  // Stores the number of questions the student actually answered
+  questionsAnswered: { type: Number, required: true },
   // Tracks the progress through a quiz 
   progressPercent: { type: Number, default: 0 },
   // An object that stores answers as key-value pairs (e.g., { "0": "A", "1": "C" })

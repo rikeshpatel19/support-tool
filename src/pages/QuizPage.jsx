@@ -254,6 +254,8 @@ const QuizPage = () => {
 
     const progressData = {
       subjectID,
+      score: currentScore,
+      questionsAnswered: Object.keys(userAnswers).length,
       progressPercent: progress,
       userAnswers,
       currentQuestionIndex
