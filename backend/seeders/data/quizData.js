@@ -936,7 +936,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -961,7 +961,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -986,7 +986,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1011,7 +1011,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1036,7 +1036,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1070,7 +1070,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1095,7 +1095,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1120,7 +1120,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1145,7 +1145,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1170,7 +1170,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1204,7 +1204,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1229,7 +1229,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1254,7 +1254,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1279,7 +1279,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -1304,7 +1304,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3621,7 +3621,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3646,7 +3646,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3671,7 +3671,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3696,7 +3696,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3721,7 +3721,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3755,7 +3755,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3780,7 +3780,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3805,7 +3805,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3830,7 +3830,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -3855,7 +3855,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -4816,140 +4816,140 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
+        question_image: "/public/images/NVR_C1_Q1.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
+        question_image: "/public/images/NVR_C1_Q2.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
+        question_image: "/public/images/NVR_C1_Q3.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
+        question_image: "/public/images/NVR_C1_Q4.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
+        question_image: "/public/images/NVR_C1_Q5.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
+        question_image: "/public/images/NVR_C1_Q1.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
+        question_image: "/public/images/NVR_C1_Q2.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
+        question_image: "/public/images/NVR_C1_Q3.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
+        question_image: "/public/images/NVR_C1_Q4.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
+        question_image: "/public/images/NVR_C1_Q5.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
+        question_image: "/public/images/NVR_C1_Q1.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
+        question_image: "/public/images/NVR_C1_Q2.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
+        question_image: "/public/images/NVR_C1_Q3.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
+        question_image: "/public/images/NVR_C1_Q4.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
+        question_image: "/public/images/NVR_C1_Q5.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
+        question_image: "/public/images/NVR_C1_Q1.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
+        question_image: "/public/images/NVR_C1_Q2.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
+        question_image: "/public/images/NVR_C1_Q3.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
       {
         difficulty: 2,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
+        question_image: "/public/images/NVR_C1_Q4.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "B"
       },
       {
         difficulty: 1,
         question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
+        question_image: "/public/images/NVR_C1_Q5.png",
         options: ["A", "B", "C", "D", "E"],
         correct_option: "D"
       },
@@ -4965,7 +4965,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -4990,7 +4990,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5015,7 +5015,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5040,7 +5040,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5065,7 +5065,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5099,7 +5099,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5124,7 +5124,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5149,7 +5149,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5174,7 +5174,7 @@ const quizData = [
       {
         difficulty: 2,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
@@ -5199,7 +5199,7 @@ const quizData = [
       {
         difficulty: 1,
         question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
+        question_image: "/public/images/square.png",
         options: ["7", "8", "9", "10", "16"],
         correct_option: "16"
       },
