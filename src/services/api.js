@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 // Standardised wrapper for all API calls to ensure consistent data/error handling
 // "endpoint" is the URL path (e.g. /users/login)
