@@ -87,7 +87,7 @@ const RegisterPage = ({ setUser }) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} method="POST" className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               {/* Student Name */}
               <Input

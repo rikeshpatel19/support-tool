@@ -61,7 +61,7 @@ const LoginPage = ({ setUser }) => {
                </div>
 
                {/* Form */}
-               <form onSubmit={handleSubmit} className="space-y-5">
+               <form onSubmit={handleSubmit} method="POST" className="space-y-5">
                   {/* Username Field */}
                   <Input
                      label="Username"
