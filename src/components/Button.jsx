@@ -1,7 +1,7 @@
-const Button = ({ children, onClick, variant = 'primary', className = '' }) => {
+const Button = ({ children, onClick, variant = 'primary', className = '', disabled }) => {
 
   const baseStyle = "border-black border-2 flex items-center justify-center gap-2 transition-all duration-200";
-  
+
   const variants = {
     primary: "bg-purple-400 text-white px-4 py-2 font-bold rounded-lg w-full shadow-medium hover:bg-purple-500 hover:-translate-y-px active:scale-95",
     secondary: "bg-white text-gray-700 px-4 py-2 font-bold rounded-lg w-full hover:bg-gray-50 hover:-translate-y-px active:scale-95",
@@ -17,7 +17,7 @@ const Button = ({ children, onClick, variant = 'primary', className = '' }) => {
   };
 
   return (
-    <button onClick={onClick} className={`${baseStyle} ${variants[variant]} ${className}`}>{children}</button>
+    <button onClick={onClick} className={`${baseStyle} ${variants[variant]} ${className}`} disabled={disabled}>{children}</button>
   );
 };
 
