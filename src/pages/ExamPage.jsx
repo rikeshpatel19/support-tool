@@ -311,11 +311,11 @@ const ExamPage = () => {
           {/* Conditional Image Area */}
           {question.question_image && (
             <div className="w-full flex justify-center mt-2">
-              <div className="p-2 max-w-70 md:max-w-xs">
+              <div className="p-2 w-fit h-auto">
                 <img
                   src={question.question_image}
                   alt="Question diagram"
-                  className="w-full h-auto object-contain block mx-auto"
+                  className="w-fit h-auto mx-auto"
                 />
               </div>
             </div>

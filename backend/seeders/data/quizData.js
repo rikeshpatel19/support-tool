@@ -1646,304 +1646,354 @@ const quizData = [
     questions: [
       {
         difficulty: 1,
-        question_text: "(1.1) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(1.1) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 1,
-        question_text: "(1.2) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(1.2) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q2.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 1,
-        question_text: "(1.3) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(1.3) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q3.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "(1.4) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(1.4) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q4.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "(1.5) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(1.5) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q5.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "N"
       },
       {
         difficulty: 1,
-        question_text: "(1.6) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(1.6) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q6.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "C"
       },
       {
         difficulty: 1,
-        question_text: "(1.7) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(1.7) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q7.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 1,
-        question_text: "(1.8) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(1.8) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q8.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 1,
-        question_text: "(1.9) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(1.9) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q9.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 1,
-        question_text: "(1.10) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(1.10) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 2,
-        question_text: "(2.1) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(2.1) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 2,
-        question_text: "(2.2) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(2.2) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q2.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 2,
-        question_text: "(2.3) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(2.3) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q3.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 2,
-        question_text: "(2.4) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(2.4) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q4.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 2,
-        question_text: "(2.5) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(2.5) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q5.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "N"
       },
       {
         difficulty: 2,
-        question_text: "(2.6) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(2.6) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q6.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "C"
       },
       {
         difficulty: 2,
-        question_text: "(2.7) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(2.7) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q7.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 2,
-        question_text: "(2.8) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(2.8) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q8.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 2,
-        question_text: "(2.9) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(2.9) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q9.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 2,
-        question_text: "(2.10) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(2.10) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 3,
-        question_text: "(3.1) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(3.1) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 3,
-        question_text: "(3.2) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(3.2) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q2.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 3,
-        question_text: "(3.3) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(3.3) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q3.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 3,
-        question_text: "(3.4) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(3.4) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q4.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 3,
-        question_text: "(3.5) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(3.5) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q5.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "N"
       },
       {
         difficulty: 3,
-        question_text: "(3.6) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(3.6) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q6.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "C"
       },
       {
         difficulty: 3,
-        question_text: "(3.7) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(3.7) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q7.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 3,
-        question_text: "(3.8) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(3.8) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q8.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 3,
-        question_text: "(3.9) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(3.9) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q9.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 3,
-        question_text: "(3.10) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
-      }, 
-      {
-        difficulty: 4,
-        question_text: "(4.1) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(3.10) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 4,
-        question_text: "(4.2) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(4.1) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 4,
-        question_text: "(4.3) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(4.2) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q2.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 4,
-        question_text: "(4.4) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(4.3) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q3.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 4,
-        question_text: "(4.5) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(4.4) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q4.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 4,
-        question_text: "(4.6) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(4.5) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q5.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "N"
       },
       {
         difficulty: 4,
-        question_text: "(4.7) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(4.6) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q6.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "C"
       },
       {
         difficulty: 4,
-        question_text: "(4.8) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(4.7) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q7.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 4,
-        question_text: "(4.9) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(4.8) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q8.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 4,
-        question_text: "(4.10) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
-      }, 
+        question_text: "(4.9) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q9.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
+      },
       {
-        difficulty: 5,
-        question_text: "(5.1) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        difficulty: 4,
+        question_text: "(4.10) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 5,
-        question_text: "(5.2) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(5.1) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 5,
-        question_text: "(5.3) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(5.2) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q2.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
       },
       {
         difficulty: 5,
-        question_text: "(5.4) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(5.3) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q3.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 5,
-        question_text: "(5.5) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(5.4) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q4.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 5,
-        question_text: "(5.6) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(5.5) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q5.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "N"
       },
       {
         difficulty: 5,
-        question_text: "(5.7) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(5.6) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q6.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "C"
       },
       {
         difficulty: 5,
-        question_text: "(5.8) What is 345 + 345?",
-        options: ["680", "685", "690", "695", "700"],
-        correct_option: "690"
+        question_text: "(5.7) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q7.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
       },
       {
         difficulty: 5,
-        question_text: "(5.9) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
+        question_text: "(5.8) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q8.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "B"
       },
       {
         difficulty: 5,
-        question_text: "(5.10) Which number is even?",
-        options: ["2", "7", "11", "15", "17"],
-        correct_option: "2"
-      }
+        question_text: "(5.9) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q9.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "A"
+      },
+      {
+        difficulty: 5,
+        question_text: "(5.10) In these sentences there are some spelling mistakes. On each line there is either one mistake or no mistake. Find the group of words with the mistake in it. If there is no mistake, choose N.",
+        question_image: "/images/EN2_Q1.png",
+        options: ["A", "B", "C", "D", "N"],
+        correct_option: "D"
+      },
     ]
   },
   {
