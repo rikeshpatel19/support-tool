@@ -929,134 +929,149 @@ const quizData = [
   {
     quizID: "mc1",
     subjectID: "maths",
-    name: "Speed Math",
+    name: "Fractions",
     type: "static",
     totalQuestions: 20,
     questions: [
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "What is 1/4 + 1/4? Give your answer in its simplest form.",
+        options: ["1/8", "2/8", "1/2", "2/4", "1/4"],
+        correct_option: "1/2",
+        explanation: "1/4 + 1/4 = 2/4. When simplified, 2/4 is equal to 1/2."
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "Which of these is an equivalent fraction to 1/2?",
+        options: ["2/3", "3/6", "4/10", "1/4", "5/12"],
+        correct_option: "3/6",
+        explanation: "3/6 is equivalent to 1/2 because 3 is exactly half of 6."
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "What is 3/5 - 1/5?",
+        options: ["2/0", "4/5", "2/10", "2/5", "3/10"],
+        correct_option: "2/5",
+        explanation: "Since the denominators are the same, subtract the numerators: 3 - 1 = 2. The answer is 2/5."
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "What is 1/2 of 40?",
+        options: ["10", "15", "20", "25", "30"],
+        correct_option: "20",
+        explanation: "To find 1/2 of a number, divide it by 2. 40 ÷ 2 = 20."
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Convert 0.75 into a fraction.",
+        options: ["1/4", "1/2", "3/4", "3/5", "7/5"],
+        correct_option: "3/4",
+        explanation: "0.75 is three-quarters, which is written as 3/4."
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "What is 1/3 of 21?",
+        options: ["3", "6", "7", "9", "12"],
+        correct_option: "7",
+        explanation: "To find 1/3, divide 21 by 3. 21 ÷ 3 = 7."
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "What is 2/3 + 1/6?",
+        options: ["3/9", "5/6", "3/6", "1/2", "4/6"],
+        correct_option: "5/6",
+        explanation: "Convert 2/3 to 4/6 to match denominators. 4/6 + 1/6 = 5/6."
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "What is 3/4 x 1/2?",
+        options: ["4/6", "2/4", "3/8", "3/6", "4/8"],
+        correct_option: "3/8",
+        explanation: "Multiply numerators (3x1=3) and denominators (4x2=8). The answer is 3/8."
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Simplify the fraction 10/20.",
+        options: ["1/10", "1/2", "2/5", "5/10", "1/4"],
+        correct_option: "1/2",
+        explanation: "Both 10 and 20 can be divided by 10. 10 ÷ 10 = 1 and 20 ÷ 10 = 2."
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "Which fraction is the largest?",
+        options: ["1/8", "1/4", "1/2", "1/10", "1/3"],
+        correct_option: "1/2",
+        explanation: "When the numerator is 1, the smaller the denominator, the larger the fraction."
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "What is 1/2 divided by 2?",
+        options: ["1", "1/4", "2/2", "1/2", "4/1"],
+        correct_option: "1/4",
+        explanation: "Dividing a half in half results in a quarter (1/4)."
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "What is 2/5 of 50?",
+        options: ["10", "15", "20", "25", "30"],
+        correct_option: "20",
+        explanation: "1/5 of 50 is 10. Therefore, 2/5 is 20."
       },
       {
         difficulty: 2,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "Calculate 5/8 - 1/4.",
+        options: ["4/4", "4/8", "3/8", "1/2", "6/8"],
+        correct_option: "3/8",
+        explanation: "Convert 1/4 to 2/8. 5/8 - 2/8 = 3/8."
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "What is 4/10 as a percentage?",
+        options: ["4%", "14%", "40%", "44%", "0.4%"],
+        correct_option: "40%",
+        explanation: "4/10 is the same as 40/100, which is 40%."
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "What is 2/3 of 18?",
+        options: ["6", "9", "12", "15", "18"],
+        correct_option: "12",
+        explanation: "1/3 of 18 is 6. Multiply by 2 to get 12."
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "Which of these is an improper fraction?",
+        options: ["1/2", "3/4", "5/4", "9/10", "2/3"],
+        correct_option: "5/4",
+        explanation: "An improper fraction is where the numerator is larger than the denominator."
       },
       {
         difficulty: 1,
-        question_text: "What is the area of the square below?",
-        question_image: "/images/square.png",
-        options: ["7", "8", "9", "10", "16"],
-        correct_option: "16"
+        question_text: "How many quarters (1/4) make a whole?",
+        options: ["1", "2", "3", "4", "5"],
+        correct_option: "4",
+        explanation: "Four quarters (4/4) equals one whole."
       },
       {
         difficulty: 1,
-        question_text: "Which number is even?",
-        options: ["3", "7", "10", "15", "17"],
-        correct_option: "10"
+        question_text: "What is 0.2 as a fraction?",
+        options: ["1/2", "1/5", "1/20", "2/5", "1/4"],
+        correct_option: "1/5",
+        explanation: "0.2 is 2/10, which simplifies to 1/5."
       },
       {
         difficulty: 2,
-        question_text: "What is 100 - 25?",
-        options: ["50", "65", "75", "85", "95"],
-        correct_option: "75"
+        question_text: "What is 4/5 + 1/10?",
+        options: ["5/15", "9/10", "5/10", "1/2", "8/10"],
+        correct_option: "9/10",
+        explanation: "Convert 4/5 to 8/10. 8/10 + 1/10 = 9/10."
       },
       {
         difficulty: 2,
-        question_text: "What is 6 x 6?",
-        options: ["30", "36", "42", "48", "54"],
-        correct_option: "36"
+        question_text: "What is 1/5 x 1/5?",
+        options: ["2/5", "1/10", "2/10", "1/25", "5/5"],
+        correct_option: "1/25",
+        explanation: "Multiply the numerators (1x1=1) and the denominators (5x5=25). Result: 1/25."
       }
     ]
   },

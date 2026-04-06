@@ -423,7 +423,9 @@ const QuizPage = () => {
         {selectedOption && (
           <div className={`mt-4 p-4 bg-gray-50 ${selectedOption === question.correct_option ? 'border-l-8 border-l-green-500' : 'border-l-8 border-l-red-500'}`}>
             <h3 className="font-bold text-lg">Answer:</h3>
-            <p className="text-gray-700">The correct answer is {question.correct_option}.</p>
+            <p className="text-gray-700">{question.explanation
+              ? question.explanation
+              : `The correct answer is ${question.correct_option}.`}</p>
           </div>
         )}
       </main>

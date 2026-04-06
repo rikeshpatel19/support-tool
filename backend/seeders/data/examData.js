@@ -183,147 +183,167 @@ const examData = [
     timeLimit: 300, // 5 minutes
     totalQuestions: 50,
     questions: [
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q1.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q2.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q3.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-      {
-        difficulty: 2,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q4.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "B"
-      },
-      {
-        difficulty: 1,
-        question_text: "Answer the Question below:",
-        question_image: "/images/NVR_C1_Q5.png",
-        options: ["A", "B", "C", "D", "E"],
-        correct_option: "D"
-      },
-    ]
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q1.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q2.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q3.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q4.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q5.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q1.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q2.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q3.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q4.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q5.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q1.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q2.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q3.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q4.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q5.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q1.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q2.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q3.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    },
+    {
+      difficulty: 2,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q4.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "B",
+      explanation: "The correct answer is B"
+    },
+    {
+      difficulty: 1,
+      question_text: "Answer the Question below:",
+      question_image: "/images/NVR_C1_Q5.png",
+      options: ["A", "B", "C", "D", "E"],
+      correct_option: "D",
+      explanation: "The correct answer is D"
+    }
+  ]
   }
 ];
 
