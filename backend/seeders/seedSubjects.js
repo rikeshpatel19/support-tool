@@ -32,7 +32,7 @@ const subjectData = [
         ],
         challenges: [
             { id: 'enc1', name: "Vocab Blast" },
-            { id: 'enc2', name: "Spelling Bee" },
+            { id: 'enc2', name: "Similes" },
             { id: 'enc3', name: "Reading Comp" }
         ],
         exams: [

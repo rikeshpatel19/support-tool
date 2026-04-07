@@ -2423,7 +2423,7 @@ const quizData = [
   {
     quizID: "enc2",
     subjectID: "english",
-    name: "Spelling Bee",
+    name: "Similes",
     type: "static",
     totalQuestions: 10,
     passage:
