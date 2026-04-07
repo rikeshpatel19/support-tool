@@ -23,7 +23,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
           <h1 className="text-4xl font-black uppercase mb-2">Exam Completed!</h1>
           <p className={`text-6xl font-black mb-4 text-black`}>{serverPercentage}%</p>
           <p className="text-2xl font-bold text-gray-500 mb-6">Grade: {grade.label}</p>
-          
+
           <div className="grid grid-cols-3 gap-4 border-t-2 border-gray-200 pt-6">
             <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Correct</p>
@@ -48,27 +48,34 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
             const isCorrect = userAnswers[idx] === answer.correct_option;
             const isSkipped = userAnswers[idx] === undefined;
             return (
-              <div key={idx} className={`p-6 rounded-xl border-2 bg-white ${
-                isSkipped ? 'border-l-8 border-amber-400 bg-amber-50' :
-                isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'
+              <div key={idx} className={`p-6 rounded-xl border-2 bg-white ${isSkipped ? 'border-l-8 border-amber-400 bg-amber-50' :
+                  isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'
                 }`}>
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-xl font-bold text-black">Question {idx + 1}</span>
                   {
                     isSkipped ? <CircleMinus className="text-amber-500" /> :
-                    isCorrect ? <CheckCircle className="text-green-500" /> : <XCircle className="text-red-500" />
+                      isCorrect ? <CheckCircle className="text-green-500" /> : <XCircle className="text-red-500" />
                   }
                 </div>
                 <p className="text-lg mb-4">{q.question_text}</p>
-                
+                {q.question_image && (
+                  <div className="w-full flex justify-center mt-2">
+                    <div className="p-2 w-fit h-auto">
+                      <img
+                        src={q.question_image}
+                        alt="Question diagram"
+                        className="w-fit h-auto mx-auto"
+                      />
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-4">
-                  <div className={`p-3 rounded-lg border ${
-                    isSkipped ? 'bg-amber-50 border-amber-200' :
-                    isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+                  <div className={`p-3 rounded-lg border ${isSkipped ? 'bg-amber-50 border-amber-200' :
+                      isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
                     }`}>
-                    <p className={`font-bold uppercase text-[10px] ${
-                      isSkipped ? 'text-amber-400' :
-                      isCorrect ? 'text-green-500' : 'text-red-500'
+                    <p className={`font-bold uppercase text-[10px] ${isSkipped ? 'text-amber-400' :
+                        isCorrect ? 'text-green-500' : 'text-red-500'
                       }`}>Your Answer</p>
                     <p className="font-bold">{userAnswers[idx] || "Skipped"}</p>
                   </div>
@@ -82,7 +89,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
 
                 {/* Explanation */}
                 <div className="mt-4 p-4 bg-gray-100 rounded-lg italic text-gray-700 border-l-4 border-gray-300">
-                  <span className="font-bold not-italic">Explanation: </span> 
+                  <span className="font-bold not-italic">Explanation: </span>
                   {answer.explanation}
                 </div>
               </div>
@@ -91,9 +98,9 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
         </div>
 
         <div className="mt-12 flex justify-center pb-12">
-           <Button onClick={() => navigate('/sd')} variant="primary" className="px-12 py-4 text-xl">
-              Back to Dashboard
-           </Button>
+          <Button onClick={() => navigate('/sd')} variant="primary" className="px-12 py-4 text-xl">
+            Back to Dashboard
+          </Button>
         </div>
       </div>
     </div>
