@@ -13,6 +13,15 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
   };
   // Grabs Grade achieved along with assosciated colour
   const grade = getGrade(serverPercentage);
+  // Filters questions to include only the answers that are undefined then gets the length of the resulting array
+  const skippedCount = questions.filter((_, idx) => userAnswers[idx] === undefined).length;
+  // Filters questions to find how many questions were answered incorrectly
+  const incorrectCount = questions.filter((_, idx) => {
+    // Question was answered but the answer was incorrect
+    const isAnswered = userAnswers[idx] !== undefined;
+    const isWrong = userAnswers[idx] !== answers[idx].correct_option;
+    return isAnswered && isWrong;
+  }).length;
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -24,14 +33,18 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
           <p className={`text-6xl font-black mb-4 text-black`}>{serverPercentage}%</p>
           <p className="text-2xl font-bold text-gray-500 mb-6">Grade: {grade.label}</p>
 
-          <div className="grid grid-cols-3 gap-4 border-t-2 border-gray-200 pt-6">
+          <div className="grid grid-cols-4 gap-4 border-t-2 border-gray-200 pt-6">
             <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Correct</p>
               <p className="text-2xl font-black text-green-500">{serverScore}</p>
             </div>
             <div>
+              <p className="text-sm text-gray-500 uppercase font-bold">Skipped</p>
+              <p className="text-2xl font-black text-amber-500">{skippedCount}</p>
+            </div>
+            <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Incorrect</p>
-              <p className="text-2xl font-black text-red-500">{questions.length - serverScore}</p>
+              <p className="text-2xl font-black text-red-500">{incorrectCount}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500 uppercase font-bold">Time Taken</p>
@@ -49,7 +62,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
             const isSkipped = userAnswers[idx] === undefined;
             return (
               <div key={idx} className={`p-6 rounded-xl border-2 bg-white ${isSkipped ? 'border-l-8 border-amber-400 bg-amber-50' :
-                  isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'
+                isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'
                 }`}>
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-xl font-bold text-black">Question {idx + 1}</span>
@@ -72,10 +85,10 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-4">
                   <div className={`p-3 rounded-lg border ${isSkipped ? 'bg-amber-50 border-amber-200' :
-                      isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+                    isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
                     }`}>
                     <p className={`font-bold uppercase text-[10px] ${isSkipped ? 'text-amber-400' :
-                        isCorrect ? 'text-green-500' : 'text-red-500'
+                      isCorrect ? 'text-green-500' : 'text-red-500'
                       }`}>Your Answer</p>
                     <p className="font-bold">{userAnswers[idx] || "Skipped"}</p>
                   </div>
