@@ -1,4 +1,3 @@
-const Question = require('../models/Question');
 const Exam = require('../models/Exam');
 const asyncHandler = require('express-async-handler');
 

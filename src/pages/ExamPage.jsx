@@ -70,6 +70,7 @@ const ExamPage = () => {
     if (!isFinished && timeLeft === 0) {
       // Auto submits the results
       handleAutoSubmit();
+      return;
     }
     const timer = setInterval(() => {
       // Adjusts time left by decrementing the previous value every second

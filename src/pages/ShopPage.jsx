@@ -45,16 +45,22 @@ const ShopPage = () => {
     loadData();
   }, []);
 
-  // Requires Commenting
   const handlePurchase = async (item) => {
     const storedID = localStorage.getItem("userID");
     const price = item.price;
+    // Client-side Validation: Check if student has enough points
     if (user.points < price) {
       alert("You need more points! Try doing more quizzes.");
       return;
     }
+    // Attempts to complete the purchase
     const purchaseResponse = await purchaseItem(storedID, item.collectibleID, price);
     const data = purchaseResponse.data;
+    // Any errors are displayed to the student
+    if (purchaseResponse.error) {
+      alert(purchaseResponse.error);
+      return;
+    }
     if (data.message === "Purchase successful!") {
       // Update local state so the UI changes instantly
       setUser({
