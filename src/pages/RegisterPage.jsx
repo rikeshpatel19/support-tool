@@ -190,7 +190,7 @@ const RegisterPage = ({ setUser }) => {
 
             {/* Submit Button */}
             <div className="pt-4">
-              <Button className="text-lg h-12 bg-green-500 hover:bg-green-600" disabled={isSubmitting}>Create Account</Button>
+              <Button className="text-lg h-12 bg-green-500 hover:bg-green-600" disabled={isSubmitting}>{isSubmitting ? "Loading" : "Create Account"}</Button>
             </div>
 
             <p className="text-center text-gray-500 text-sm font-medium mt-4">
