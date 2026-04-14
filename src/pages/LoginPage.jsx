@@ -113,7 +113,7 @@ const LoginPage = ({ setUser }) => {
                   </div>
 
                   <p className="text-center text-gray-500 text-sm font-medium mt-6">
-                     Don't have an account? <span className="text-black cursor-pointer hover:text-blue-600 hover:underline" onClick={() => navigate('/register')}>Ask your Parent</span>
+                     Don't have an account? <span className="text-black cursor-pointer hover:text-blue-600 hover:underline" onClick={() => navigate('/register')}>Register here!</span>
                   </p>
                </form>
             </Card>
