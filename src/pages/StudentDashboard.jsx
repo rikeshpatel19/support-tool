@@ -87,9 +87,9 @@ const StudentDashboard = () => {
                     </div>
 
                     {/* User Profile */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsAccountOpen(true)}>
                         <span className="text-lg font-medium text-gray-700">{user.username}</span>
-                        <UserCircle size={40} className="text-gray-800" onClick={() => setIsAccountOpen(true)} />
+                        <UserCircle size={40} className="text-gray-800" />
                     </div>
                 </div>
             </header>

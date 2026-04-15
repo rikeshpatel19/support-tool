@@ -43,9 +43,11 @@ const SubjectPage = () => {
       const allQuizzes = [...subjectData.topics, ...subjectData.challenges];
       // Converts the progressData into a Map in the following format { quizID: progressObject }
       const progressLookup = {};
+      // console.log(progressData);
       progressData.forEach(p => {
         progressLookup[p.quizID] = p;
       });
+      // console.log(progressLookup);
       // Used to map all topics/challenges to their current percentage 
       const progressMap = {};
       allQuizzes.forEach(quiz => {
@@ -59,6 +61,7 @@ const SubjectPage = () => {
           progressMap[quiz.id] = 0;
         }
       });
+      // console.log(progressMap);
       // Updates the state with the mapped progress values
       setTopicProgressMap(progressMap);
       setLoading(false);

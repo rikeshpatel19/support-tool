@@ -19,7 +19,7 @@ const ParentDashboard = () => {
     // State for the error message
     const [errorMessage, setErrorMessage] = useState("");
 
-    const calculateWeeklyStats = (results, userData) => {
+    const calculateStats = (results, userData) => {
         // Initially starts off at todays date 
         const lastWeek = new Date();
         // Sets it to todays date - 7 days 
@@ -128,7 +128,7 @@ const ParentDashboard = () => {
             }
 
             setUser(userData);
-            const filteredStats = calculateWeeklyStats(allResults, userData);
+            const filteredStats = calculateStats(allResults, userData);
             setStats(filteredStats);
             setLoading(false);
         };

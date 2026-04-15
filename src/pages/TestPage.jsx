@@ -74,7 +74,7 @@ const TestPage = () => {
                       color: theme.primary,
                       boxShadow: theme.shadow
                     }}
-                    className="border-2 flex items-center justify-center gap-2 shadow-sm transition-all duration-200 p-10! font-bold rounded-lg w-full shadow-medium hover:-translate-y-px active:scale-95"
+                    className="border-2 flex items-center justify-center gap-2 shadow-sm transition-all duration-200 p-10 font-bold rounded-lg w-full shadow-medium hover:-translate-y-0.5 active:scale-95"
                   >
                     {exam.name}
                   </button>
