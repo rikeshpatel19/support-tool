@@ -7,7 +7,7 @@ import Card from '../components/Card';
 import Input from '../components/Input';
 import { loginUser } from '../services/api';
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = () => {
    const navigate = useNavigate();
    // State for the error message
    const [errorMessage, setErrorMessage] = useState("");
@@ -41,7 +41,6 @@ const LoginPage = ({ setUser }) => {
          return;
       }
       localStorage.setItem("userID", userData._id);
-      setUser(userData);
       navigate('/sd');
       console.log("Logged in as:", userData.username);
    };

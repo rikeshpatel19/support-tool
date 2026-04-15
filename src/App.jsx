@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import StartPage from './pages/StartPage';
 import StudentDashboard from './pages/StudentDashboard';
@@ -15,15 +14,12 @@ import RegisterPage from './pages/RegisterPage';
 import ExamPage from './pages/ExamPage';
 
 function App() {
-  // State to track which user is logged in 
-  const [user, setUser] = useState(null);
-
   return (
     <Routes>
       {/* Channel 1: The Start Page */}
       <Route path="/" element={<StartPage />} />
       {/* Channel 2: The Home Page (Dashboard) */}
-      <Route path="/sd" element={<ProtectedRoute><StudentDashboard user={user} /></ProtectedRoute>} />
+      <Route path="/sd" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
       {/* Channel 3: The Review Page */}
       <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
       {/* Channel 4: The Subject Page */}
@@ -39,7 +35,7 @@ function App() {
       {/* Channel 9: The Parent Dashboard */}
       <Route path="/parent" element={<ProtectedRoute><ParentDashboard /></ProtectedRoute>} />
       {/* Channel 10: The Login Page */}
-      <Route path="/login" element={<LoginPage setUser={setUser} />} />
+      <Route path="/login" element={<LoginPage />} />
       {/* Channel 11: The Register Page */}
       <Route path="/register" element={<RegisterPage />} />
       {/* Channel 12: The Exam Page */}
