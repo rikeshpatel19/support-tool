@@ -336,7 +336,7 @@ const ParentDashboard = () => {
                                                 </div>
                                                 {/* Calculation Information + Mastery Percentage */}
                                                 <div className="flex justify-between items-center">
-                                                    <p className="text-xs text-gray-400">Calculated by Average Best Percentage</p>
+                                                    <p className="text-xs text-gray-500">Calculated by Average Best Percentage</p>
                                                     <p className="text-sm font-bold" style={{ color: theme.primary }}>{mastery}% Mastery</p>
                                                 </div>
                                             </div>
