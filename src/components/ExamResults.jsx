@@ -53,7 +53,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
           </div>
         </Card>
 
-        {/* Detailed Review List Section */}
+        {/* Detailed Question Review List Section */}
         <h2 className="text-2xl font-black uppercase mb-4">Question Review</h2>
         <div className="space-y-4">
           {questions.map((q, idx) => {

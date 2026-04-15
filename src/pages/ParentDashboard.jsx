@@ -42,7 +42,7 @@ const ParentDashboard = () => {
             // If the subject has not been seen yet in the subjectBreakdown
             if (!subjectBreakdown[res.subjectID]) {
                 // Creates a new entry for that subject
-                subjectBreakdown[res.subjectID] = { correct: 0, attempted: 0, quizAttempts: 0 };
+                subjectBreakdown[res.subjectID] = { correct: 0, attempted: 0 };
             }
             // Adds the score to the specfic subjects correct answers
             subjectBreakdown[res.subjectID].correct += res.score;
