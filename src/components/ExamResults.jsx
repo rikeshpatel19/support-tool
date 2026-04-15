@@ -62,8 +62,8 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
             const isSkipped = userAnswers[idx] === undefined;
             return (
               <div key={idx} className={`p-6 rounded-xl border-2 bg-white ${isSkipped ? 'border-l-8 border-amber-400 bg-amber-50' :
-                isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'
-                }`}>
+                isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'}`}>
+                {/* Skipped, Correct or Incorrect Icon */}
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-xl font-bold text-black">Question {idx + 1}</span>
                   {
@@ -72,6 +72,7 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
                   }
                 </div>
                 <p className="text-lg mb-4">{q.question_text}</p>
+                {/* Question Image (shown if question has an image) */}
                 {q.question_image && (
                   <div className="w-full flex justify-center mt-2">
                     <div className="p-2 w-fit h-auto">
@@ -85,13 +86,12 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-4">
                   <div className={`p-3 rounded-lg border ${isSkipped ? 'bg-amber-50 border-amber-200' :
-                    isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
-                    }`}>
+                    isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
                     <p className={`font-bold uppercase text-[10px] ${isSkipped ? 'text-amber-400' :
-                      isCorrect ? 'text-green-500' : 'text-red-500'
-                      }`}>Your Answer</p>
+                      isCorrect ? 'text-green-500' : 'text-red-500'}`}>Your Answer</p>
                     <p className="font-bold">{userAnswers[idx] || "Skipped"}</p>
                   </div>
+                  {/* Correct Answer (shown only if question was answered incorrectly) */}
                   {!isCorrect && (
                     <div className="p-3 rounded-lg bg-blue-50 border border-blue-200">
                       <p className="font-bold uppercase text-[10px] text-blue-500">Correct Answer</p>
