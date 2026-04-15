@@ -12,6 +12,7 @@ import ParentDashboard from './pages/ParentDashboard';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ExamPage from './pages/ExamPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       {/* Channel 12: The Exam Page */}
       <Route path="/test/:subjectID/:examID" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
+      {/* Channel 13: The Not Found Page (Catch-all) */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
