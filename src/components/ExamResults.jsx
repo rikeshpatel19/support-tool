@@ -61,8 +61,8 @@ const ExamResults = ({ questions, userAnswers, timeTaken, serverScore, serverPer
             const isCorrect = userAnswers[idx] === answer.correct_option;
             const isSkipped = userAnswers[idx] === undefined;
             return (
-              <div key={idx} className={`p-6 rounded-xl border-2 bg-white ${isSkipped ? 'border-l-8 border-amber-400 bg-amber-50' :
-                isCorrect ? 'border-l-8 border-green-500' : 'border-l-8 border-red-500'}`}>
+              <div key={idx} className={`p-6 rounded-xl border-2 bg-white border-l-8 ${isSkipped ? 'border-amber-400 bg-amber-50' :
+                isCorrect ? 'border-green-500' : 'border-red-500'}`}>
                 {/* Skipped, Correct or Incorrect Icon */}
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-xl font-bold text-black">Question {idx + 1}</span>
